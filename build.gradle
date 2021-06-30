@@ -1,0 +1,76 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    apply from: rootProject.file('gradle/dependencies.gradle')
+
+    repositories {
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+    }
+
+    dependencies {
+        classpath plugin.androidGradle
+        classpath plugin.androidx.navigation.safeArgs
+        classpath plugin.google.hilt
+        classpath plugin.gradleVersions
+        classpath plugin.kotlin.dokka
+        classpath plugin.kotlin.gradle
+        classpath plugin.kotlin.serialization
+        classpath plugin.mavenPublish
+        classpath plugin.square.exhaustive
+        classpath plugin.square.sqlDelight
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+        maven { url 'https://jitpack.io' } // Needed for Requery
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+////////////////////////////////////////////////////////////////////////////
+/// Gradle Versions: https://github.com/ben-manes/gradle-versions-plugin ///
+////////////////////////////////////////////////////////////////////////////
+
+apply plugin: 'com.github.ben-manes.versions'
+
+def isNonStable = { String version ->
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
+    def regex = /^[0-9,.v-]+(-r)?$/
+    return !stableKeyword && !(version ==~ regex)
+}
+
+tasks.named("dependencyUpdates").configure {
+    checkForGradleUpdate = true
+
+    // Example 1: reject all non stable versions
+    rejectVersionIf {
+        isNonStable(candidate.version)
+    }
+
+    // Example 2: disallow release candidates as upgradable versions from stable versions
+    rejectVersionIf {
+        isNonStable(candidate.version) && !isNonStable(currentVersion)
+    }
+
+    // Example 3: using the full syntax
+    resolutionStrategy {
+        componentSelection {
+            all {
+                if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
+                    reject('Release candidate')
+                }
+            }
+        }
+    }
+}

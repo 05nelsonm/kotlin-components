@@ -1,0 +1,132 @@
+plugins {
+    id 'app.cash.exhaustive'
+    id 'com.android.application'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    buildFeatures.viewBinding = true
+    defaultConfig {
+        applicationId "io.matthewnelson.components"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.compileSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments disableAnalytics: 'true'
+    }
+
+    // Gradle 4.0's introduction of Google analytics to Android App Developers.
+    // https://developer.android.com/studio/releases/gradle-plugin
+    dependenciesInfo {
+        // Disables dependency metadata when building APKs.
+        includeInApk = false
+        // Disables dependency metadata when building Android App Bundles.
+        includeInBundle = false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation deps.androidx.annotation
+    implementation deps.androidx.appCompat
+    implementation deps.androidx.camera.core
+    implementation deps.androidx.camera.camera2
+    implementation deps.androidx.camera.lifecycle
+    implementation deps.androidx.camera.view
+    implementation deps.androidx.camera.extensions
+    implementation deps.androidx.constraintLayout
+    implementation deps.androidx.core
+    implementation deps.androidx.exifInterface
+    implementation deps.androidx.lifecycle.commonJava8
+    implementation deps.androidx.lifecycle.hilt
+    implementation deps.androidx.lifecycle.processLifecycleOwner
+    implementation deps.androidx.lifecycle.runtime
+    implementation deps.androidx.lifecycle.service
+    implementation deps.androidx.lifecycle.viewModel
+    implementation deps.androidx.lifecycle.viewModelSavedState
+    implementation deps.androidx.media
+    implementation deps.androidx.navigation.fragment
+    implementation deps.androidx.navigation.ui
+    implementation deps.androidx.paging3
+    implementation deps.androidx.recyclerView
+    implementation deps.androidx.securityCrypto
+    implementation deps.androidx.viewBinding
+
+    implementation deps.chrisbanes.insetter
+    implementation deps.chrisbanes.insetterWidgets
+
+    implementation deps.google.hilt
+    kapt kaptDeps.google.hilt
+    implementation deps.google.material
+    implementation deps.google.mlKitBarcodeScanning
+    implementation deps.google.zxing
+
+    implementation deps.instacart.coil
+    implementation deps.instacart.coilBase
+    implementation deps.instacart.coilGif
+    implementation deps.instacart.coilSvg
+    implementation deps.instacart.coilVideo
+
+    implementation deps.javax.inject
+
+    implementation deps.jncryptor
+
+    implementation deps.json
+
+    implementation deps.kotlin.coroutinesAndroid
+    implementation deps.kotlin.coroutinesCore
+    implementation deps.kotlin.reflect
+
+    implementation deps.sqlCipher
+    implementation deps.sqlRequery
+
+    implementation deps.square.okio
+    implementation deps.square.okhttp
+    implementation deps.square.okhttpLogging
+    implementation deps.square.moshi
+    kapt kaptDeps.square.moshiCodegen
+    implementation deps.square.sqlDelightAndroid
+    implementation deps.square.sqlDelightAndroidPaging3
+    implementation deps.square.sqlDelightCoroutines
+    implementation deps.square.sqlDelightJvm
+    implementation deps.square.sqlDelightRuntime
+
+    implementation deps.viewBindingDelegateNoReflect
+
+    debugImplementation debugDeps.square.leakCanary
+
+    testImplementation testDeps.androidx.archCore
+    testImplementation testDeps.androidx.core
+    testImplementation testDeps.androidx.espresso
+    testImplementation testDeps.androidx.junit
+    testImplementation testDeps.google.hilt
+    testImplementation testDeps.google.guava
+    testImplementation testDeps.junit
+    testImplementation testDeps.kotlin.coroutines
+    testImplementation testDeps.robolectric
+    testImplementation testDeps.turbine
+}
