@@ -1,0 +1,57 @@
+/**
+ * Core configuration file for individual component projects/modules
+ *
+ * In the project's root build.gradle file add:
+ *
+
+ext {
+    VERSION_NAME = "1.0.0-SNAPSHOT"
+
+    // The trailing 2 digits are for `alpha##` releases. For example:
+    //     4.4.1-alpha02 = 441102 where `102` stands for alpha02
+    //     4.4.1-beta01 = 441201 where `201` stands for beta01
+    //     4.4.1-rc01 = 441301 where `301` stands for rc01
+    VERSION_CODE = 100000
+
+    POM_INCEPTION_YEAR = 2021
+
+    POM_URL = "https://github.com/05nelsonm/<repo-name>"
+    POM_SCM_URL = "https://github.com/05nelsonm/<repo-name"
+    POM_SCM_CONNECTION = "scm:git:git://github.com/05nelsonm/<repo-name.git"
+    POM_SCM_DEV_CONNECTION = "scm:git:ssh://git@github.com/05nelsonm/<repo-name.git"
+}
+
+ *
+ * In the individual module's build.gradle file add:
+
+ext {
+    POM_ARTIFACT_ID = "module-name"
+    POM_NAME = "ModuleName"
+    POM_DESCRIPTION = "Module Description"
+}
+
+apply from: rootProject.file('components/gradle/maven-publish.gradle')
+
+ * */
+
+ext {
+    GROUP = "io.matthewnelson.components"
+
+    POM_LICENSE_NAME = "The Apache Software License, Version 2.0"
+    POM_LICENSE_URL = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+    POM_LICENSE_DIST = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+
+    POM_DEVELOPER_ID = "05nelsonm"
+    POM_DEVELOPER_NAME = "Matthew Nelson"
+    POM_DEVELOPER_URL = "https://github.com/05nelsonm"
+}
+
+apply plugin: "com.vanniktech.maven.publish"
+
+mavenPublish {
+    releaseSigningEnabled = true
+}
+
+signing {
+    useGpgCmd()
+}
