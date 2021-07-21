@@ -15,6 +15,8 @@
  * */
 package io.matthewnelson.components.kmp
 
+import io.matthewnelson.components.kmp.KmpTarget.Companion.COMMON_MAIN
+import io.matthewnelson.components.kmp.KmpTarget.Companion.COMMON_TEST
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
 import javax.inject.Inject
@@ -106,11 +108,11 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         project.kotlin {
             sourceSets {
 
-                getByName(KmpTarget.COMMON_MAIN) {
+                getByName(COMMON_MAIN) {
 
                 }
 
-                getByName(KmpTarget.COMMON_TEST) {
+                getByName(COMMON_TEST) {
                     dependencies {
                         implementation(kotlin("test-common"))
                         implementation(kotlin("test-annotations-common"))
@@ -154,7 +156,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
         return if (propertyTargets != null && propertyTargets is String && propertyTargets.isNotEmpty()) {
 
-            val map: Map<String, KmpTarget> = ALL_TARGETS.associateBy { it.getCommandLinePropertyValue() }
+            val map: Map<String, KmpTarget> = ALL_TARGETS.associateBy { it.envPropertyValue }
 
             val set: Set<KmpTarget> = propertyTargets
                 .split(",")

@@ -33,8 +33,7 @@ sealed class KmpTarget {
     abstract val sourceSetMainName: String
     abstract val sourceSetTestName: String
 
-    @JvmSynthetic
-    internal abstract fun getCommandLinePropertyValue(): String
+    abstract val envPropertyValue: String
 
     @JvmSynthetic
     internal abstract fun setupMultiplatform(project: Project)
@@ -91,10 +90,7 @@ sealed class KmpTarget {
 
         override val sourceSetMainName: String = Companion.sourceSetMainName
         override val sourceSetTestName: String = Companion.sourceSetTestName
-
-        override fun getCommandLinePropertyValue(): String {
-            return this.javaClass.simpleName
-        }
+        override val envPropertyValue: String get() = this.javaClass.simpleName
 
         override fun setupMultiplatform(project: Project) {
             project.kotlin {
@@ -149,10 +145,7 @@ sealed class KmpTarget {
         object ARM32 : IOS() {
             override val sourceSetMainName: String = "iosArm32Main"
             override val sourceSetTestName: String = "iosArm32Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "IOS_ARM32"
-            }
+            override val envPropertyValue: String get() = "IOS_ARM32"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -168,10 +161,7 @@ sealed class KmpTarget {
         object ARM64 : IOS() {
             override val sourceSetMainName: String = "iosArm64Main"
             override val sourceSetTestName: String = "iosArm64Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "IOS_ARM64"
-            }
+            override val envPropertyValue: String get() = "IOS_ARM64"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -187,10 +177,7 @@ sealed class KmpTarget {
         object X64 : IOS() {
             override val sourceSetMainName: String = "iosX64Main"
             override val sourceSetTestName: String = "iosX64Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "IOS_X64"
-            }
+            override val envPropertyValue: String get() = "IOS_X64"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -209,22 +196,14 @@ sealed class KmpTarget {
     sealed class JS : KmpTarget() {
 
         override fun setupMultiplatform(project: Project) { /* no-op */ }
+        override val sourceSetMainName: String = "jsMain"
+        override val sourceSetTestName: String = "jsTest"
 
         object IR : JS() {
-            override val sourceSetMainName: String = "jsMain"
-            override val sourceSetTestName: String = "jsTest"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "JS_IR"
-            }
+            override val envPropertyValue: String get() = "JS_IR"
         }
         object LEGACY : JS() {
-            override val sourceSetMainName: String = IR.sourceSetMainName
-            override val sourceSetTestName: String = IR.sourceSetTestName
-
-            override fun getCommandLinePropertyValue(): String {
-                return "JS_LEGACY"
-            }
+            override val envPropertyValue: String get() = "JS_LEGACY"
         }
 
     }
@@ -232,10 +211,7 @@ sealed class KmpTarget {
     object JVM : KmpTarget() {
         override val sourceSetMainName: String = "jvmMain"
         override val sourceSetTestName: String = "jvmTest"
-
-        override fun getCommandLinePropertyValue(): String {
-            return this.javaClass.simpleName
-        }
+        override val envPropertyValue: String get() = this.javaClass.simpleName
 
         override fun setupMultiplatform(project: Project) {
             project.kotlin {
@@ -256,10 +232,7 @@ sealed class KmpTarget {
         object ARM32HFP : LINUX() {
             override val sourceSetMainName: String = "linuxArm32HfpMain"
             override val sourceSetTestName: String = "linuxArm32HfpTest"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "LINUX_ARM32HFP"
-            }
+            override val envPropertyValue: String get() = "LINUX_ARM32HFP"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -275,10 +248,7 @@ sealed class KmpTarget {
         object MIPS32 : LINUX() {
             override val sourceSetMainName: String = "linuxMips32Main"
             override val sourceSetTestName: String = "linuxMips32Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "LINUX_MIPS32"
-            }
+            override val envPropertyValue: String get() = "LINUX_MIPS32"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -294,10 +264,7 @@ sealed class KmpTarget {
         object MIPSEL32 : LINUX() {
             override val sourceSetMainName: String = "linuxMipsel32Main"
             override val sourceSetTestName: String = "linuxMipsel32Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "LINUX_MIPSEL32"
-            }
+            override val envPropertyValue: String get() = "LINUX_MIPSEL32"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -313,10 +280,7 @@ sealed class KmpTarget {
         object X64 : LINUX() {
             override val sourceSetMainName: String = "linuxX64Main"
             override val sourceSetTestName: String = "linuxX64Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "LINUX_X64"
-            }
+            override val envPropertyValue: String get() = "LINUX_X64"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -337,10 +301,7 @@ sealed class KmpTarget {
         object X64 : KmpTarget() {
             override val sourceSetMainName: String = "macosX64Main"
             override val sourceSetTestName: String = "macosX64Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "MACOS_X64"
-            }
+            override val envPropertyValue: String get() = "MACOS_X64"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -361,10 +322,7 @@ sealed class KmpTarget {
         object X64 : MINGW() {
             override val sourceSetMainName: String = "mingwX64Main"
             override val sourceSetTestName: String = "mingwX64Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "MINGW_X64"
-            }
+            override val envPropertyValue: String get() = "MINGW_X64"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -380,10 +338,7 @@ sealed class KmpTarget {
         object X86 : MINGW() {
             override val sourceSetMainName: String = "mingwX86Main"
             override val sourceSetTestName: String = "mingwX86Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "MINGW_X86"
-            }
+            override val envPropertyValue: String get() = "MINGW_X86"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -404,10 +359,7 @@ sealed class KmpTarget {
         object ARM64 : TVOS() {
             override val sourceSetMainName: String = "tvosArm64Main"
             override val sourceSetTestName: String = "tvosArm64Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "TVOS_ARM64"
-            }
+            override val envPropertyValue: String get() = "TVOS_ARM64"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -423,10 +375,7 @@ sealed class KmpTarget {
         object X64 : TVOS() {
             override val sourceSetMainName: String = "tvosX64Main"
             override val sourceSetTestName: String = "tvosX64Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "TVOS_X64"
-            }
+            override val envPropertyValue: String get() = "TVOS_X64"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -447,10 +396,7 @@ sealed class KmpTarget {
         object ARM32 : WATCHOS() {
             override val sourceSetMainName: String = "watchosArm32Main"
             override val sourceSetTestName: String = "watchosArm32Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "WATCHOS_ARM32"
-            }
+            override val envPropertyValue: String get() = "WATCHOS_ARM32"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -466,10 +412,7 @@ sealed class KmpTarget {
         object ARM64 : WATCHOS() {
             override val sourceSetMainName: String = "watchosArm64Main"
             override val sourceSetTestName: String = "watchosArm64Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "WATCHOS_ARM64"
-            }
+            override val envPropertyValue: String get() = "WATCHOS_ARM64"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -485,10 +428,7 @@ sealed class KmpTarget {
         object X64 : WATCHOS() {
             override val sourceSetMainName: String = "watchosX64Main"
             override val sourceSetTestName: String = "watchosX64Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "WATCHOS_X64"
-            }
+            override val envPropertyValue: String get() = "WATCHOS_X64"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
@@ -504,10 +444,7 @@ sealed class KmpTarget {
         object X86 : WATCHOS() {
             override val sourceSetMainName: String = "watchosX86Main"
             override val sourceSetTestName: String = "watchosX86Test"
-
-            override fun getCommandLinePropertyValue(): String {
-                return "WATCHOS_X86"
-            }
+            override val envPropertyValue: String get() = "WATCHOS_X86"
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
