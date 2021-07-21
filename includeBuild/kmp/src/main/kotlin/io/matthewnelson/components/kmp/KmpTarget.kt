@@ -23,8 +23,10 @@ import com.android.build.gradle.BaseExtension
 import org.gradle.api.JavaVersion
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.plugin.KotlinJsCompilerType
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsNodeDsl
+import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 
 sealed class KmpTarget {
 
@@ -60,87 +62,272 @@ sealed class KmpTarget {
         return this.javaClass.name
     }
 
-    class ANDROID(
-        private val buildTools: String,
-        private val compileSdk: Int,
-        private val minSdk: Int,
-        private val targetSdk: Int,
-        manifestPath: String,
-    ) : KmpTarget() {
-
-        private val manifestPath: String? = manifestPath.ifEmpty { null }
-
-        constructor(
-            buildTools: String,
-            compileSdk: Int,
-            minSdk: Int,
-            targetSdk: Int,
-        ): this(buildTools, compileSdk, minSdk, targetSdk, "")
-
-        init {
-            require(buildTools.isNotEmpty()) { "ANDROID.buildTools cannot be null or empty" }
-            require(compileSdk >= 1) { "ANDROID.compileSdk must be greater than 0" }
-            require(minSdk >= 1) { "ANDROID.minSdk must be greater than 0" }
-            require(targetSdk >= 1) { "ANDROID.targetSdk must be greater than 0" }
-            require(targetSdk >= minSdk) { "ANDROID.targetSdk must be greater than ANDROID.minSdk" }
-            require(compileSdk >= minSdk) { "ANDROID.compileSdk must be greater than ANDROID.minSdk" }
-        }
+    sealed class JVM: KmpTarget() {
 
         companion object {
-            const val sourceSetMainName: String = "androidMain"
-            const val sourceSetTestName: String = "androidTest"
+            const val COMMON_JVM_MAIN = "commonJvmMain"
+            const val COMMON_JVM_TEST = "commonJvmTest"
         }
 
-        override val sourceSetMainName: String = Companion.sourceSetMainName
-        override val sourceSetTestName: String = Companion.sourceSetTestName
-        override val envPropertyValue: String get() = this.javaClass.simpleName
+        class JVM(
+            private val target: ((KotlinJvmTarget) -> Unit)? = null,
+            private val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+            private val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+        ) : KmpTarget.JVM() {
 
-        override fun setupMultiplatform(project: Project) {
-            project.kotlin {
-                android {
-                    compilations.all {
-                        kotlinOptions.jvmTarget = "1.8"
+            companion object {
+                val DEFAULT: JVM = JVM()
+
+                const val sourceSetMainName: String = "jvmMain"
+                const val sourceSetTestName: String = "jvmTest"
+                const val envPropertyValue: String = "JVM"
+            }
+
+            override val sourceSetMainName: String get() = Companion.sourceSetMainName
+            override val sourceSetTestName: String get() = Companion.sourceSetTestName
+            override val envPropertyValue: String get() = Companion.envPropertyValue
+
+            override fun setupMultiplatform(project: Project) {
+                project.kotlin {
+                    jvm target@ {
+                        target?.invoke(this@target)
                     }
-                }
 
-                sourceSets {
-                    maybeCreate(sourceSetMainName)
+                    sourceSets {
+                        maybeCreate(sourceSetMainName).apply mainSourceSet@ {
+                            dependsOn(getByName(COMMON_JVM_MAIN))
+                            mainSourceSet?.invoke(this@mainSourceSet)
+                        }
+                        maybeCreate(sourceSetTestName).apply testSourceSet@ {
+                            dependsOn(getByName(COMMON_JVM_TEST))
 
-                    maybeCreate(sourceSetTestName).dependencies {
-                        implementation(kotlin("test-junit"))
+                            if (testSourceSet?.invoke(this@testSourceSet) == null) {
+                                dependencies {
+                                    implementation(kotlin("test-junit"))
+                                }
+                            }
+                        }
                     }
                 }
             }
+        }
 
-            project.extensions.configure(BaseExtension::class.java) {
-                compileSdkVersion(this@ANDROID.compileSdk)
-                buildToolsVersion(this@ANDROID.buildTools)
+        class ANDROID(
+            private val buildTools: String,
+            private val compileSdk: Int,
+            private val minSdk: Int,
+            private val targetSdk: Int,
+            manifestPath: String,
+            private val target: ((KotlinAndroidTarget) -> Unit)? = null,
+            private val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+            private val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+        ) : KmpTarget.JVM() {
 
-                this@ANDROID.manifestPath?.let { path -> sourceSets.getByName("main").manifest.srcFile(path) }
+            private val manifestPath: String? = manifestPath.ifEmpty { null }
 
-                defaultConfig {
-                    minSdkVersion(this@ANDROID.minSdk)
-                    targetSdkVersion(this@ANDROID.targetSdk)
+            constructor(
+                buildTools: String,
+                compileSdk: Int,
+                minSdk: Int,
+                targetSdk: Int,
+                target: ((KotlinAndroidTarget) -> Unit)? = null,
+                mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+                testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+            ): this(buildTools, compileSdk, minSdk, targetSdk, "", target, mainSourceSet, testSourceSet)
 
-                    testInstrumentationRunnerArguments.putIfAbsent("disableAnalytics", "true")
+            init {
+                require(buildTools.isNotEmpty()) { "ANDROID.buildTools cannot be null or empty" }
+                require(compileSdk >= 1) { "ANDROID.compileSdk must be greater than 0" }
+                require(minSdk >= 1) { "ANDROID.minSdk must be greater than 0" }
+                require(targetSdk >= 1) { "ANDROID.targetSdk must be greater than 0" }
+                require(targetSdk >= minSdk) { "ANDROID.targetSdk must be greater than ANDROID.minSdk" }
+                require(compileSdk >= minSdk) { "ANDROID.compileSdk must be greater than ANDROID.minSdk" }
+            }
+
+            companion object {
+                const val sourceSetMainName: String = "androidMain"
+                const val sourceSetTestName: String = "androidTest"
+                const val envPropertyValue: String = "ANDROID"
+            }
+
+            override val sourceSetMainName: String get() = Companion.sourceSetMainName
+            override val sourceSetTestName: String get() = Companion.sourceSetTestName
+            override val envPropertyValue: String get() = Companion.envPropertyValue
+
+            override fun setupMultiplatform(project: Project) {
+                project.kotlin {
+                    android target@ {
+
+                        target?.invoke(this@target)
+
+                        compilations.all {
+                            kotlinOptions.jvmTarget = "1.8"
+                        }
+                    }
+
+                    sourceSets {
+                        maybeCreate(sourceSetMainName).apply mainSourceSet@ {
+                            dependsOn(getByName(COMMON_JVM_MAIN))
+
+                            mainSourceSet?.invoke(this@mainSourceSet)
+                        }
+
+                        maybeCreate(sourceSetTestName).apply testSourceSet@ {
+                            dependsOn(getByName(COMMON_JVM_TEST))
+
+                            if (testSourceSet?.invoke(this@testSourceSet) == null) {
+                                dependencies {
+                                    implementation(kotlin("test-junit"))
+                                }
+                            }
+                        }
+                    }
                 }
 
-                compileOptions {
-                    sourceCompatibility(JavaVersion.VERSION_1_8)
-                    targetCompatibility(JavaVersion.VERSION_1_8)
-                }
+                project.extensions.configure(BaseExtension::class.java) {
+                    compileSdkVersion(this@ANDROID.compileSdk)
+                    buildToolsVersion(this@ANDROID.buildTools)
 
+                    this@ANDROID.manifestPath?.let { path -> sourceSets.getByName("main").manifest.srcFile(path) }
+
+                    defaultConfig {
+                        minSdkVersion(this@ANDROID.minSdk)
+                        targetSdkVersion(this@ANDROID.targetSdk)
+
+                        testInstrumentationRunnerArguments.putIfAbsent("disableAnalytics", "true")
+                    }
+
+                    compileOptions {
+                        sourceCompatibility(JavaVersion.VERSION_1_8)
+                        targetCompatibility(JavaVersion.VERSION_1_8)
+                    }
+
+                }
+            }
+
+            override fun toString(): String {
+                return  "ANDROID(" +
+                        "buildTools=" + buildTools + "," +
+                        "compileSdk=" + compileSdk + "," +
+                        "manifestPath=" + manifestPath + "," +
+                        "minSdk=" + minSdk + "," +
+                        "targetSdk=" + targetSdk + ")"
             }
         }
 
-        override fun toString(): String {
-            return  "ANDROID(" +
-                    "buildTools=" + buildTools + "," +
-                    "compileSdk=" + compileSdk + "," +
-                    "manifestPath=" + manifestPath + "," +
-                    "minSdk=" + minSdk + "," +
-                    "targetSdk=" + targetSdk + ")"
+    }
+
+    sealed class JS : KmpTarget() {
+
+        companion object {
+            const val COMMON_JS = "commonjs"
         }
+
+        abstract val compilerType: KotlinJsCompilerType
+
+        class Browser(
+            override val compilerType: KotlinJsCompilerType,
+            private val jsBrowserDsl: ((KotlinJsBrowserDsl) -> Unit)? = null,
+            private val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+            private val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+        ) :  JS() {
+
+            companion object {
+                val DEFAULT = Browser(KotlinJsCompilerType.BOTH)
+
+                const val sourceSetMainName: String = "browserMain"
+                const val sourceSetTestName: String = "browserTest"
+                const val envPropertyValue: String = "JS_BROWSER"
+                const val targetName: String = "js_browser"
+            }
+
+            override val sourceSetMainName: String get() = Companion.sourceSetMainName
+            override val sourceSetTestName: String get() = Companion.sourceSetTestName
+            override val envPropertyValue: String get() = Companion.envPropertyValue
+
+            override fun setupMultiplatform(project: Project) {
+                project.kotlin {
+                    js(targetName, compilerType) {
+                        browser browser@ {
+                            useCommonJs()
+                            if (jsBrowserDsl?.invoke(this@browser) == null) {
+                                testTask {
+                                    useMocha {
+                                        timeout = "30s"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    sourceSets {
+                        maybeCreate(sourceSetMainName).apply mainSourceSet@ {
+                            mainSourceSet?.invoke(this@mainSourceSet)
+                        }
+                        maybeCreate(sourceSetTestName).apply testSourceSet@ {
+                            if (testSourceSet?.invoke(this@testSourceSet) == null) {
+                                dependencies {
+                                    implementation(kotlin("test-js"))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        class Node(
+            override val compilerType: KotlinJsCompilerType,
+            private val jsNodeDsl: ((KotlinJsNodeDsl) -> Unit)? = null,
+            private val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+            private val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+        ) : JS() {
+
+            companion object {
+                val DEFAULT = Node(KotlinJsCompilerType.BOTH)
+
+                const val sourceSetMainName: String = "nodeMain"
+                const val sourceSetTestName: String = "nodeTest"
+                const val envPropertyValue: String = "JS_NODE"
+                const val targetName: String = "js_node"
+            }
+
+            override val sourceSetMainName: String get() = Companion.sourceSetMainName
+            override val sourceSetTestName: String get() = Companion.sourceSetTestName
+            override val envPropertyValue: String get() = Companion.envPropertyValue
+
+            override fun setupMultiplatform(project: Project) {
+                project.kotlin {
+                    js(targetName, compilerType) {
+                        nodejs nodejs@ {
+                            useCommonJs()
+                            if (jsNodeDsl?.invoke(this@nodejs) == null) {
+                                testTask {
+                                    useMocha {
+                                        timeout = "30s"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    sourceSets {
+                        maybeCreate(sourceSetMainName).apply mainSourceSet@ {
+                            mainSourceSet?.invoke(this@mainSourceSet)
+                        }
+                        maybeCreate(sourceSetTestName).apply testSourceSet@ {
+
+                            if (testSourceSet?.invoke(this@testSourceSet) == null) {
+                                dependencies {
+                                    implementation(kotlin("test-js"))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     sealed class IOS : KmpTarget() {
@@ -194,138 +381,6 @@ sealed class KmpTarget {
             }
         }
 
-    }
-
-    sealed class JS : KmpTarget() {
-
-        companion object {
-            const val COMMON_JS = "commonjs"
-        }
-
-        abstract val compilerType: KotlinJsCompilerType
-
-        class Browser(
-            override val compilerType: KotlinJsCompilerType,
-            private val jsDsl: ((KotlinJsBrowserDsl) -> Unit)? = null,
-            private val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-            private val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-        ) :  JS() {
-
-            companion object {
-                val DEFAULT = Browser(KotlinJsCompilerType.BOTH)
-
-                const val sourceSetMainName: String = "browserMain"
-                const val sourceSetTestName: String = "browserTest"
-                const val envPropertyValue: String = "JS_BROWSER"
-                const val targetName: String = "js_browser"
-            }
-
-            override val sourceSetMainName: String get() = Companion.sourceSetMainName
-            override val sourceSetTestName: String get() = Companion.sourceSetTestName
-            override val envPropertyValue: String get() = Companion.envPropertyValue
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    js(targetName, compilerType) {
-                        browser browser@ {
-                            useCommonJs()
-                            if (jsDsl?.invoke(this@browser) == null) {
-                                testTask {
-                                    useMocha {
-                                        timeout = "30s"
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName).apply mainSourceSet@ {
-                            mainSourceSet?.invoke(this@mainSourceSet)
-                        }
-                        maybeCreate(sourceSetTestName).apply testSourceSet@ {
-                            if (testSourceSet?.invoke(this@testSourceSet) == null) {
-                                dependencies {
-                                    implementation(kotlin("test-js"))
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        class Node(
-            override val compilerType: KotlinJsCompilerType,
-            private val jsDsl: ((KotlinJsNodeDsl) -> Unit)? = null,
-            private val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-            private val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-        ) : JS() {
-
-            companion object {
-                val DEFAULT = Node(KotlinJsCompilerType.BOTH)
-
-                const val sourceSetMainName: String = "nodeMain"
-                const val sourceSetTestName: String = "nodeTest"
-                const val envPropertyValue: String = "JS_NODE"
-                const val targetName: String = "js_node"
-            }
-
-            override val sourceSetMainName: String get() = Companion.sourceSetMainName
-            override val sourceSetTestName: String get() = Companion.sourceSetTestName
-            override val envPropertyValue: String get() = Companion.envPropertyValue
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    js(targetName, compilerType) {
-                        nodejs nodejs@ {
-                            useCommonJs()
-                            if (jsDsl?.invoke(this@nodejs) == null) {
-                                testTask {
-                                    useMocha {
-                                        timeout = "30s"
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName).apply mainSourceSet@ {
-                            mainSourceSet?.invoke(this@mainSourceSet)
-                        }
-                        maybeCreate(sourceSetTestName).apply testSourceSet@ {
-
-                            if (testSourceSet?.invoke(this@testSourceSet) == null) {
-                                dependencies {
-                                    implementation(kotlin("test-js"))
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-
-    object JVM : KmpTarget() {
-        override val sourceSetMainName: String = "jvmMain"
-        override val sourceSetTestName: String = "jvmTest"
-        override val envPropertyValue: String get() = this.javaClass.simpleName
-
-        override fun setupMultiplatform(project: Project) {
-            project.kotlin {
-                jvm()
-
-                sourceSets {
-                    maybeCreate(sourceSetMainName)
-                    maybeCreate(sourceSetTestName).dependencies {
-                        implementation(kotlin("test-junit"))
-                    }
-                }
-            }
-        }
     }
 
     sealed class LINUX : KmpTarget() {

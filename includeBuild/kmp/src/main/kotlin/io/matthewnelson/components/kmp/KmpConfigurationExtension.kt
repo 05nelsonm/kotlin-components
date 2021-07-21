@@ -24,36 +24,40 @@ import javax.inject.Inject
 open class KmpConfigurationExtension @Inject constructor(private val project: Project) {
 
     companion object {
-        private val ANDROID_INSTANCE = KmpTarget.ANDROID("30.0.3", 30, 23, 30)
-        private val ALL_TARGETS: Set<KmpTarget> = setOf(
-            ANDROID_INSTANCE,
 
-            KmpTarget.IOS.ARM32,
-            KmpTarget.IOS.ARM64,
-            KmpTarget.IOS.X64,
+        private val ALL_ENV_PROPERTY_TARGETS: Set<String> = setOf(
+            // jvm
+            KmpTarget.JVM.JVM.envPropertyValue,
+            KmpTarget.JVM.ANDROID.envPropertyValue,
 
-            KmpTarget.JS.Browser.DEFAULT,
-            KmpTarget.JS.Node.DEFAULT,
+            // js
+            KmpTarget.JS.Browser.envPropertyValue,
+            KmpTarget.JS.Node.envPropertyValue,
 
-            KmpTarget.JVM,
+            // native.unix.darwin
+            KmpTarget.IOS.ARM32.envPropertyValue,
+            KmpTarget.IOS.ARM64.envPropertyValue,
+            KmpTarget.IOS.X64.envPropertyValue,
 
-            KmpTarget.LINUX.ARM32HFP,
-            KmpTarget.LINUX.MIPS32,
-            KmpTarget.LINUX.MIPSEL32,
-            KmpTarget.LINUX.X64,
+            KmpTarget.MACOS.X64.envPropertyValue,
 
-            KmpTarget.MACOS.X64,
+            KmpTarget.TVOS.ARM64.envPropertyValue,
+            KmpTarget.TVOS.X64.envPropertyValue,
 
-            KmpTarget.MINGW.X64,
-            KmpTarget.MINGW.X86,
+            KmpTarget.WATCHOS.ARM32.envPropertyValue,
+            KmpTarget.WATCHOS.ARM64.envPropertyValue,
+            KmpTarget.WATCHOS.X64.envPropertyValue,
+            KmpTarget.WATCHOS.X86.envPropertyValue,
 
-            KmpTarget.TVOS.ARM64,
-            KmpTarget.TVOS.X64,
+            // native.unix.linux
+            KmpTarget.LINUX.ARM32HFP.envPropertyValue,
+            KmpTarget.LINUX.MIPS32.envPropertyValue,
+            KmpTarget.LINUX.MIPSEL32.envPropertyValue,
+            KmpTarget.LINUX.X64.envPropertyValue,
 
-            KmpTarget.WATCHOS.ARM32,
-            KmpTarget.WATCHOS.ARM64,
-            KmpTarget.WATCHOS.X64,
-            KmpTarget.WATCHOS.X86,
+            // native.mingw
+            KmpTarget.MINGW.X64.envPropertyValue,
+            KmpTarget.MINGW.X86.envPropertyValue,
         )
     }
 
@@ -65,10 +69,10 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
         val enabledEnvironmentTargets: Set<String> = getEnabledEnvironmentTargets(project)
 
-        var android: KmpTarget.ANDROID? = null
-        if (enabledEnvironmentTargets.contains(ANDROID_INSTANCE.envPropertyValue)) {
+        var android: KmpTarget.JVM.ANDROID? = null
+        if (enabledEnvironmentTargets.contains(KmpTarget.JVM.ANDROID.envPropertyValue)) {
             for (target in targets) {
-                if (target is KmpTarget.ANDROID) {
+                if (target is KmpTarget.JVM.ANDROID) {
                     android = target
                     break
                 }
@@ -81,12 +85,12 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
         project.plugins.apply("org.jetbrains.kotlin.multiplatform")
 
-        setupMultiplatformCommon(project)
+        setupMultiplatformCommon(project, targets)
 
         android?.setupMultiplatform(project)
 
         for (target in targets) {
-            if (target !is KmpTarget.ANDROID && enabledEnvironmentTargets.contains(target.envPropertyValue)) {
+            if (target !is KmpTarget.JVM.ANDROID && enabledEnvironmentTargets.contains(target.envPropertyValue)) {
                 target.setupMultiplatform(project)
             }
         }
@@ -94,7 +98,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         return true
     }
 
-    private fun setupMultiplatformCommon(project: Project) {
+    private fun setupMultiplatformCommon(project: Project, targets: List<KmpTarget>) {
         project.kotlin {
             sourceSets {
 
@@ -109,9 +113,10 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                     }
                 }
 
-                // TODO: Setup default platform specific structures
-//                    maybeCreate("exampleMain").dependsOn(getByName(COMMON_MAIN))
-//                    maybeCreate("exampleTest").dependsOn(getByName(COMMON_TEST))
+                if (targets.filterIsInstance<KmpTarget.JVM>().isNotEmpty()) {
+                    maybeCreate(KmpTarget.JVM.COMMON_JVM_MAIN).dependsOn(getByName(COMMON_MAIN))
+                    maybeCreate(KmpTarget.JVM.COMMON_JVM_TEST).dependsOn(getByName(COMMON_TEST))
+                }
             }
         }
     }
@@ -119,12 +124,10 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
     private fun getEnabledEnvironmentTargets(project: Project): Set<String> {
         val propertyTargets: Any? = project.findProperty("KMP_TARGETS")
 
-        val allEnvPropertyValues: Set<String> = ALL_TARGETS.map { it.envPropertyValue }.toSet()
-
         return if (propertyTargets != null && propertyTargets is String && propertyTargets.isNotEmpty()) {
 
             val enabledTargets: Set<String> = propertyTargets.split(",").mapNotNull { propertyTarget ->
-                if (allEnvPropertyValues.contains(propertyTarget)) {
+                if (ALL_ENV_PROPERTY_TARGETS.contains(propertyTarget)) {
                     propertyTarget
                 } else {
                     println(
@@ -146,7 +149,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                 "\nWARNING: KMP_TARGETS environment variable not set... " +
                 "Enabling all targets for project '" + project.name + "'\n"
             )
-            allEnvPropertyValues
+            ALL_ENV_PROPERTY_TARGETS
         }
     }
 }
