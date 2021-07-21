@@ -132,6 +132,7 @@ ext.plugin = [
         hilt: "com.google.dagger:hilt-android-gradle-plugin:${versions.hilt}",
     ],
     gradleVersions: "com.github.ben-manes:gradle-versions-plugin:0.39.0",
+    intellijGradle: "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.4.18",
     kotlin: [
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:1.5.0",
         gradle: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
