@@ -32,8 +32,8 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
             KmpTarget.IOS.ARM64,
             KmpTarget.IOS.X64,
 
-            KmpTarget.JS.IR,
-            KmpTarget.JS.LEGACY,
+            KmpTarget.JS.Browser.DEFAULT,
+            KmpTarget.JS.Node.DEFAULT,
 
             KmpTarget.JVM,
 
@@ -63,10 +63,10 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
             return false
         }
 
-        val enabledTargets: Set<KmpTarget> = getEnabledTargets(project)
+        val enabledEnvironmentTargets: Set<String> = getEnabledEnvironmentTargets(project)
 
         var android: KmpTarget.ANDROID? = null
-        if (enabledTargets.contains(ANDROID_INSTANCE)) {
+        if (enabledEnvironmentTargets.contains(ANDROID_INSTANCE.envPropertyValue)) {
             for (target in targets) {
                 if (target is KmpTarget.ANDROID) {
                     android = target
@@ -86,18 +86,8 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         android?.setupMultiplatform(project)
 
         for (target in targets) {
-            if (target !is KmpTarget.ANDROID && target !is KmpTarget.JS && enabledTargets.contains(target)) {
+            if (target !is KmpTarget.ANDROID && enabledEnvironmentTargets.contains(target.envPropertyValue)) {
                 target.setupMultiplatform(project)
-            }
-        }
-
-        if (enabledTargets.contains(KmpTarget.JS.IR) || enabledTargets.contains(KmpTarget.JS.LEGACY)) {
-            if (targets.contains(KmpTarget.JS.IR) || targets.contains(KmpTarget.JS.LEGACY)) {
-                setupMultiplatformJs(
-                    project = project,
-                    isIr = targets.contains(KmpTarget.JS.IR),
-                    isLegacy = targets.contains(KmpTarget.JS.LEGACY),
-                )
             }
         }
 
@@ -126,62 +116,37 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         }
     }
 
-    private fun setupMultiplatformJs(project: Project, isIr: Boolean, isLegacy: Boolean) {
-        project.kotlin {
-            js(
-                if (isIr && isLegacy) {
-                    BOTH
-                } else if (isIr && !isLegacy) {
-                    IR
-                } else {
-                    LEGACY
-                }
-            ) {
-                browser()
-                nodejs()
-            }
-
-            sourceSets {
-                // Both JS_IR and JS_LEGACY main/test names are the same
-                maybeCreate(KmpTarget.JS.IR.sourceSetMainName)
-                maybeCreate(KmpTarget.JS.IR.sourceSetTestName).dependencies {
-                    implementation(kotlin("test-js"))
-                }
-            }
-        }
-    }
-
-    private fun getEnabledTargets(project: Project): Set<KmpTarget> {
+    private fun getEnabledEnvironmentTargets(project: Project): Set<String> {
         val propertyTargets: Any? = project.findProperty("KMP_TARGETS")
+
+        val allEnvPropertyValues: Set<String> = ALL_TARGETS.map { it.envPropertyValue }.toSet()
 
         return if (propertyTargets != null && propertyTargets is String && propertyTargets.isNotEmpty()) {
 
-            val map: Map<String, KmpTarget> = ALL_TARGETS.associateBy { it.envPropertyValue }
-
-            val set: Set<KmpTarget> = propertyTargets
-                .split(",")
-                .mapNotNull { propertyTarget ->
-                    map[propertyTarget].let { target ->
-                        if (target == null) {
-                            println("\nWARNING: KMP_TARGET property value '$propertyTarget' not recognized...")
-                        }
-
-                        target
-                    }
+            val enabledTargets: Set<String> = propertyTargets.split(",").mapNotNull { propertyTarget ->
+                if (allEnvPropertyValues.contains(propertyTarget)) {
+                    propertyTarget
+                } else {
+                    println(
+                        "\nWARNING: KMP_TARGET environment property '$propertyTarget' not recognized..."
+                    )
+                    null
                 }
-                .toSet()
+            }.toSet()
 
-            if (set.isEmpty()) {
-                throw IllegalArgumentException("KMP_TARGETS property is set but did not contain any matching values")
+            if (enabledTargets.isEmpty()) {
+                throw IllegalArgumentException(
+                    "KMP_TARGETS environment variable is set, but did not contain any recognized values"
+                )
             }
 
-            set
+            enabledTargets
         } else {
             println(
-                "\nWARNING: KMP_TARGETS property not found..." +
-                        "\n         Enabling all targets for project '" + project.name + "'\n"
+                "\nWARNING: KMP_TARGETS environment variable not set... " +
+                "Enabling all targets for project '" + project.name + "'\n"
             )
-            ALL_TARGETS
+            allEnvPropertyValues
         }
     }
 }

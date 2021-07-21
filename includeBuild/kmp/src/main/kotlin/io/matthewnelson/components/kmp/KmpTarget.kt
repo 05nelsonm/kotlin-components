@@ -22,6 +22,9 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.JavaVersion
 import org.gradle.kotlin.dsl.invoke
+import org.jetbrains.kotlin.gradle.plugin.KotlinJsCompilerType
+import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
+import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsNodeDsl
 
 sealed class KmpTarget {
 
@@ -94,7 +97,11 @@ sealed class KmpTarget {
 
         override fun setupMultiplatform(project: Project) {
             project.kotlin {
-                android()
+                android {
+                    compilations.all {
+                        kotlinOptions.jvmTarget = "1.8"
+                    }
+                }
 
                 sourceSets {
                     maybeCreate(sourceSetMainName)
@@ -123,10 +130,6 @@ sealed class KmpTarget {
                     targetCompatibility(JavaVersion.VERSION_1_8)
                 }
 
-                // TODO: Implement
-//                kotlinOptions {
-//                    jvmTarget = '1.8'
-//                }
             }
         }
 
@@ -195,15 +198,113 @@ sealed class KmpTarget {
 
     sealed class JS : KmpTarget() {
 
-        override fun setupMultiplatform(project: Project) { /* no-op */ }
-        override val sourceSetMainName: String = "jsMain"
-        override val sourceSetTestName: String = "jsTest"
-
-        object IR : JS() {
-            override val envPropertyValue: String get() = "JS_IR"
+        companion object {
+            const val COMMON_JS = "commonjs"
         }
-        object LEGACY : JS() {
-            override val envPropertyValue: String get() = "JS_LEGACY"
+
+        abstract val compilerType: KotlinJsCompilerType
+
+        class Browser(
+            override val compilerType: KotlinJsCompilerType,
+            private val jsDsl: ((KotlinJsBrowserDsl) -> Unit)? = null,
+            private val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+            private val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+        ) :  JS() {
+
+            companion object {
+                val DEFAULT = Browser(KotlinJsCompilerType.BOTH)
+
+                const val sourceSetMainName: String = "browserMain"
+                const val sourceSetTestName: String = "browserTest"
+                const val envPropertyValue: String = "JS_BROWSER"
+                const val targetName: String = "js_browser"
+            }
+
+            override val sourceSetMainName: String get() = Companion.sourceSetMainName
+            override val sourceSetTestName: String get() = Companion.sourceSetTestName
+            override val envPropertyValue: String get() = Companion.envPropertyValue
+
+            override fun setupMultiplatform(project: Project) {
+                project.kotlin {
+                    js(targetName, compilerType) {
+                        browser browser@ {
+                            useCommonJs()
+                            if (jsDsl?.invoke(this@browser) == null) {
+                                testTask {
+                                    useMocha {
+                                        timeout = "30s"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    sourceSets {
+                        maybeCreate(sourceSetMainName).apply mainSourceSet@ {
+                            mainSourceSet?.invoke(this@mainSourceSet)
+                        }
+                        maybeCreate(sourceSetTestName).apply testSourceSet@ {
+                            if (testSourceSet?.invoke(this@testSourceSet) == null) {
+                                dependencies {
+                                    implementation(kotlin("test-js"))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        class Node(
+            override val compilerType: KotlinJsCompilerType,
+            private val jsDsl: ((KotlinJsNodeDsl) -> Unit)? = null,
+            private val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+            private val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+        ) : JS() {
+
+            companion object {
+                val DEFAULT = Node(KotlinJsCompilerType.BOTH)
+
+                const val sourceSetMainName: String = "nodeMain"
+                const val sourceSetTestName: String = "nodeTest"
+                const val envPropertyValue: String = "JS_NODE"
+                const val targetName: String = "js_node"
+            }
+
+            override val sourceSetMainName: String get() = Companion.sourceSetMainName
+            override val sourceSetTestName: String get() = Companion.sourceSetTestName
+            override val envPropertyValue: String get() = Companion.envPropertyValue
+
+            override fun setupMultiplatform(project: Project) {
+                project.kotlin {
+                    js(targetName, compilerType) {
+                        nodejs nodejs@ {
+                            useCommonJs()
+                            if (jsDsl?.invoke(this@nodejs) == null) {
+                                testTask {
+                                    useMocha {
+                                        timeout = "30s"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    sourceSets {
+                        maybeCreate(sourceSetMainName).apply mainSourceSet@ {
+                            mainSourceSet?.invoke(this@mainSourceSet)
+                        }
+                        maybeCreate(sourceSetTestName).apply testSourceSet@ {
+
+                            if (testSourceSet?.invoke(this@testSourceSet) == null) {
+                                dependencies {
+                                    implementation(kotlin("test-js"))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
     }

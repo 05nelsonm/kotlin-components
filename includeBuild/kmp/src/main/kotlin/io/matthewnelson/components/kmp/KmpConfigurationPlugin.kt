@@ -47,11 +47,11 @@ import org.gradle.api.Project
  * }
  *
  * Append args when building from command line for the given machine (linux, macos, windows):
- *  - ex: `$ ./gradlew build -PKMP_TARGETS=ANDROID,JS_IR,JS_LEGACY,JVM,LINUX_X64,...`
+ *  - ex: `$ ./gradlew build -PKMP_TARGETS=ANDROID,JS_BROWSER,JS_NODE,JVM,LINUX_X64,...`
  *
  * Full list of KMP_TARGET property arguments:
  *
- *   ANDROID,JS_IR,JS_LEGACY,JVM,LINUX_ARM32HFP,LINUX_MIPS32,LINUX_MIPSEL32,
+ *   ANDROID,JS_BROWSER,JS_NODE,JVM,LINUX_ARM32HFP,LINUX_MIPS32,LINUX_MIPSEL32,
  *   LINUX_X64,IOS_ARM32,IOS_ARM64,IOS_X64,MACOS_X64,MINGW_X64,MINGW_X86,
  *   TVOS_ARM64,TVOS_X64,WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_X64,WATCHOS_X86
  *
