@@ -117,6 +117,11 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                     maybeCreate(KmpTarget.JVM.COMMON_JVM_MAIN).dependsOn(getByName(COMMON_MAIN))
                     maybeCreate(KmpTarget.JVM.COMMON_JVM_TEST).dependsOn(getByName(COMMON_TEST))
                 }
+
+                if (targets.filterIsInstance<KmpTarget.JS>().isNotEmpty()) {
+                    maybeCreate(KmpTarget.JS.COMMON_JS_MAIN).dependsOn(getByName(COMMON_MAIN))
+                    maybeCreate(KmpTarget.JS.COMMON_JS_TEST).dependsOn(getByName(COMMON_TEST))
+                }
             }
         }
     }

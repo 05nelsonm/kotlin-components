@@ -220,7 +220,8 @@ sealed class KmpTarget {
     sealed class JS : KmpTarget() {
 
         companion object {
-            const val COMMON_JS = "commonjs"
+            const val COMMON_JS_MAIN = "commonJsMain"
+            const val COMMON_JS_TEST = "commonJsTest"
         }
 
         abstract val compilerType: KotlinJsCompilerType
@@ -262,9 +263,11 @@ sealed class KmpTarget {
 
                     sourceSets {
                         maybeCreate(sourceSetMainName).apply mainSourceSet@ {
+                            dependsOn(getByName(COMMON_JS_MAIN))
                             mainSourceSet?.invoke(this@mainSourceSet)
                         }
                         maybeCreate(sourceSetTestName).apply testSourceSet@ {
+                            dependsOn(getByName(COMMON_JS_TEST))
                             if (testSourceSet?.invoke(this@testSourceSet) == null) {
                                 dependencies {
                                     implementation(kotlin("test-js"))
