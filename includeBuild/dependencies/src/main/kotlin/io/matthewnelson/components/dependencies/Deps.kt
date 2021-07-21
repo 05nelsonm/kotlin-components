@@ -109,7 +109,6 @@ object Deps {
     }
 
     const val jncryptor     = "org.cryptonode.jncryptor:jncryptor:1.2.0"
-    const val json          = "org.json:json:20210307"
 
     object kotlin {
 
@@ -233,7 +232,7 @@ object KaptDeps {
 
     }
 
-    object sqquare {
+    object square {
 
         const val moshiCodegen  = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
 
