@@ -1,6 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    apply from: rootProject.file('gradle/dependencies.gradle')
 
     repositories {
         mavenCentral()
@@ -9,20 +8,28 @@ buildscript {
     }
 
     dependencies {
-        classpath plugin.androidGradle
-        classpath plugin.androidx.navigation.safeArgs
-        classpath plugin.google.hilt
-        classpath plugin.gradleVersions
-        classpath plugin.kotlin.dokka
-        classpath plugin.kotlin.gradle
-        classpath plugin.kotlin.serialization
-        classpath plugin.mavenPublish
-        classpath plugin.square.exhaustive
-        classpath plugin.square.sqlDelight
+        // System properties for plugin versions are set in buildSrc
+        // in order to pass the "dependencies" plugins' values as
+        // we cannot access them here until after the buildscript
+        classpath(System.getProperty("GRADLE_ANDROID"))
+        classpath(System.getProperty("GRADLE_ANDROIDX_NAVIGATION_SAFEARGS"))
+        classpath(System.getProperty("GRADLE_GOOGLE_HILT"))
+        classpath(System.getProperty("GRADLE_VERSIONS"))
+        classpath(System.getProperty("GRADLE_INTELLIJ"))
+        classpath(System.getProperty("GRADLE_KOTLIN_DOKKA"))
+        classpath(System.getProperty("GRADLE_KOTLIN"))
+        classpath(System.getProperty("GRADLE_SERIALIZATION"))
+        classpath(System.getProperty("GRADLE_MAVEN_PUBLISH"))
+        classpath(System.getProperty("GRADLE_SQUARE_EXHAUSTIVE"))
+        classpath(System.getProperty("GRADLE_SQUARE_SQLDELIGHT"))
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+}
+
+plugins {
+    id("com.github.ben-manes.versions")
 }
 
 allprojects {
@@ -30,7 +37,7 @@ allprojects {
         mavenCentral()
         google()
         gradlePluginPortal()
-        maven { url 'https://jitpack.io' } // Needed for Requery
+        maven { url "https://jitpack.io" } // Needed for Requery
     }
 }
 
@@ -41,8 +48,6 @@ task clean(type: Delete) {
 ////////////////////////////////////////////////////////////////////////////
 /// Gradle Versions: https://github.com/ben-manes/gradle-versions-plugin ///
 ////////////////////////////////////////////////////////////////////////////
-
-apply plugin: 'com.github.ben-manes.versions'
 
 def isNonStable = { String version ->
     def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
@@ -68,7 +73,7 @@ tasks.named("dependencyUpdates").configure {
         componentSelection {
             all {
                 if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
-                    reject('Release candidate')
+                    reject("Release candidate")
                 }
             }
         }
