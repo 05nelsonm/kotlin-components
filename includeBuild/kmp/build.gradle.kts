@@ -2,7 +2,7 @@ import io.matthewnelson.components.dependencies.Plugins
 
 plugins {
     `kotlin-dsl`
-    id("java-gradle-plugin")
+    `java-gradle-plugin`
     id("dependencies")
 }
 
