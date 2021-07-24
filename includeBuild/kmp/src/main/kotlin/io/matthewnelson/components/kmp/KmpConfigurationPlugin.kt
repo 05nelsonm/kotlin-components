@@ -54,6 +54,10 @@ import org.gradle.api.Project
  *                 // if it is not locasted in `src/main`
  *                 manifestPath = "src/androidMain/AndroidManifest.xml",
  *
+ *                 // Optional argument to apply platform specific plugins
+ *                 // for when the target is enabled
+ *                 pluginIds = setOf("android.specific.plugin1", "android.specific.plugin2")
+ *
  *                 // Optional lambda for accessing the KotlinAndroidTarget
  *                 target = {
  *                     ...
@@ -92,7 +96,7 @@ import org.gradle.api.Project
  *
  *         // Option argument for applying additional plugins. This is applied after
  *         // the plugin for "org.jetbrains.kotlin.multiplatform" is applied.
- *         pluginIds = setOf("my.plugin1", "my.plugin2"),
+ *         commonPluginIds = setOf("my.plugin1", "my.plugin2"),
  *
  *         commonMainSourceSet = {
  *             dependencies {

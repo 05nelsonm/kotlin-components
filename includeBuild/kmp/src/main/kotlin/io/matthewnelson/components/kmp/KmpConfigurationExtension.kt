@@ -81,7 +81,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
     @Suppress("unused")
     fun setupMultiplatform(
         targets: Set<KmpTarget>,
-        pluginIds: Set<String>? = null,
+        commonPluginIds: Set<String>? = null,
         commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
         commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
     ): Boolean {
@@ -90,30 +90,27 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         }
 
         val enabledEnvironmentTargets: Set<String> = getEnabledEnvironmentTargets(project)
+        val enabledTargets: List<KmpTarget> = targets.filter { enabledEnvironmentTargets.contains(it.envPropertyValue) }
 
         var android: KmpTarget.JVM.ANDROID? = null
-        if (enabledEnvironmentTargets.contains(KmpTarget.JVM.ANDROID.ENV_PROPERTY_VALUE)) {
-            for (target in targets) {
-                if (target is KmpTarget.JVM.ANDROID) {
-                    android = target
-                    break
-                }
+        for (target in enabledTargets) {
+            if (target is KmpTarget.JVM.ANDROID) {
+                android = target
+                break
             }
+        }
 
-            if (android != null) {
-                project.plugins.apply("com.android.library")
-            }
+        if (android != null) {
+            project.plugins.apply("com.android.library")
         }
 
         project.plugins.apply("org.jetbrains.kotlin.multiplatform")
 
-        pluginIds?.let { ids ->
+        commonPluginIds?.let { ids ->
             for (id in ids) {
                 project.plugins.apply(id)
             }
         }
-
-        val enabledTargets: List<KmpTarget> = targets.filter { enabledEnvironmentTargets.contains(it.envPropertyValue) }
 
         setupMultiplatformCommon(project, enabledTargets, commonMainSourceSet, commonTestSourceSet)
 

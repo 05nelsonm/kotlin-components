@@ -49,10 +49,19 @@ sealed class KmpTarget {
 
     abstract val sourceSetMainName: String
     abstract val sourceSetTestName: String
+    abstract val pluginIds: Set<String>?
     abstract val envPropertyValue: String
 
     @JvmSynthetic
     internal abstract fun setupMultiplatform(project: Project)
+
+    protected fun applyPlugins(project: Project) {
+        pluginIds?.let { ids ->
+            for (id in ids) {
+                project.plugins.apply(id)
+            }
+        }
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other == null) {
@@ -101,6 +110,7 @@ sealed class KmpTarget {
         }
 
         class JVM(
+            override val pluginIds: Set<String>? = null,
             override val target: (KotlinJvmTarget.() -> Unit)? = null,
             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -120,6 +130,7 @@ sealed class KmpTarget {
             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
             override fun setupMultiplatform(project: Project) {
+                applyPlugins(project)
                 project.kotlin {
                     jvm(TARGET_NAME) target@ {
                         target?.invoke(this@target)
@@ -137,6 +148,7 @@ sealed class KmpTarget {
             private val targetSdk: Int,
             manifestPath: String,
             private val kotlinJvmTarget: String = "1.8",
+            override val pluginIds: Set<String>? = null,
             private val androidConfig: (BaseExtension.() -> Unit)? = null,
             override val target: (KotlinAndroidTarget.() -> Unit)? = null,
             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -167,6 +179,7 @@ sealed class KmpTarget {
                 minSdk: Int,
                 targetSdk: Int,
                 kotlinJvmTarget: String = "1.8",
+                pluginIds: Set<String>? = null,
                 androidConfig: (BaseExtension.() -> Unit)? = null,
                 target: (KotlinAndroidTarget.() -> Unit)? = null,
                 mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -178,6 +191,7 @@ sealed class KmpTarget {
                 targetSdk,
                 "",
                 kotlinJvmTarget,
+                pluginIds,
                 androidConfig,
                 target,
                 mainSourceSet,
@@ -189,6 +203,7 @@ sealed class KmpTarget {
             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
             override fun setupMultiplatform(project: Project) {
+                applyPlugins(project)
                 project.kotlin {
                     android(TARGET_NAME) target@{
 
@@ -249,6 +264,7 @@ sealed class KmpTarget {
             private val compilerType: KotlinJsCompilerType,
             private val browser: Browser?,
             private val node: Node?,
+            override val pluginIds: Set<String>? = null,
             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
         ) : NON_JVM() {
@@ -299,6 +315,7 @@ sealed class KmpTarget {
             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
             override fun setupMultiplatform(project: Project) {
+                applyPlugins(project)
                 project.kotlin {
                     js(TARGET_NAME, compilerType) jsTarget@ {
 
@@ -401,6 +418,7 @@ sealed class KmpTarget {
                     sealed class IOS : DARWIN() {
 
                         class ARM32(
+                            override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -420,6 +438,7 @@ sealed class KmpTarget {
                             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                             override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
                                 project.kotlin {
                                     iosArm32(TARGET_NAME) target@ {
                                         target?.invoke(this@target)
@@ -431,6 +450,7 @@ sealed class KmpTarget {
                         }
 
                         class ARM64(
+                            override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
                             override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
@@ -450,6 +470,7 @@ sealed class KmpTarget {
                             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                             override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
                                 project.kotlin {
                                     iosArm64(TARGET_NAME) target@ {
                                         target?.invoke(this@target)
@@ -461,6 +482,7 @@ sealed class KmpTarget {
                         }
 
                         class X64(
+                            override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -480,6 +502,7 @@ sealed class KmpTarget {
                             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                             override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
                                 project.kotlin {
                                     iosX64(TARGET_NAME) target@ {
                                         target?.invoke(this@target)
@@ -495,6 +518,7 @@ sealed class KmpTarget {
                     sealed class MACOS : DARWIN() {
 
                         class X64(
+                            override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTargetWithHostTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -514,6 +538,7 @@ sealed class KmpTarget {
                             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                             override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
                                 project.kotlin {
                                     macosX64(TARGET_NAME) target@ {
                                         target?.invoke(this@target)
@@ -529,6 +554,7 @@ sealed class KmpTarget {
                     sealed class TVOS : DARWIN() {
 
                         class ARM64(
+                            override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -548,6 +574,7 @@ sealed class KmpTarget {
                             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                             override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
                                 project.kotlin {
                                     tvosArm64(TARGET_NAME) target@ {
                                         target?.invoke(this@target)
@@ -559,6 +586,7 @@ sealed class KmpTarget {
                         }
 
                         class X64(
+                            override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -578,6 +606,7 @@ sealed class KmpTarget {
                             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                             override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
                                 project.kotlin {
                                     tvosX64(TARGET_NAME) target@ {
                                         target?.invoke(this@target)
@@ -593,6 +622,7 @@ sealed class KmpTarget {
                     sealed class WATCHOS : DARWIN() {
 
                         class ARM32(
+                            override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -612,6 +642,7 @@ sealed class KmpTarget {
                             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                             override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
                                 project.kotlin {
                                     watchosArm32(TARGET_NAME) target@ {
                                         target?.invoke(this@target)
@@ -623,6 +654,7 @@ sealed class KmpTarget {
                         }
 
                         class ARM64(
+                            override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -642,6 +674,7 @@ sealed class KmpTarget {
                             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                             override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
                                 project.kotlin {
                                     watchosArm64(TARGET_NAME) target@ {
                                         target?.invoke(this@target)
@@ -653,6 +686,7 @@ sealed class KmpTarget {
                         }
 
                         class X64(
+                            override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -672,6 +706,7 @@ sealed class KmpTarget {
                             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                             override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
                                 project.kotlin {
                                     watchosX64(TARGET_NAME) target@ {
                                         target?.invoke(this@target)
@@ -683,6 +718,7 @@ sealed class KmpTarget {
                         }
 
                         class X86(
+                            override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -702,6 +738,7 @@ sealed class KmpTarget {
                             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                             override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
                                 project.kotlin {
                                     watchosX86(TARGET_NAME) target@ {
                                         target?.invoke(this@target)
@@ -740,6 +777,7 @@ sealed class KmpTarget {
                     }
 
                     class ARM32HFP(
+                        override val pluginIds: Set<String>? = null,
                         override val target: (KotlinNativeTarget.() -> Unit)? = null,
                         override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                         override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -759,6 +797,7 @@ sealed class KmpTarget {
                         override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                         override fun setupMultiplatform(project: Project) {
+                            applyPlugins(project)
                             project.kotlin {
                                 linuxArm32Hfp(TARGET_NAME) target@ {
                                     target?.invoke(this@target)
@@ -770,6 +809,7 @@ sealed class KmpTarget {
                     }
 
                     class MIPS32(
+                        override val pluginIds: Set<String>? = null,
                         override val target: (KotlinNativeTarget.() -> Unit)? = null,
                         override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                         override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -789,6 +829,7 @@ sealed class KmpTarget {
                         override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                         override fun setupMultiplatform(project: Project) {
+                            applyPlugins(project)
                             project.kotlin {
                                 linuxMips32(TARGET_NAME) target@ {
                                     target?.invoke(this@target)
@@ -800,6 +841,7 @@ sealed class KmpTarget {
                     }
 
                     class MIPSEL32(
+                        override val pluginIds: Set<String>? = null,
                         override val target: (KotlinNativeTarget.() -> Unit)? = null,
                         override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                         override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -819,6 +861,7 @@ sealed class KmpTarget {
                         override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                         override fun setupMultiplatform(project: Project) {
+                            applyPlugins(project)
                             project.kotlin {
                                 linuxMipsel32(TARGET_NAME) target@ {
                                     target?.invoke(this@target)
@@ -830,6 +873,7 @@ sealed class KmpTarget {
                     }
 
                     class X64(
+                        override val pluginIds: Set<String>? = null,
                         override val target: (KotlinNativeTarget.() -> Unit)? = null,
                         override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                         override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -849,6 +893,7 @@ sealed class KmpTarget {
                         override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                         override fun setupMultiplatform(project: Project) {
+                            applyPlugins(project)
                             project.kotlin {
                                 linuxX64(TARGET_NAME) target@ {
                                     target?.invoke(this@target)
@@ -888,6 +933,7 @@ sealed class KmpTarget {
                 }
 
                 class X64(
+                    override val pluginIds: Set<String>? = null,
                     override val target: (KotlinNativeTargetWithHostTests.() -> Unit)? = null,
                     override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
                     override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
@@ -907,6 +953,7 @@ sealed class KmpTarget {
                     override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                     override fun setupMultiplatform(project: Project) {
+                        applyPlugins(project)
                         project.kotlin {
                             mingwX64(TARGET_NAME) target@ {
                                 target?.invoke(this@target)
@@ -918,6 +965,7 @@ sealed class KmpTarget {
                 }
 
                 class X86(
+                    override val pluginIds: Set<String>? = null,
                     override val target: (KotlinNativeTarget.() -> Unit)? = null,
                     override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
                     override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
@@ -937,6 +985,7 @@ sealed class KmpTarget {
                     override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                     override fun setupMultiplatform(project: Project) {
+                        applyPlugins(project)
                         project.kotlin {
                             mingwX86(TARGET_NAME) target@ {
                                 target?.invoke(this@target)
