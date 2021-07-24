@@ -147,12 +147,12 @@ import org.gradle.api.Project
  *  - ex: `$ ./gradlew build -PKMP_TARGETS=ANDROID,JS,JVM,LINUX_X64,...`
  *
  * Or add to the global gradle.properties file (ex: ~/.gradle/gradle.properties)
- * the desired KMP_TARGET values to enable for that machine (linux, macos, windows)
+ * the desired KMP_TARGETS values to enable for that machine (linux, macos, windows)
  *
- * If no KMP_TARGET property is set, all targets that are passed to
+ * If no KMP_TARGETS property is set, all targets that are passed to
  * [KmpConfigurationExtension.setupMultiplatform] will be enabled
  *
- * Full list of KMP_TARGET property arguments:
+ * Full list of KMP_TARGETS property arguments:
  *
  *   ANDROID,JVM,
  *   JS,
