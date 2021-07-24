@@ -24,20 +24,31 @@ import org.gradle.api.JavaVersion
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.plugin.KotlinJsCompilerType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithHostTests
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsNodeDsl
 import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 
+/**
+ * A sealed class with the same heirarchical structure as how the source sets
+ * will be setup (see diagram in [KmpConfigurationPlugin]).
+ * */
 sealed class KmpTarget {
 
     companion object {
         const val COMMON_MAIN = KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME
         const val COMMON_TEST = KotlinSourceSet.COMMON_TEST_SOURCE_SET_NAME
+
+        private const val MAIN = "Main"
+        private const val TEST = "Test"
     }
+
+    protected abstract val mainSourceSet: (KotlinSourceSet.() -> Unit)?
+    protected abstract val testSourceSet: (KotlinSourceSet.() -> Unit)?
 
     abstract val sourceSetMainName: String
     abstract val sourceSetTestName: String
-
     abstract val envPropertyValue: String
 
     @JvmSynthetic
@@ -47,67 +58,74 @@ sealed class KmpTarget {
         if (other == null) {
             return false
         }
-        return if (other is KmpTarget) {
-            other.toString() == this.toString()
-        } else false
+
+        if (other is KmpTarget) {
+            return other.toString() == this.toString()
+        }
+
+        return false
     }
 
     override fun hashCode(): Int {
         var result = 17
-        result = result * 31 + this.toString().hashCode()
+        result = result * 31 + toString().hashCode()
         return result
     }
 
     override fun toString(): String {
-        return this.javaClass.name
+        return "${this.javaClass.simpleName}()"
     }
 
     sealed class JVM: KmpTarget() {
 
         companion object {
-            const val COMMON_JVM_MAIN = "commonJvmMain"
-            const val COMMON_JVM_TEST = "commonJvmTest"
+            const val JVM_COMMON_MAIN = "jvmCommon$MAIN"
+            const val JVM_COMMON_TEST = "jvmCommon$TEST"
+        }
+
+        protected fun setupJvmSourceSets(project: Project) {
+            project.kotlin {
+                sourceSets {
+                    maybeCreate(sourceSetMainName).apply mainSourceSet@ {
+                        dependsOn(getByName(JVM_COMMON_MAIN))
+
+                        mainSourceSet?.invoke(this@mainSourceSet)
+                    }
+                    maybeCreate(sourceSetTestName).apply testSourceSet@ {
+                        dependsOn(getByName(JVM_COMMON_TEST))
+
+                        testSourceSet?.invoke(this@testSourceSet)
+                    }
+                }
+            }
         }
 
         class JVM(
-            private val target: ((KotlinJvmTarget) -> Unit)? = null,
-            private val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-            private val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-        ) : KmpTarget.JVM() {
+            override val target: (KotlinJvmTarget.() -> Unit)? = null,
+            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+        ) : KmpTarget.JVM(), TargetCallback<KotlinJvmTarget> {
 
             companion object {
                 val DEFAULT: JVM = JVM()
 
-                const val sourceSetMainName: String = "jvmMain"
-                const val sourceSetTestName: String = "jvmTest"
-                const val envPropertyValue: String = "JVM"
+                const val TARGET_NAME: String = "jvm"
+                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                const val ENV_PROPERTY_VALUE: String = "JVM"
             }
 
-            override val sourceSetMainName: String get() = Companion.sourceSetMainName
-            override val sourceSetTestName: String get() = Companion.sourceSetTestName
-            override val envPropertyValue: String get() = Companion.envPropertyValue
+            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
-                    jvm target@ {
+                    jvm(TARGET_NAME) target@ {
                         target?.invoke(this@target)
                     }
 
-                    sourceSets {
-                        maybeCreate(sourceSetMainName).apply mainSourceSet@ {
-                            dependsOn(getByName(COMMON_JVM_MAIN))
-                            mainSourceSet?.invoke(this@mainSourceSet)
-                        }
-                        maybeCreate(sourceSetTestName).apply testSourceSet@ {
-                            dependsOn(getByName(COMMON_JVM_TEST))
-
-                            if (testSourceSet?.invoke(this@testSourceSet) == null) {
-                                dependencies {
-                                    implementation(kotlin("test-junit"))
-                                }
-                            }
-                        }
-                    }
+                    setupJvmSourceSets(project)
                 }
             }
         }
@@ -118,22 +136,21 @@ sealed class KmpTarget {
             private val minSdk: Int,
             private val targetSdk: Int,
             manifestPath: String,
-            private val target: ((KotlinAndroidTarget) -> Unit)? = null,
-            private val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-            private val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-        ) : KmpTarget.JVM() {
+            private val kotlinJvmTarget: String = "1.8",
+            private val androidConfig: (BaseExtension.() -> Unit)? = null,
+            override val target: (KotlinAndroidTarget.() -> Unit)? = null,
+            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+        ) : KmpTarget.JVM(), TargetCallback<KotlinAndroidTarget> {
+
+            companion object {
+                const val TARGET_NAME: String = "android"
+                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                const val ENV_PROPERTY_VALUE: String = "ANDROID"
+            }
 
             private val manifestPath: String? = manifestPath.ifEmpty { null }
-
-            constructor(
-                buildTools: String,
-                compileSdk: Int,
-                minSdk: Int,
-                targetSdk: Int,
-                target: ((KotlinAndroidTarget) -> Unit)? = null,
-                mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-                testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-            ): this(buildTools, compileSdk, minSdk, targetSdk, "", target, mainSourceSet, testSourceSet)
 
             init {
                 require(buildTools.isNotEmpty()) { "ANDROID.buildTools cannot be null or empty" }
@@ -144,47 +161,48 @@ sealed class KmpTarget {
                 require(compileSdk >= minSdk) { "ANDROID.compileSdk must be greater than ANDROID.minSdk" }
             }
 
-            companion object {
-                const val sourceSetMainName: String = "androidMain"
-                const val sourceSetTestName: String = "androidTest"
-                const val envPropertyValue: String = "ANDROID"
-            }
+            constructor(
+                buildTools: String,
+                compileSdk: Int,
+                minSdk: Int,
+                targetSdk: Int,
+                kotlinJvmTarget: String = "1.8",
+                androidConfig: (BaseExtension.() -> Unit)? = null,
+                target: (KotlinAndroidTarget.() -> Unit)? = null,
+                mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+            ): this(
+                buildTools,
+                compileSdk,
+                minSdk,
+                targetSdk,
+                "",
+                kotlinJvmTarget,
+                androidConfig,
+                target,
+                mainSourceSet,
+                testSourceSet
+            )
 
-            override val sourceSetMainName: String get() = Companion.sourceSetMainName
-            override val sourceSetTestName: String get() = Companion.sourceSetTestName
-            override val envPropertyValue: String get() = Companion.envPropertyValue
+            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
-                    android target@ {
+                    android(TARGET_NAME) target@{
 
                         target?.invoke(this@target)
 
                         compilations.all {
-                            kotlinOptions.jvmTarget = "1.8"
+                            kotlinOptions.jvmTarget = kotlinJvmTarget
                         }
                     }
 
-                    sourceSets {
-                        maybeCreate(sourceSetMainName).apply mainSourceSet@ {
-                            dependsOn(getByName(COMMON_JVM_MAIN))
-
-                            mainSourceSet?.invoke(this@mainSourceSet)
-                        }
-
-                        maybeCreate(sourceSetTestName).apply testSourceSet@ {
-                            dependsOn(getByName(COMMON_JVM_TEST))
-
-                            if (testSourceSet?.invoke(this@testSourceSet) == null) {
-                                dependencies {
-                                    implementation(kotlin("test-junit"))
-                                }
-                            }
-                        }
-                    }
+                    setupJvmSourceSets(project)
                 }
 
-                project.extensions.configure(BaseExtension::class.java) {
+                project.extensions.configure(BaseExtension::class.java) config@ {
                     compileSdkVersion(this@ANDROID.compileSdk)
                     buildToolsVersion(this@ANDROID.buildTools)
 
@@ -194,7 +212,7 @@ sealed class KmpTarget {
                         minSdkVersion(this@ANDROID.minSdk)
                         targetSdkVersion(this@ANDROID.targetSdk)
 
-                        testInstrumentationRunnerArguments.putIfAbsent("disableAnalytics", "true")
+                        testInstrumentationRunnerArguments["disableAnalytics"] = "true"
                     }
 
                     compileOptions {
@@ -202,6 +220,7 @@ sealed class KmpTarget {
                         targetCompatibility(JavaVersion.VERSION_1_8)
                     }
 
+                    androidConfig?.invoke(this@config)
                 }
             }
 
@@ -211,409 +230,723 @@ sealed class KmpTarget {
                         "compileSdk=" + compileSdk + "," +
                         "manifestPath=" + manifestPath + "," +
                         "minSdk=" + minSdk + "," +
-                        "targetSdk=" + targetSdk + ")"
+                        "targetSdk=" + targetSdk + "," +
+                        "kotlinJvmTarget=" + kotlinJvmTarget +
+                        ")"
             }
         }
 
     }
 
-    sealed class JS : KmpTarget() {
+    sealed class NON_JVM: KmpTarget() {
 
         companion object {
-            const val COMMON_JS_MAIN = "commonJsMain"
-            const val COMMON_JS_TEST = "commonJsTest"
+            const val NON_JVM_MAIN = "nonJvmMain"
+            const val NON_JVM_TEST = "nonJvmTest"
         }
 
-        abstract val compilerType: KotlinJsCompilerType
+        class JS(
+            private val compilerType: KotlinJsCompilerType,
+            private val browser: Browser?,
+            private val node: Node?,
+            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+        ) : NON_JVM() {
 
-        class Browser(
-            override val compilerType: KotlinJsCompilerType,
-            private val jsBrowserDsl: ((KotlinJsBrowserDsl) -> Unit)? = null,
-            private val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-            private val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-        ) :  JS() {
-
-            companion object {
-                val DEFAULT = Browser(KotlinJsCompilerType.BOTH)
-
-                const val sourceSetMainName: String = "browserMain"
-                const val sourceSetTestName: String = "browserTest"
-                const val envPropertyValue: String = "JS_BROWSER"
-                const val targetName: String = "js_browser"
+            class Browser(val jsBrowserDsl: (KotlinJsBrowserDsl.() -> Unit)? = null) {
+                override fun toString(): String {
+                    return  "Browser(" +
+                            "jsBrowserDsl=" +
+                            if (jsBrowserDsl == null) {
+                                "null"
+                            } else {
+                                "{ /* omitted */ }"
+                            } +
+                            ")"
+                }
             }
 
-            override val sourceSetMainName: String get() = Companion.sourceSetMainName
-            override val sourceSetTestName: String get() = Companion.sourceSetTestName
-            override val envPropertyValue: String get() = Companion.envPropertyValue
+            class Node(val jsNodeDsl: (KotlinJsNodeDsl.() -> Unit)? = null) {
+                override fun toString(): String {
+                    return  "Node(" +
+                            "jsNodeDsl=" +
+                            if (jsNodeDsl == null) {
+                                "null"
+                            } else {
+                                "{ /* omitted */ }"
+                            } +
+                            ")"
+                }
+            }
+
+            init {
+                if (browser == null && node == null) {
+                    throw IllegalArgumentException("Arguments 'node' or 'browser' cannot both be null")
+                }
+            }
+
+            companion object {
+                val DEFAULT = JS(KotlinJsCompilerType.BOTH, Browser(), Node())
+
+                const val TARGET_NAME: String = "js"
+                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                const val ENV_PROPERTY_VALUE: String = "JS"
+            }
+
+            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
             override fun setupMultiplatform(project: Project) {
                 project.kotlin {
-                    js(targetName, compilerType) {
-                        browser browser@ {
-                            useCommonJs()
-                            if (jsBrowserDsl?.invoke(this@browser) == null) {
-                                testTask {
-                                    useMocha {
-                                        timeout = "30s"
+                    js(TARGET_NAME, compilerType) jsTarget@ {
+
+                        browser?.let { nnBrowser ->
+                            browser browser@{
+
+                                if (nnBrowser.jsBrowserDsl?.invoke(this@browser) == null) {
+                                    testTask {
+                                        useMocha {
+                                            timeout = "30s"
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+
+                        node?.let { nnNode ->
+                            nodejs nodejs@ {
+
+                                if (nnNode.jsNodeDsl?.invoke(this@nodejs) == null) {
+                                    testTask {
+                                        useMocha {
+                                            timeout = "30s"
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+
+                        sourceSets {
+                            maybeCreate(sourceSetMainName).apply mainSourceSet@ {
+                                dependsOn(getByName(NON_JVM_MAIN))
+
+                                mainSourceSet?.invoke(this@mainSourceSet)
+                            }
+                            maybeCreate(sourceSetTestName).apply testSourceSet@ {
+                                dependsOn(getByName(NON_JVM_TEST))
+
+                                if (testSourceSet?.invoke(this@testSourceSet) == null) {
+                                    dependencies {
+                                        implementation(kotlin("test-js"))
                                     }
                                 }
                             }
                         }
                     }
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName).apply mainSourceSet@ {
-                            dependsOn(getByName(COMMON_JS_MAIN))
-                            mainSourceSet?.invoke(this@mainSourceSet)
-                        }
-                        maybeCreate(sourceSetTestName).apply testSourceSet@ {
-                            dependsOn(getByName(COMMON_JS_TEST))
-                            if (testSourceSet?.invoke(this@testSourceSet) == null) {
-                                dependencies {
-                                    implementation(kotlin("test-js"))
-                                }
-                            }
-                        }
-                    }
                 }
             }
+
+            override fun toString(): String {
+                return  "JS(" +
+                        "compilerType=" + compilerType + "," +
+                        "browser=" + browser.toString() + "," +
+                        "node=" + node.toString() +
+                        ")"
+            }
+
         }
 
-        class Node(
-            override val compilerType: KotlinJsCompilerType,
-            private val jsNodeDsl: ((KotlinJsNodeDsl) -> Unit)? = null,
-            private val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-            private val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-        ) : JS() {
+        sealed class NATIVE: NON_JVM() {
 
             companion object {
-                val DEFAULT = Node(KotlinJsCompilerType.BOTH)
-
-                const val sourceSetMainName: String = "nodeMain"
-                const val sourceSetTestName: String = "nodeTest"
-                const val envPropertyValue: String = "JS_NODE"
-                const val targetName: String = "js_node"
+                const val NATIVE_COMMON_MAIN = "nativeCommon$MAIN"
+                const val NATIVE_COMMON_TEST = "nativeCommon$TEST"
             }
 
-            override val sourceSetMainName: String get() = Companion.sourceSetMainName
-            override val sourceSetTestName: String get() = Companion.sourceSetTestName
-            override val envPropertyValue: String get() = Companion.envPropertyValue
+            sealed class UNIX: NATIVE() {
 
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    js(targetName, compilerType) {
-                        nodejs nodejs@ {
-                            useCommonJs()
-                            if (jsNodeDsl?.invoke(this@nodejs) == null) {
-                                testTask {
-                                    useMocha {
-                                        timeout = "30s"
+                companion object {
+                    const val UNIX_COMMON_MAIN = "unixCommon$MAIN"
+                    const val UNIX_COMMON_TEST = "unixCommon$TEST"
+                }
+
+                sealed class DARWIN: UNIX() {
+
+                    companion object {
+                        const val DARWIN_COMMON_MAIN = "darwinCommon$MAIN"
+                        const val DARWIN_COMMON_TEST = "darwinCommon$TEST"
+                    }
+
+                    protected fun setupDarwinSourceSets(project: Project) {
+                        project.kotlin {
+                            sourceSets {
+                                maybeCreate(sourceSetMainName).apply sourceSetMain@ {
+                                    dependsOn(getByName(DARWIN_COMMON_MAIN))
+
+                                    mainSourceSet?.invoke(this@sourceSetMain)
+                                }
+                                maybeCreate(sourceSetTestName).apply sourceSetTest@ {
+                                    dependsOn(getByName(DARWIN_COMMON_TEST))
+
+                                    testSourceSet?.invoke(this@sourceSetTest)
+                                }
+                            }
+                        }
+                    }
+
+                    sealed class IOS : DARWIN() {
+
+                        class ARM32(
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : IOS(), TargetCallback<KotlinNativeTarget> {
+
+                            companion object {
+                                val DEFAULT = ARM32()
+
+                                const val TARGET_NAME: String = "iosArm32"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "IOS_ARM32"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                project.kotlin {
+                                    iosArm32(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
                                     }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
+                        class ARM64(
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+                            override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+                        ) : IOS(), TargetCallback<KotlinNativeTarget> {
+
+                            companion object {
+                                val DEFAULT = ARM64()
+
+                                const val TARGET_NAME: String = "iosArm64"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "IOS_ARM64"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                project.kotlin {
+                                    iosArm64(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
+                        class X64(
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : IOS(), TargetCallback<KotlinNativeTarget> {
+
+                            companion object {
+                                val DEFAULT = X64()
+
+                                const val TARGET_NAME: String = "iosX64"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "IOS_X64"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                project.kotlin {
+                                    iosX64(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
+                    }
+
+                    sealed class MACOS : DARWIN() {
+
+                        class X64(
+                            override val target: (KotlinNativeTargetWithHostTests.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : MACOS(), TargetCallback<KotlinNativeTargetWithHostTests> {
+
+                             companion object {
+                                 val DEFAULT = X64()
+
+                                 const val TARGET_NAME: String = "macosX64"
+                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                 const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                 const val ENV_PROPERTY_VALUE: String = "MACOS_X64"
+                             }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                project.kotlin {
+                                    macosX64(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
+                    }
+
+                    sealed class TVOS : DARWIN() {
+
+                        class ARM64(
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : TVOS(), TargetCallback<KotlinNativeTarget> {
+
+                            companion object {
+                                val DEFAULT = ARM64()
+
+                                const val TARGET_NAME: String = "tvosArm64"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "TVOS_ARM64"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                project.kotlin {
+                                    tvosArm64(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
+                        class X64(
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : TVOS(), TargetCallback<KotlinNativeTarget> {
+
+                            companion object {
+                                val DEFAULT = X64()
+
+                                const val TARGET_NAME: String = "tvosX64"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "TVOS_X64"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                project.kotlin {
+                                    tvosX64(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
+                    }
+
+                    sealed class WATCHOS : DARWIN() {
+
+                        class ARM32(
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
+
+                            companion object {
+                                val DEFAULT = ARM32()
+
+                                const val TARGET_NAME: String = "watchosArm32"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "WATCHOS_ARM32"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                project.kotlin {
+                                    watchosArm32(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
+                        class ARM64(
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
+
+                            companion object {
+                                val DEFAULT = ARM64()
+
+                                const val TARGET_NAME: String = "watchosArm64"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "WATCHOS_ARM64"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                project.kotlin {
+                                    watchosArm64(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
+                        class X64(
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
+
+                            companion object {
+                                val DEFAULT = X64()
+
+                                const val TARGET_NAME: String = "watchosX64"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "WATCHOS_X64"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                project.kotlin {
+                                    watchosX64(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
+                        class X86(
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
+
+                            companion object {
+                                val DEFAULT = X86()
+
+                                const val TARGET_NAME: String = "watchosX86"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "WATCHOS_X86"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                project.kotlin {
+                                    watchosX86(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                sealed class LINUX : UNIX() {
+
+                    companion object {
+                        const val LINUX_COMMON_MAIN = "linuxCommonMain"
+                        const val LINUX_COMMON_TEST = "linuxCommonTest"
+                    }
+
+                    protected fun setupLinuxSourceSets(project: Project) {
+                        project.kotlin {
+                            sourceSets {
+                                maybeCreate(sourceSetMainName).apply sourceSetMain@ {
+                                    dependsOn(getByName(LINUX_COMMON_MAIN))
+
+                                    mainSourceSet?.invoke(this@sourceSetMain)
+                                }
+                                maybeCreate(sourceSetTestName).apply sourceSetTest@ {
+                                    dependsOn(getByName(LINUX_COMMON_TEST))
+
+                                    testSourceSet?.invoke(this@sourceSetTest)
                                 }
                             }
                         }
                     }
 
-                    sourceSets {
-                        maybeCreate(sourceSetMainName).apply mainSourceSet@ {
-                            mainSourceSet?.invoke(this@mainSourceSet)
-                        }
-                        maybeCreate(sourceSetTestName).apply testSourceSet@ {
+                    class ARM32HFP(
+                        override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                        override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                    ) : LINUX(), TargetCallback<KotlinNativeTarget> {
 
-                            if (testSourceSet?.invoke(this@testSourceSet) == null) {
-                                dependencies {
-                                    implementation(kotlin("test-js"))
+                        companion object {
+                            val DEFAULT = ARM32HFP()
+
+                            const val TARGET_NAME: String = "linuxArm32Hfp"
+                            const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                            const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                            const val ENV_PROPERTY_VALUE: String = "LINUX_ARM32HFP"
+                        }
+
+                        override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                        override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                        override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                        override fun setupMultiplatform(project: Project) {
+                            project.kotlin {
+                                linuxArm32Hfp(TARGET_NAME) target@ {
+                                    target?.invoke(this@target)
                                 }
+
+                                setupLinuxSourceSets(project)
+                            }
+                        }
+                    }
+
+                    class MIPS32(
+                        override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                        override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                    ) : LINUX(), TargetCallback<KotlinNativeTarget> {
+
+                        companion object {
+                            val DEFAULT = MIPS32()
+
+                            const val TARGET_NAME: String = "linuxMips32"
+                            const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                            const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                            const val ENV_PROPERTY_VALUE: String = "LINUX_MIPS32"
+                        }
+
+                        override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                        override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                        override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                        override fun setupMultiplatform(project: Project) {
+                            project.kotlin {
+                                linuxMips32(TARGET_NAME) target@ {
+                                    target?.invoke(this@target)
+                                }
+
+                                setupLinuxSourceSets(project)
+                            }
+                        }
+                    }
+
+                    class MIPSEL32(
+                        override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                        override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                    ) : LINUX(), TargetCallback<KotlinNativeTarget> {
+
+                        companion object {
+                            val DEFAULT = MIPSEL32()
+
+                            const val TARGET_NAME: String = "linuxMipsel32"
+                            const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                            const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                            const val ENV_PROPERTY_VALUE: String = "LINUX_MIPSEL32"
+                        }
+
+                        override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                        override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                        override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                        override fun setupMultiplatform(project: Project) {
+                            project.kotlin {
+                                linuxMipsel32(TARGET_NAME) target@ {
+                                    target?.invoke(this@target)
+                                }
+
+                                setupLinuxSourceSets(project)
+                            }
+                        }
+                    }
+
+                    class X64(
+                        override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                        override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                    ) : LINUX(), TargetCallback<KotlinNativeTarget> {
+
+                        companion object {
+                            val DEFAULT = X64()
+
+                            const val TARGET_NAME: String = "linuxX64"
+                            const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                            const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                            const val ENV_PROPERTY_VALUE: String = "LINUX_X64"
+                        }
+
+                        override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                        override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                        override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                        override fun setupMultiplatform(project: Project) {
+                            project.kotlin {
+                                linuxX64(TARGET_NAME) target@ {
+                                    target?.invoke(this@target)
+                                }
+
+                                setupLinuxSourceSets(project)
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            sealed class MINGW : NATIVE() {
+
+                companion object {
+                    const val MINGW_COMMON_MAIN = "mingwCommon$MAIN"
+                    const val MINGW_COMMON_TEST = "mingwCommon$TEST"
+                }
+
+                protected fun setupMingwSourceSets(project: Project) {
+                    project.kotlin {
+                        sourceSets {
+                            maybeCreate(sourceSetMainName).apply sourceSetMain@ {
+                                dependsOn(getByName(MINGW_COMMON_MAIN))
+
+                                mainSourceSet?.invoke(this@sourceSetMain)
+                            }
+                            maybeCreate(sourceSetTestName).apply sourceSetTest@ {
+                                dependsOn(getByName(MINGW_COMMON_TEST))
+
+                                testSourceSet?.invoke(this@sourceSetTest)
                             }
                         }
                     }
                 }
-            }
-        }
 
-    }
+                class X64(
+                    override val target: (KotlinNativeTargetWithHostTests.() -> Unit)? = null,
+                    override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+                    override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+                ) : MINGW(), TargetCallback<KotlinNativeTargetWithHostTests> {
 
-    sealed class IOS : KmpTarget() {
+                    companion object {
+                        val DEFAULT = X64()
 
-        object ARM32 : IOS() {
-            override val sourceSetMainName: String = "iosArm32Main"
-            override val sourceSetTestName: String = "iosArm32Test"
-            override val envPropertyValue: String get() = "IOS_ARM32"
+                        const val TARGET_NAME: String = "mingwX64"
+                        const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                        const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                        const val ENV_PROPERTY_VALUE: String = "MINGW_X64"
+                    }
 
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    iosArm32()
+                    override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                    override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                    override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
+                    override fun setupMultiplatform(project: Project) {
+                        project.kotlin {
+                            mingwX64(TARGET_NAME) target@ {
+                                target?.invoke(this@target)
+                            }
+
+                            setupMingwSourceSets(project)
+                        }
                     }
                 }
-            }
-        }
-        object ARM64 : IOS() {
-            override val sourceSetMainName: String = "iosArm64Main"
-            override val sourceSetTestName: String = "iosArm64Test"
-            override val envPropertyValue: String get() = "IOS_ARM64"
 
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    iosArm64()
+                class X86(
+                    override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                    override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+                    override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+                ) : MINGW(), TargetCallback<KotlinNativeTarget> {
 
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
+                    companion object {
+                        val DEFAULT = X86()
+
+                        const val TARGET_NAME: String = "mingwX86"
+                        const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                        const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                        const val ENV_PROPERTY_VALUE: String = "MINGW_X86"
+                    }
+
+                    override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                    override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                    override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                    override fun setupMultiplatform(project: Project) {
+                        project.kotlin {
+                            mingwX86(TARGET_NAME) target@ {
+                                target?.invoke(this@target)
+                            }
+
+                            setupMingwSourceSets(project)
+                        }
                     }
                 }
-            }
-        }
-        object X64 : IOS() {
-            override val sourceSetMainName: String = "iosX64Main"
-            override val sourceSetTestName: String = "iosX64Test"
-            override val envPropertyValue: String get() = "IOS_X64"
 
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    iosX64()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-
-    }
-
-    sealed class LINUX : KmpTarget() {
-
-        object ARM32HFP : LINUX() {
-            override val sourceSetMainName: String = "linuxArm32HfpMain"
-            override val sourceSetTestName: String = "linuxArm32HfpTest"
-            override val envPropertyValue: String get() = "LINUX_ARM32HFP"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    linuxArm32Hfp()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-        object MIPS32 : LINUX() {
-            override val sourceSetMainName: String = "linuxMips32Main"
-            override val sourceSetTestName: String = "linuxMips32Test"
-            override val envPropertyValue: String get() = "LINUX_MIPS32"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    linuxMips32()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-        object MIPSEL32 : LINUX() {
-            override val sourceSetMainName: String = "linuxMipsel32Main"
-            override val sourceSetTestName: String = "linuxMipsel32Test"
-            override val envPropertyValue: String get() = "LINUX_MIPSEL32"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    linuxMipsel32()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-        object X64 : LINUX() {
-            override val sourceSetMainName: String = "linuxX64Main"
-            override val sourceSetTestName: String = "linuxX64Test"
-            override val envPropertyValue: String get() = "LINUX_X64"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    linuxX64()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-
-    }
-
-    sealed class MACOS : KmpTarget() {
-
-        object X64 : KmpTarget() {
-            override val sourceSetMainName: String = "macosX64Main"
-            override val sourceSetTestName: String = "macosX64Test"
-            override val envPropertyValue: String get() = "MACOS_X64"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    macosX64()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-
-    }
-
-    sealed class MINGW : KmpTarget() {
-
-        object X64 : MINGW() {
-            override val sourceSetMainName: String = "mingwX64Main"
-            override val sourceSetTestName: String = "mingwX64Test"
-            override val envPropertyValue: String get() = "MINGW_X64"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    mingwX64()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-        object X86 : MINGW() {
-            override val sourceSetMainName: String = "mingwX86Main"
-            override val sourceSetTestName: String = "mingwX86Test"
-            override val envPropertyValue: String get() = "MINGW_X86"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    mingwX86()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-
-    }
-
-    sealed class TVOS : KmpTarget() {
-
-        object ARM64 : TVOS() {
-            override val sourceSetMainName: String = "tvosArm64Main"
-            override val sourceSetTestName: String = "tvosArm64Test"
-            override val envPropertyValue: String get() = "TVOS_ARM64"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    tvosArm64()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-        object X64 : TVOS() {
-            override val sourceSetMainName: String = "tvosX64Main"
-            override val sourceSetTestName: String = "tvosX64Test"
-            override val envPropertyValue: String get() = "TVOS_X64"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    tvosX64()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-
-    }
-
-    sealed class WATCHOS : KmpTarget() {
-
-        object ARM32 : WATCHOS() {
-            override val sourceSetMainName: String = "watchosArm32Main"
-            override val sourceSetTestName: String = "watchosArm32Test"
-            override val envPropertyValue: String get() = "WATCHOS_ARM32"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    watchosArm32()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-        object ARM64 : WATCHOS() {
-            override val sourceSetMainName: String = "watchosArm64Main"
-            override val sourceSetTestName: String = "watchosArm64Test"
-            override val envPropertyValue: String get() = "WATCHOS_ARM64"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    watchosArm64()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-        object X64 : WATCHOS() {
-            override val sourceSetMainName: String = "watchosX64Main"
-            override val sourceSetTestName: String = "watchosX64Test"
-            override val envPropertyValue: String get() = "WATCHOS_X64"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    watchosX64()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
-            }
-        }
-        object X86 : WATCHOS() {
-            override val sourceSetMainName: String = "watchosX86Main"
-            override val sourceSetTestName: String = "watchosX86Test"
-            override val envPropertyValue: String get() = "WATCHOS_X86"
-
-            override fun setupMultiplatform(project: Project) {
-                project.kotlin {
-                    watchosX86()
-
-                    sourceSets {
-                        maybeCreate(sourceSetMainName)
-                        maybeCreate(sourceSetTestName)
-                    }
-                }
             }
         }
 
