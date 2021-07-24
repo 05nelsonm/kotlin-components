@@ -4,26 +4,26 @@ package io.matthewnelson.components.dependencies
 
 object Versions {
 
-    const val buildTools                = "30.0.3"
-    const val compileSdk                = 30
-    const val minSdk                    = 16
+    const val buildTools            = "30.0.3"
+    const val compileSdk            = 30
+    const val minSdk16              = 16
+    const val minSdk23              = 23
 
-    internal const val androidGradle    = "4.2.2"
-    internal const val arch             = "2.1.0"
-    internal const val camera           = "1.1.0-alpha06"
-    internal const val cameraView       = "1.0.0-alpha26"
-    internal const val coil             = "1.3.0"
-    internal const val coroutines       = "1.5.1"
-    internal const val insetter         = "0.5.0"
-    internal const val lifecycle        = "2.3.1"
-    internal const val hilt             = "2.37"
-    internal const val hiltJetpack      = "1.0.0-alpha03"
-    internal const val kotlin           = "1.5.21"
-    internal const val moshi            = "1.12.0"
-    internal const val navigation       = "2.3.5"
-    internal const val okhttp           = "4.9.1"
-    internal const val sqlDelight       = "1.5.1"
-    internal const val toplAndroid      = "2.1.1"
+    const val androidGradle         = "4.2.2"
+    const val arch                  = "2.1.0"
+    const val camera                = "1.1.0-alpha07"
+    const val cameraView            = "1.0.0-alpha27"
+    const val coil                  = "1.3.0"
+    const val coroutines            = "1.5.1"
+    const val lifecycle             = "2.3.1"
+    const val hilt                  = "2.38"
+    const val hiltJetpack           = "1.0.0-alpha03"
+    const val kotlin                = "1.5.21"
+    const val moshi                 = "1.12.0"
+    const val navigation            = "2.3.5"
+    const val okhttp                = "4.9.1"
+    const val sqlDelight            = "1.5.1"
+    const val toplAndroid           = "2.1.1"
 
 }
 
@@ -32,7 +32,7 @@ object Deps {
     object androidx {
 
         const val annotation        = "androidx.annotation:annotation:1.2.0"
-        const val appCompat         = "androidx.appcompat:appcompat:1.3.0"
+        const val appCompat         = "androidx.appcompat:appcompat:1.3.1"
 
         object camera {
 
@@ -60,28 +60,23 @@ object Deps {
 
         }
 
-        const val media             = "androidx.media:media:1.3.1"
+        const val media             = "androidx.media:media:1.4.0"
 
         object navigation {
 
-            const val fragment  = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
-            const val ui        = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+            const val fragment          = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+            const val ui                = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
 
         }
 
-        const val paging3           = "androidx.paging:paging-runtime:3.0.0"
-        const val recyclerView      = "androidx.recyclerview:recyclerview:1.2.1"
-        const val securityCrypto    = "androidx.security:security-crypto:1.1.0-alpha03"
-        const val viewBinding       = "androidx.databinding:viewbinding:${Versions.androidGradle}"
+        const val paging3               = "androidx.paging:paging-runtime:3.0.1"
+        const val recyclerView          = "androidx.recyclerview:recyclerview:1.2.1"
+        const val securityCrypto        = "androidx.security:security-crypto:1.1.0-alpha03"
+        const val viewBinding           = "androidx.databinding:viewbinding:${Versions.androidGradle}"
 
     }
 
-    object chrisBanes {
-
-        const val insetter          = "dev.chrisbanes.insetter:insetter:${Versions.insetter}"
-        const val insetterWidgets   = "dev.chrisbanes.insetter:insetter-widgets:${Versions.insetter}"
-
-    }
+    const val insetter                  = "dev.chrisbanes.insetter:insetter:0.6.0"
 
     object google {
 
@@ -115,6 +110,12 @@ object Deps {
         const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
         const val coroutinesCore    = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
         const val reflect           = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
+
+        object stdLib {
+            const val common        = "org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}"
+            const val jdk8          = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
+            const val js            = "org.jetbrains.kotlin:kotlin-stdlib-js:${Versions.kotlin}"
+        }
 
     }
 
@@ -171,8 +172,8 @@ object Plugins {
 
     }
 
-    const val gradleVersions    = "com.github.ben-manes:gradle-Versions-plugin:0.39.0"
-    const val intellijGradle    = "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.4.18"
+    const val gradleVersions    = "com.github.ben-manes:gradle-versions-plugin:0.39.0"
+    const val intellijGradle    = "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.4.26"
 
     object kotlin {
 
@@ -226,15 +227,33 @@ object TestDeps {
 
 object KaptDeps {
 
+    const val kapt              = "kapt"
+
     object google {
 
-        const val hilt          = "com.google.dagger:hilt-compiler:${Versions.hilt}"
+        object hilt {
+
+            // Needed for KMP projects to specify kapt configs
+            const val group     = "com.google.dagger"
+            const val name      = "hilt-compiler"
+            const val version   = Versions.hilt
+
+            const val hilt      = "$group:$name:$version"
+
+        }
 
     }
 
     object square {
 
-        const val moshiCodegen  = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
+        object moshiCodegen {
+
+            const val group     = "com.squareup.moshi"
+            const val name      = "moshi-kotlin-codegen"
+            const val version   = Versions.moshi
+
+            const val moshi     = "$group:$name:$version"
+        }
 
     }
 

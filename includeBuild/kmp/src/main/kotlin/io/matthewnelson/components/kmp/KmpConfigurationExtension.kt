@@ -15,58 +15,86 @@
  * */
 package io.matthewnelson.components.kmp
 
+import io.matthewnelson.components.kmp.KmpTarget.Companion.COMMON_MAIN
+import io.matthewnelson.components.kmp.KmpTarget.Companion.COMMON_TEST
+import io.matthewnelson.components.kmp.KmpTarget.JVM.Companion.JVM_COMMON_MAIN
+import io.matthewnelson.components.kmp.KmpTarget.JVM.Companion.JVM_COMMON_TEST
+import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.Companion.NON_JVM_MAIN
+import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.Companion.NON_JVM_TEST
+import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.Companion.NATIVE_COMMON_MAIN
+import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.Companion.NATIVE_COMMON_TEST
+import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.MINGW.Companion.MINGW_COMMON_MAIN
+import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.MINGW.Companion.MINGW_COMMON_TEST
+import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.Companion.UNIX_COMMON_MAIN
+import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.Companion.UNIX_COMMON_TEST
+import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.Companion.DARWIN_COMMON_MAIN
+import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.Companion.DARWIN_COMMON_TEST
+import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.Companion.LINUX_COMMON_MAIN
+import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.Companion.LINUX_COMMON_TEST
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import javax.inject.Inject
 
+/**
+ * See [KmpConfigurationPlugin]
+ * */
 open class KmpConfigurationExtension @Inject constructor(private val project: Project) {
 
     companion object {
-        private val ANDROID_INSTANCE = KmpTarget.ANDROID("30.0.3", 30, 23, 30)
-        private val ALL_TARGETS: Set<KmpTarget> = setOf(
-            ANDROID_INSTANCE,
 
-            KmpTarget.IOS.ARM32,
-            KmpTarget.IOS.ARM64,
-            KmpTarget.IOS.X64,
+        private val ALL_ENV_PROPERTY_TARGETS: Set<String> = setOf(
+            // jvm
+            KmpTarget.JVM.JVM.ENV_PROPERTY_VALUE,
+            KmpTarget.JVM.ANDROID.ENV_PROPERTY_VALUE,
 
-            KmpTarget.JS.IR,
-            KmpTarget.JS.LEGACY,
+            // js
+            KmpTarget.NON_JVM.JS.ENV_PROPERTY_VALUE,
 
-            KmpTarget.JVM,
+            // darwin
+            KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.IOS.ARM32.ENV_PROPERTY_VALUE,
+            KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.IOS.ARM64.ENV_PROPERTY_VALUE,
+            KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.IOS.X64.ENV_PROPERTY_VALUE,
 
-            KmpTarget.LINUX.ARM32HFP,
-            KmpTarget.LINUX.MIPS32,
-            KmpTarget.LINUX.MIPSEL32,
-            KmpTarget.LINUX.X64,
+            KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.MACOS.X64.ENV_PROPERTY_VALUE,
 
-            KmpTarget.MACOS.X64,
+            KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.TVOS.ARM64.ENV_PROPERTY_VALUE,
+            KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.TVOS.X64.ENV_PROPERTY_VALUE,
 
-            KmpTarget.MINGW.X64,
-            KmpTarget.MINGW.X86,
+            KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.WATCHOS.ARM32.ENV_PROPERTY_VALUE,
+            KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.WATCHOS.ARM64.ENV_PROPERTY_VALUE,
+            KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.WATCHOS.X64.ENV_PROPERTY_VALUE,
+            KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.WATCHOS.X86.ENV_PROPERTY_VALUE,
 
-            KmpTarget.TVOS.ARM64,
-            KmpTarget.TVOS.X64,
+            // linux
+            KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.ARM32HFP.ENV_PROPERTY_VALUE,
+            KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.MIPS32.ENV_PROPERTY_VALUE,
+            KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.MIPSEL32.ENV_PROPERTY_VALUE,
+            KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.X64.ENV_PROPERTY_VALUE,
 
-            KmpTarget.WATCHOS.ARM32,
-            KmpTarget.WATCHOS.ARM64,
-            KmpTarget.WATCHOS.X64,
-            KmpTarget.WATCHOS.X86,
+            // mingw
+            KmpTarget.NON_JVM.NATIVE.MINGW.X64.ENV_PROPERTY_VALUE,
+            KmpTarget.NON_JVM.NATIVE.MINGW.X86.ENV_PROPERTY_VALUE,
         )
     }
 
     @Suppress("unused")
-    fun setupMultiplatform(targets: List<KmpTarget>): Boolean {
+    fun setupMultiplatform(
+        targets: Set<KmpTarget>,
+        pluginIds: Set<String>? = null,
+        commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+    ): Boolean {
         if (targets.isEmpty()) {
             return false
         }
 
-        val enabledTargets: Set<KmpTarget> = getEnabledTargets(project)
+        val enabledEnvironmentTargets: Set<String> = getEnabledEnvironmentTargets(project)
 
-        var android: KmpTarget.ANDROID? = null
-        if (enabledTargets.contains(ANDROID_INSTANCE)) {
+        var android: KmpTarget.JVM.ANDROID? = null
+        if (enabledEnvironmentTargets.contains(KmpTarget.JVM.ANDROID.ENV_PROPERTY_VALUE)) {
             for (target in targets) {
-                if (target is KmpTarget.ANDROID) {
+                if (target is KmpTarget.JVM.ANDROID) {
                     android = target
                     break
                 }
@@ -79,107 +107,157 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
         project.plugins.apply("org.jetbrains.kotlin.multiplatform")
 
-        setupMultiplatformCommon(project)
-
-        android?.setupMultiplatform(project)
-
-        for (target in targets) {
-            if (target !is KmpTarget.ANDROID && target !is KmpTarget.JS && enabledTargets.contains(target)) {
-                target.setupMultiplatform(project)
+        pluginIds?.let { ids ->
+            for (id in ids) {
+                project.plugins.apply(id)
             }
         }
 
-        if (enabledTargets.contains(KmpTarget.JS.IR) || enabledTargets.contains(KmpTarget.JS.LEGACY)) {
-            if (targets.contains(KmpTarget.JS.IR) || targets.contains(KmpTarget.JS.LEGACY)) {
-                setupMultiplatformJs(
-                    project = project,
-                    isIr = targets.contains(KmpTarget.JS.IR),
-                    isLegacy = targets.contains(KmpTarget.JS.LEGACY),
-                )
+        val enabledTargets: List<KmpTarget> = targets.filter { enabledEnvironmentTargets.contains(it.envPropertyValue) }
+
+        setupMultiplatformCommon(project, enabledTargets, commonMainSourceSet, commonTestSourceSet)
+
+        android?.setupMultiplatform(project)
+
+        for (target in enabledTargets) {
+            if (target !is KmpTarget.JVM.ANDROID) {
+                target.setupMultiplatform(project)
             }
         }
 
         return true
     }
 
-    private fun setupMultiplatformCommon(project: Project) {
+    private fun setupMultiplatformCommon(
+        project: Project,
+        enabledTargets: List<KmpTarget>,
+        commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+    ) {
         project.kotlin {
             sourceSets {
 
-                getByName(KmpTarget.COMMON_MAIN) {
-
-                }
-
-                getByName(KmpTarget.COMMON_TEST) {
-                    dependencies {
-                        implementation(kotlin("test-common"))
-                        implementation(kotlin("test-annotations-common"))
+                all {
+                    languageSettings.apply {
+                        useExperimentalAnnotation("kotlin.RequiresOptIn")
                     }
                 }
 
-                // TODO: Setup default platform specific structures
-//                    maybeCreate("exampleMain").dependsOn(getByName(COMMON_MAIN))
-//                    maybeCreate("exampleTest").dependsOn(getByName(COMMON_TEST))
+                getByName(COMMON_MAIN) sourceSetMain@ {
+                    commonMainSourceSet?.invoke(this@sourceSetMain)
+                }
+
+                getByName(COMMON_TEST) sourceSetTest@ {
+                    commonTestSourceSet?.invoke(this@sourceSetTest)
+                }
+
+                val jvmTargets = enabledTargets.filterIsInstance<KmpTarget.JVM>()
+                if (jvmTargets.isNotEmpty()) {
+                    maybeCreate(JVM_COMMON_MAIN).apply {
+                        dependsOn(getByName(COMMON_MAIN))
+                    }
+                    maybeCreate(JVM_COMMON_TEST).apply {
+                        dependsOn(getByName(COMMON_TEST))
+                    }
+                }
+
+                val jsTargets = enabledTargets.filterIsInstance<KmpTarget.NON_JVM.JS>()
+                val nativeTargets = enabledTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE>()
+
+                if (jsTargets.isNotEmpty() || nativeTargets.isNotEmpty()) {
+                    maybeCreate(NON_JVM_MAIN).apply {
+                        dependsOn(getByName(COMMON_MAIN))
+                    }
+                    maybeCreate(NON_JVM_TEST).apply {
+                        dependsOn(getByName(COMMON_TEST))
+                    }
+                }
+
+                if (nativeTargets.isNotEmpty()) {
+                    maybeCreate(NATIVE_COMMON_MAIN).apply {
+                        dependsOn(getByName(NON_JVM_MAIN))
+                    }
+                    maybeCreate(NATIVE_COMMON_TEST).apply {
+                        dependsOn(getByName(NON_JVM_TEST))
+                    }
+
+                    val unixTargets = nativeTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE.UNIX>()
+                    if (unixTargets.isNotEmpty()) {
+                        maybeCreate(UNIX_COMMON_MAIN).apply {
+                            dependsOn(getByName(NATIVE_COMMON_MAIN))
+                        }
+                        maybeCreate(UNIX_COMMON_TEST).apply {
+                            dependsOn(getByName(NATIVE_COMMON_TEST))
+                        }
+
+                        val darwinTargets = unixTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN>()
+                        if (darwinTargets.isNotEmpty()) {
+                            maybeCreate(DARWIN_COMMON_MAIN).apply {
+                                dependsOn(getByName(NATIVE_COMMON_MAIN))
+                                dependsOn(getByName(UNIX_COMMON_MAIN))
+                            }
+                            maybeCreate(DARWIN_COMMON_TEST).apply {
+                                dependsOn(getByName(NATIVE_COMMON_TEST))
+                                dependsOn(getByName(UNIX_COMMON_TEST))
+                            }
+                        }
+
+                        val linuxTargets = unixTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE.UNIX.LINUX>()
+                        if (linuxTargets.isNotEmpty()) {
+                            maybeCreate(LINUX_COMMON_MAIN).apply {
+                                dependsOn(getByName(NATIVE_COMMON_MAIN))
+                                dependsOn(getByName(UNIX_COMMON_MAIN))
+                            }
+                            maybeCreate(LINUX_COMMON_TEST).apply {
+                                dependsOn(getByName(NATIVE_COMMON_TEST))
+                                dependsOn(getByName(UNIX_COMMON_TEST))
+                            }
+                        }
+                    }
+
+                    val mingwTargets = nativeTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE.MINGW>()
+                    if (mingwTargets.isNotEmpty()) {
+                        maybeCreate(MINGW_COMMON_MAIN).apply {
+                            dependsOn(getByName(NATIVE_COMMON_MAIN))
+                        }
+                        maybeCreate(MINGW_COMMON_TEST).apply {
+                            dependsOn(getByName(NATIVE_COMMON_TEST))
+                        }
+                    }
+                }
             }
         }
     }
 
-    private fun setupMultiplatformJs(project: Project, isIr: Boolean, isLegacy: Boolean) {
-        project.kotlin {
-            js(
-                if (isIr && isLegacy) {
-                    BOTH
-                } else if (isIr && !isLegacy) {
-                    IR
-                } else {
-                    LEGACY
-                }
-            ) {
-                browser()
-                nodejs()
-            }
-
-            sourceSets {
-                // Both JS_IR and JS_LEGACY main/test names are the same
-                maybeCreate(KmpTarget.JS.IR.sourceSetMainName)
-                maybeCreate(KmpTarget.JS.IR.sourceSetTestName).dependencies {
-                    implementation(kotlin("test-js"))
-                }
-            }
-        }
-    }
-
-    private fun getEnabledTargets(project: Project): Set<KmpTarget> {
+    private fun getEnabledEnvironmentTargets(project: Project): Set<String> {
         val propertyTargets: Any? = project.findProperty("KMP_TARGETS")
 
         return if (propertyTargets != null && propertyTargets is String && propertyTargets.isNotEmpty()) {
 
-            val map: Map<String, KmpTarget> = ALL_TARGETS.associateBy { it.getCommandLinePropertyValue() }
-
-            val set: Set<KmpTarget> = propertyTargets
-                .split(",")
-                .mapNotNull { propertyTarget ->
-                    map[propertyTarget].let { target ->
-                        if (target == null) {
-                            println("\nWARNING: KMP_TARGET property value '$propertyTarget' not recognized...")
-                        }
-
-                        target
-                    }
+            val enabledTargets: Set<String> = propertyTargets.split(",").mapNotNull { propertyTarget ->
+                if (ALL_ENV_PROPERTY_TARGETS.contains(propertyTarget)) {
+                    propertyTarget
+                } else {
+                    println(
+                        "\nWARNING: KMP_TARGET environment property '$propertyTarget' not recognized..."
+                    )
+                    null
                 }
-                .toSet()
+            }.toSet()
 
-            if (set.isEmpty()) {
-                throw IllegalArgumentException("KMP_TARGETS property is set but did not contain any matching values")
+            if (enabledTargets.isEmpty()) {
+                throw IllegalArgumentException(
+                    "KMP_TARGETS environment variable is set, but did not contain any recognized values"
+                )
             }
 
-            set
+            enabledTargets
         } else {
             println(
-                "\nWARNING: KMP_TARGETS property not found..." +
-                        "\n         Enabling all targets for project '" + project.name + "'\n"
+                "\nWARNING: KMP_TARGETS environment variable not set... " +
+                "Enabling all targets for project '" + project.name + "'\n"
             )
-            ALL_TARGETS
+            ALL_ENV_PROPERTY_TARGETS
         }
     }
 }
