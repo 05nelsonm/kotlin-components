@@ -85,7 +85,7 @@ dependencies {
     implementation(Deps.chrisBanes.insetterWidgets)
 
     implementation(Deps.google.hilt)
-    kapt(KaptDeps.google.hilt)
+//    kapt(KaptDeps.google.hilt)
     implementation(Deps.google.material)
     implementation(Deps.google.mlKitBarcodeScanning)
     implementation(Deps.google.zxing)
@@ -111,7 +111,7 @@ dependencies {
     implementation(Deps.square.okhttp)
     implementation(Deps.square.okhttpLogging)
     implementation(Deps.square.moshi)
-    kapt(KaptDeps.square.moshiCodegen)
+//    kapt(KaptDeps.square.moshiCodegen)
     implementation(Deps.square.sqlDelightAndroid)
     implementation(Deps.square.sqlDelightAndroidPaging3)
     implementation(Deps.square.sqlDelightCoroutines)

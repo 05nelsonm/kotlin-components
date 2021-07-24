@@ -178,7 +178,7 @@ object Plugins {
 
     }
 
-    const val gradleVersions    = "com.github.ben-manes:gradle-Versions-plugin:0.39.0"
+    const val gradleVersions    = "com.github.ben-manes:gradle-versions-plugin:0.39.0"
     const val intellijGradle    = "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.4.18"
 
     object kotlin {
