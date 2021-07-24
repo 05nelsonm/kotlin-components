@@ -11,13 +11,12 @@ object Versions {
 
     const val androidGradle         = "4.2.2"
     const val arch                  = "2.1.0"
-    const val camera                = "1.1.0-alpha06"
-    const val cameraView            = "1.0.0-alpha26"
+    const val camera                = "1.1.0-alpha07"
+    const val cameraView            = "1.0.0-alpha27"
     const val coil                  = "1.3.0"
     const val coroutines            = "1.5.1"
-    const val insetter              = "0.5.0"
     const val lifecycle             = "2.3.1"
-    const val hilt                  = "2.37"
+    const val hilt                  = "2.38"
     const val hiltJetpack           = "1.0.0-alpha03"
     const val kotlin                = "1.5.21"
     const val moshi                 = "1.12.0"
@@ -33,7 +32,7 @@ object Deps {
     object androidx {
 
         const val annotation        = "androidx.annotation:annotation:1.2.0"
-        const val appCompat         = "androidx.appcompat:appcompat:1.3.0"
+        const val appCompat         = "androidx.appcompat:appcompat:1.3.1"
 
         object camera {
 
@@ -61,7 +60,7 @@ object Deps {
 
         }
 
-        const val media             = "androidx.media:media:1.3.1"
+        const val media             = "androidx.media:media:1.4.0"
 
         object navigation {
 
@@ -70,19 +69,14 @@ object Deps {
 
         }
 
-        const val paging3               = "androidx.paging:paging-runtime:3.0.0"
+        const val paging3               = "androidx.paging:paging-runtime:3.0.1"
         const val recyclerView          = "androidx.recyclerview:recyclerview:1.2.1"
         const val securityCrypto        = "androidx.security:security-crypto:1.1.0-alpha03"
         const val viewBinding           = "androidx.databinding:viewbinding:${Versions.androidGradle}"
 
     }
 
-    object chrisBanes {
-
-        const val insetter              = "dev.chrisbanes.insetter:insetter:${Versions.insetter}"
-        const val insetterWidgets       = "dev.chrisbanes.insetter:insetter-widgets:${Versions.insetter}"
-
-    }
+    const val insetter                  = "dev.chrisbanes.insetter:insetter:0.6.0"
 
     object google {
 
@@ -179,7 +173,7 @@ object Plugins {
     }
 
     const val gradleVersions    = "com.github.ben-manes:gradle-versions-plugin:0.39.0"
-    const val intellijGradle    = "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.4.18"
+    const val intellijGradle    = "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.4.26"
 
     object kotlin {
 

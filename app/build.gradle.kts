@@ -81,8 +81,7 @@ dependencies {
     implementation(Deps.androidx.securityCrypto)
     implementation(Deps.androidx.viewBinding)
 
-    implementation(Deps.chrisBanes.insetter)
-    implementation(Deps.chrisBanes.insetterWidgets)
+    implementation(Deps.insetter)
 
     implementation(Deps.google.hilt)
 //    kapt(KaptDeps.google.hilt)
