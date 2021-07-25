@@ -56,7 +56,12 @@ import org.gradle.api.Project
  *
  *                 // Optional argument to apply platform specific plugins
  *                 // for when the target is enabled
- *                 pluginIds = setOf("android.specific.plugin1", "android.specific.plugin2")
+ *                 pluginIds = setOf("android.specific.plugin1", "android.specific.plugin2"),
+ *
+ *                 // Optional lambda to apply android block configurations
+ *                 androidConfig = {
+ *                     buildFeatures.viewBinding = true
+ *                 },
  *
  *                 // Optional lambda for accessing the KotlinAndroidTarget
  *                 target = {
@@ -75,7 +80,7 @@ import org.gradle.api.Project
  *                     dependencies {
  *                         implementation(kotlin(test-junit))
  *                     }
- *                 }
+ *                 },
  *
  *             ),
  *             KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.IOS.ARM32(
@@ -94,8 +99,7 @@ import org.gradle.api.Project
  *             ...
  *         ),
  *
- *         // Option argument for applying additional plugins. This is applied after
- *         // the plugin for "org.jetbrains.kotlin.multiplatform" is applied.
+ *         // Option argument for applying additional, platform non-specific, plugins.
  *         commonPluginIds = setOf("my.plugin1", "my.plugin2"),
  *
  *         commonMainSourceSet = {
@@ -105,7 +109,8 @@ import org.gradle.api.Project
  *         },
  *         commonTestSourceSet = {
  *             dependencies {
- *                 ...
+ *                 implementation(kotlin("test-common"))
+ *                 implementation(kotlin("test-annotations-common"))
  *             }
  *         }
  *     )
