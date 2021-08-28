@@ -1,5 +1,5 @@
 ext {
-    GROUP = "io.matthewnelson.components"
+    GROUP = "io.matthewnelson.kotlin-components"
 
     POM_LICENSE_NAME = "The Apache Software License, Version 2.0"
     POM_LICENSE_URL = "https://www.apache.org/licenses/LICENSE-2.0.txt"

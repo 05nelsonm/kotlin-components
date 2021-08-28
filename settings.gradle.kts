@@ -6,7 +6,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Components"
+rootProject.name = "kotlin-components"
 
 includeBuild("includeBuild/dependencies")
 includeBuild("includeBuild/kmp")
