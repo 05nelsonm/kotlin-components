@@ -10,16 +10,16 @@ object Versions {
     const val minSdk23                      = 23
     const val minSdk26                      = 26
 
-    const val androidGradle                 = "4.2.2"
+    const val androidGradle                 = "4.2.0"
     const val arch                          = "2.1.0"
-    const val camera                        = "1.1.0-alpha07"
-    const val cameraView                    = "1.0.0-alpha27"
-    const val coil                          = "1.3.0"
+    const val camera                        = "1.1.0-alpha08"
+    const val cameraView                    = "1.0.0-alpha28"
+    const val coil                          = "1.3.2"
     const val coroutines                    = "1.5.1"
     const val lifecycle                     = "2.3.1"
     const val hilt                          = "2.38"
     const val hiltJetpack                   = "1.0.0-alpha03"
-    const val kotlin                        = "1.5.21"
+    const val kotlin                        = "1.5.30"
     const val moshi                         = "1.12.0"
     const val navigation                    = "2.3.5"
     const val okhttp                        = "4.9.1"
@@ -40,9 +40,9 @@ object Deps {
             const val view                  = "androidx.camera:camera-view:${Versions.cameraView}"
         }
 
-        const val constraintLayout          = "androidx.constraintlayout:constraintlayout:2.0.4"
+        const val constraintLayout          = "androidx.constraintlayout:constraintlayout:2.1.0"
         const val core                      = "androidx.core:core-ktx:1.6.0"
-        const val exifInterface             = "androidx.exifinterface:exifinterface:1.3.2"
+        const val exifInterface             = "androidx.exifinterface:exifinterface:1.3.3"
 
         object lifecycle {
             const val commonJava8           = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
@@ -54,7 +54,7 @@ object Deps {
             const val viewModelSavedState   = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.lifecycle}"
         }
 
-        const val media                     = "androidx.media:media:1.4.0"
+        const val media                     = "androidx.media:media:1.4.1"
 
         object navigation {
             const val fragment              = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
@@ -72,7 +72,7 @@ object Deps {
     object google {
         const val hilt                      = "com.google.dagger:hilt-android:${Versions.hilt}"
         const val material                  = "com.google.android.material:material:1.4.0-rc01"
-        const val mlKitBarcodeScanning      = "com.google.mlkit:barcode-scanning:16.2.0"
+        const val mlKitBarcodeScanning      = "com.google.mlkit:barcode-scanning:17.0.0"
         const val zxing                     = "com.google.zxing:core:3.4.1"
     }
 
@@ -201,7 +201,7 @@ object TestDeps {
     }
 
     const val robolectric                   = "org.robolectric:robolectric:4.6.1"
-    const val turbine                       = "app.cash.turbine:turbine:0.5.2"
+    const val turbine                       = "app.cash.turbine:turbine:0.6.0"
 
 }
 
