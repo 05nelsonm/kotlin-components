@@ -136,7 +136,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
                 all {
                     languageSettings.apply {
-                        useExperimentalAnnotation("kotlin.RequiresOptIn")
+                        optIn("kotlin.RequiresOptIn")
                     }
                 }
 
