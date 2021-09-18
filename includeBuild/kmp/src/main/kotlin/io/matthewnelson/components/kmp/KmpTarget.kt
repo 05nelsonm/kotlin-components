@@ -104,6 +104,10 @@ sealed class KmpTarget {
                     maybeCreate(sourceSetTestName).apply testSourceSet@ {
                         dependsOn(getByName(JVM_COMMON_TEST))
 
+                        if (this@JVM is ANDROID) {
+                            dependsOn(getByName("androidAndroidTestRelease"))
+                        }
+
                         testSourceSet?.invoke(this@testSourceSet)
                     }
                 }
