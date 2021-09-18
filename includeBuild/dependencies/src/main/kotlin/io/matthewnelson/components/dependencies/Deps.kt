@@ -15,7 +15,7 @@ object Versions {
     const val camera                        = "1.1.0-alpha08"
     const val cameraView                    = "1.0.0-alpha28"
     const val coil                          = "1.3.2"
-    const val coroutines                    = "1.5.1"
+    const val coroutines                    = "1.5.2"
     const val lifecycle                     = "2.3.1"
     const val hilt                          = "2.38"
     const val hiltJetpack                   = "1.0.0-alpha03"
@@ -54,7 +54,7 @@ object Deps {
             const val viewModelSavedState   = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.lifecycle}"
         }
 
-        const val media                     = "androidx.media:media:1.4.1"
+        const val media                     = "androidx.media:media:1.4.2"
 
         object navigation {
             const val fragment              = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
@@ -166,12 +166,12 @@ object Plugins {
     const val intellijGradle                = "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.4.26"
 
     object kotlin {
-        const val dokka                     = "org.jetbrains.dokka:dokka-gradle-plugin:1.5.0"
+        const val dokka                     = "org.jetbrains.dokka:dokka-gradle-plugin:1.5.30"
         const val gradle                    = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
         const val serialization             = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
     }
 
-    const val mavenPublish                  = "com.vanniktech:gradle-maven-publish-plugin:0.17.0"
+    const val mavenPublish                  = "com.vanniktech:gradle-maven-publish-plugin:0.18.0"
 
     object square {
         const val exhaustive                = "app.cash.exhaustive:exhaustive-gradle:0.2.0"
@@ -201,7 +201,7 @@ object TestDeps {
     }
 
     const val robolectric                   = "org.robolectric:robolectric:4.6.1"
-    const val turbine                       = "app.cash.turbine:turbine:0.6.0"
+    const val turbine                       = "app.cash.turbine:turbine:0.6.1"
 
 }
 

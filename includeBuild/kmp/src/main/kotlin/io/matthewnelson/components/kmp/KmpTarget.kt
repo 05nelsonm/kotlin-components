@@ -26,6 +26,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinJsCompilerType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithHostTests
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithSimulatorTests
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsNodeDsl
 import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
@@ -102,6 +103,10 @@ sealed class KmpTarget {
                     }
                     maybeCreate(sourceSetTestName).apply testSourceSet@ {
                         dependsOn(getByName(JVM_COMMON_TEST))
+
+                        if (this@JVM is ANDROID) {
+                            dependsOn(getByName("androidAndroidTestRelease"))
+                        }
 
                         testSourceSet?.invoke(this@testSourceSet)
                     }
@@ -513,9 +518,73 @@ sealed class KmpTarget {
                             }
                         }
 
+                        class SIMULATOR_ARM64(
+                            override val pluginIds: Set<String>? = null,
+                            override val target: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : IOS(), TargetCallback<KotlinNativeTargetWithSimulatorTests> {
+
+                            companion object {
+                                val DEFAULT = IOS.SIMULATOR_ARM64()
+
+                                const val TARGET_NAME: String = "iosSimulatorArm64"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "IOS_SIMULATOR_ARM64"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
+                                project.kotlin {
+                                    iosSimulatorArm64(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
                     }
 
                     sealed class MACOS : DARWIN() {
+
+                        class ARM64(
+                            override val pluginIds: Set<String>? = null,
+                            override val target: (KotlinNativeTargetWithHostTests.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : MACOS(), TargetCallback<KotlinNativeTargetWithHostTests> {
+
+                             companion object {
+                                 val DEFAULT = MACOS.ARM64()
+
+                                 const val TARGET_NAME: String = "macosArm64"
+                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                 const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                 const val ENV_PROPERTY_VALUE: String = "MACOS_ARM64"
+                             }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
+                                project.kotlin {
+                                    macosArm64(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
 
                         class X64(
                             override val pluginIds: Set<String>? = null,
@@ -609,6 +678,38 @@ sealed class KmpTarget {
                                 applyPlugins(project)
                                 project.kotlin {
                                     tvosX64(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
+                        class SIMULATOR_ARM64(
+                            override val pluginIds: Set<String>? = null,
+                            override val target: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : TVOS(), TargetCallback<KotlinNativeTargetWithSimulatorTests> {
+
+                            companion object {
+                                val DEFAULT = TVOS.SIMULATOR_ARM64()
+
+                                const val TARGET_NAME: String = "tvosSimulatorArm64"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "TVOS_SIMULATOR_ARM64"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
+                                project.kotlin {
+                                    tvosSimulatorArm64(TARGET_NAME) target@ {
                                         target?.invoke(this@target)
                                     }
 
@@ -749,14 +850,46 @@ sealed class KmpTarget {
                             }
                         }
 
+                        class SIMULATOR_ARM64(
+                            override val pluginIds: Set<String>? = null,
+                            override val target: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : WATCHOS(), TargetCallback<KotlinNativeTargetWithSimulatorTests> {
+
+                            companion object {
+                                val DEFAULT = WATCHOS.SIMULATOR_ARM64()
+
+                                const val TARGET_NAME: String = "watchosSimulatorArm64"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "WATCHOS_SIMULATOR_ARM64"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
+                                project.kotlin {
+                                    iosSimulatorArm64(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
                     }
                 }
 
                 sealed class LINUX : UNIX() {
 
                     companion object {
-                        const val LINUX_COMMON_MAIN = "linuxCommonMain"
-                        const val LINUX_COMMON_TEST = "linuxCommonTest"
+                        const val LINUX_COMMON_MAIN = "linuxCommon$MAIN"
+                        const val LINUX_COMMON_TEST = "linuxCommon$TEST"
                     }
 
                     protected fun setupLinuxSourceSets(project: Project) {
