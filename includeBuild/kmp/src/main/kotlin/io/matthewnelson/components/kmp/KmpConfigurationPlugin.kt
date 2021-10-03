@@ -19,6 +19,7 @@ package io.matthewnelson.components.kmp
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.create
 
 /**
  * Configures source sets for a Kotlin Multiplatform project in an opinionated fashion.
@@ -167,10 +168,10 @@ import org.gradle.api.Project
  *   JVM,
  *   JS,
  *   LINUX_ARM32HFP,LINUX_MIPS32,LINUX_MIPSEL32,LINUX_X64,
- *   IOS_ARM32,IOS_ARM64,IOS_X64,IOS_SIMULATOR_ARM64,
+ *   [ IOS_ALL **OR*** IOS_ARM32,IOS_ARM64,IOS_X64 ], **AND/OR** IOS_SIMULATOR_ARM64,
  *   MACOS_ARM64,MACOS_X64,
- *   TVOS_ARM64,TVOS_X64,TVOS_SIMULATOR_ARM64,
- *   WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_X64,WATCHOS_X86,WATCHOS_SIMULATOR_ARM64,
+ *   [ TVOS_ALL **OR** TVOS_ARM64,TVOS_X64 ], **AND/OR** TVOS_SIMULATOR_ARM64,
+ *   [ WATCHOS_ALL **OR** WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_X64,WATCHOS_X86], **AND/OR** WATCHOS_SIMULATOR_ARM64,
  *   MINGW_X64,MINGW_X86,
  *
  * Depending on the [KmpTarget]s passed, as well as what is enabled (as mentioned above),
@@ -222,6 +223,6 @@ import org.gradle.api.Project
 @Suppress("unused")
 class KmpConfigurationPlugin: Plugin<Project> {
     override fun apply(target: Project) {
-        target.extensions.create("kmpConfiguration", KmpConfigurationExtension::class.java, target)
+        target.extensions.create("kmpConfiguration", KmpConfigurationExtension::class, target)
     }
 }

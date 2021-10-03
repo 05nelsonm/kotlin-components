@@ -21,6 +21,7 @@ import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.JavaVersion
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.plugin.KotlinJsCompilerType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
@@ -210,7 +211,7 @@ sealed class KmpTarget {
             override fun setupMultiplatform(project: Project) {
                 applyPlugins(project)
                 project.kotlin {
-                    android(TARGET_NAME) target@{
+                    android(TARGET_NAME) target@ {
 
                         target?.invoke(this@target)
 
@@ -222,7 +223,7 @@ sealed class KmpTarget {
                     setupJvmSourceSets(project)
                 }
 
-                project.extensions.configure(BaseExtension::class.java) config@ {
+                project.extensions.configure(BaseExtension::class) config@ {
                     compileSdkVersion(this@ANDROID.compileSdk)
                     buildToolsVersion(this@ANDROID.buildTools)
 
@@ -421,6 +422,38 @@ sealed class KmpTarget {
                     }
 
                     sealed class IOS : DARWIN() {
+
+                        class ALL(
+                            override val pluginIds: Set<String>? = null,
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ): IOS(), TargetCallback<KotlinNativeTarget> {
+
+                            companion object {
+                                val DEFAULT = IOS.ALL()
+
+                                const val TARGET_NAME: String = "ios"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "IOS_ALL"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
+                                project.kotlin {
+                                    ios(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
 
                         class ARM32(
                             override val pluginIds: Set<String>? = null,
@@ -622,6 +655,38 @@ sealed class KmpTarget {
 
                     sealed class TVOS : DARWIN() {
 
+                        class ALL(
+                            override val pluginIds: Set<String>? = null,
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : TVOS(), TargetCallback<KotlinNativeTarget> {
+
+                            companion object {
+                                val DEFAULT = TVOS.ALL()
+
+                                const val TARGET_NAME: String = "tvos"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "TVOS_ALL"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
+                                project.kotlin {
+                                    tvos(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
+
                         class ARM64(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
@@ -721,6 +786,38 @@ sealed class KmpTarget {
                     }
 
                     sealed class WATCHOS : DARWIN() {
+
+                        class ALL(
+                            override val pluginIds: Set<String>? = null,
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
+
+                            companion object {
+                                val DEFAULT = WATCHOS.ALL()
+
+                                const val TARGET_NAME: String = "watchos"
+                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                                const val ENV_PROPERTY_VALUE: String = "WATCHOS_ALL"
+                            }
+
+                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
+                                project.kotlin {
+                                    watchos(TARGET_NAME) target@ {
+                                        target?.invoke(this@target)
+                                    }
+
+                                    setupDarwinSourceSets(project)
+                                }
+                            }
+                        }
 
                         class ARM32(
                             override val pluginIds: Set<String>? = null,
