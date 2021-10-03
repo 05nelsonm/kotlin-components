@@ -12,17 +12,17 @@ object Versions {
 
     const val androidGradle                 = "4.2.0"
     const val arch                          = "2.1.0"
-    const val camera                        = "1.1.0-alpha08"
-    const val cameraView                    = "1.0.0-alpha28"
+    const val camera                        = "1.1.0-alpha09"
+    const val cameraView                    = "1.0.0-alpha29"
     const val coil                          = "1.3.2"
     const val coroutines                    = "1.5.2"
     const val lifecycle                     = "2.3.1"
-    const val hilt                          = "2.38"
+    const val hilt                          = "2.39.1"
     const val hiltJetpack                   = "1.0.0-alpha03"
-    const val kotlin                        = "1.5.30"
+    const val kotlin                        = "1.5.31"
     const val moshi                         = "1.12.0"
     const val navigation                    = "2.3.5"
-    const val okhttp                        = "4.9.1"
+    const val okhttp                        = "4.9.2"
     const val sqlDelight                    = "1.5.1"
 }
 
@@ -40,7 +40,7 @@ object Deps {
             const val view                  = "androidx.camera:camera-view:${Versions.cameraView}"
         }
 
-        const val constraintLayout          = "androidx.constraintlayout:constraintlayout:2.1.0"
+        const val constraintLayout          = "androidx.constraintlayout:constraintlayout:2.1.1"
         const val core                      = "androidx.core:core-ktx:1.6.0"
         const val exifInterface             = "androidx.exifinterface:exifinterface:1.3.3"
 
@@ -191,7 +191,7 @@ object TestDeps {
 
     object google {
         const val hilt                      = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
-        const val guava                     = "com.google.guava:guava:30.1.1-jre"
+        const val guava                     = "com.google.guava:guava:31.0.1-jre"
     }
 
     const val junit                         = "junit:junit:4.12"
