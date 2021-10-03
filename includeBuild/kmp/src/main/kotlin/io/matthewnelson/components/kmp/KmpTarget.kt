@@ -84,7 +84,7 @@ sealed class KmpTarget {
     }
 
     override fun toString(): String {
-        return "${this.javaClass.simpleName}()"
+        return "${this.javaClass.toString().split("$").takeLast(2).joinToString(".")}()"
     }
 
     sealed class JVM: KmpTarget() {
@@ -463,7 +463,7 @@ sealed class KmpTarget {
                         ) : IOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ARM32()
+                                val DEFAULT = IOS.ARM32()
 
                                 const val TARGET_NAME: String = "iosArm32"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -495,7 +495,7 @@ sealed class KmpTarget {
                         ) : IOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ARM64()
+                                val DEFAULT = IOS.ARM64()
 
                                 const val TARGET_NAME: String = "iosArm64"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -527,7 +527,7 @@ sealed class KmpTarget {
                         ) : IOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = X64()
+                                val DEFAULT = IOS.X64()
 
                                 const val TARGET_NAME: String = "iosX64"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -627,7 +627,7 @@ sealed class KmpTarget {
                         ) : MACOS(), TargetCallback<KotlinNativeTargetWithHostTests> {
 
                              companion object {
-                                 val DEFAULT = X64()
+                                 val DEFAULT = MACOS.X64()
 
                                  const val TARGET_NAME: String = "macosX64"
                                  const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -695,7 +695,7 @@ sealed class KmpTarget {
                         ) : TVOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ARM64()
+                                val DEFAULT = TVOS.ARM64()
 
                                 const val TARGET_NAME: String = "tvosArm64"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -727,7 +727,7 @@ sealed class KmpTarget {
                         ) : TVOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = X64()
+                                val DEFAULT = TVOS.X64()
 
                                 const val TARGET_NAME: String = "tvosX64"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -827,7 +827,7 @@ sealed class KmpTarget {
                         ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ARM32()
+                                val DEFAULT = WATCHOS.ARM32()
 
                                 const val TARGET_NAME: String = "watchosArm32"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -859,7 +859,7 @@ sealed class KmpTarget {
                         ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ARM64()
+                                val DEFAULT = WATCHOS.ARM64()
 
                                 const val TARGET_NAME: String = "watchosArm64"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -891,7 +891,7 @@ sealed class KmpTarget {
                         ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = X64()
+                                val DEFAULT = WATCHOS.X64()
 
                                 const val TARGET_NAME: String = "watchosX64"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -923,7 +923,7 @@ sealed class KmpTarget {
                         ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = X86()
+                                val DEFAULT = WATCHOS.X86()
 
                                 const val TARGET_NAME: String = "watchosX86"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -1014,7 +1014,7 @@ sealed class KmpTarget {
                     ) : LINUX(), TargetCallback<KotlinNativeTarget> {
 
                         companion object {
-                            val DEFAULT = ARM32HFP()
+                            val DEFAULT = LINUX.ARM32HFP()
 
                             const val TARGET_NAME: String = "linuxArm32Hfp"
                             const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -1046,7 +1046,7 @@ sealed class KmpTarget {
                     ) : LINUX(), TargetCallback<KotlinNativeTarget> {
 
                         companion object {
-                            val DEFAULT = MIPS32()
+                            val DEFAULT = LINUX.MIPS32()
 
                             const val TARGET_NAME: String = "linuxMips32"
                             const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -1078,7 +1078,7 @@ sealed class KmpTarget {
                     ) : LINUX(), TargetCallback<KotlinNativeTarget> {
 
                         companion object {
-                            val DEFAULT = MIPSEL32()
+                            val DEFAULT = LINUX.MIPSEL32()
 
                             const val TARGET_NAME: String = "linuxMipsel32"
                             const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -1110,7 +1110,7 @@ sealed class KmpTarget {
                     ) : LINUX(), TargetCallback<KotlinNativeTarget> {
 
                         companion object {
-                            val DEFAULT = X64()
+                            val DEFAULT = LINUX.X64()
 
                             const val TARGET_NAME: String = "linuxX64"
                             const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -1170,7 +1170,7 @@ sealed class KmpTarget {
                 ) : MINGW(), TargetCallback<KotlinNativeTargetWithHostTests> {
 
                     companion object {
-                        val DEFAULT = X64()
+                        val DEFAULT = MINGW.X64()
 
                         const val TARGET_NAME: String = "mingwX64"
                         const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -1202,7 +1202,7 @@ sealed class KmpTarget {
                 ) : MINGW(), TargetCallback<KotlinNativeTarget> {
 
                     companion object {
-                        val DEFAULT = X86()
+                        val DEFAULT = MINGW.X86()
 
                         const val TARGET_NAME: String = "mingwX86"
                         const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
