@@ -17,9 +17,10 @@ package io.matthewnelson.components.kmp
 
 import org.gradle.api.Action
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun Project.kotlin(action: Action<KotlinMultiplatformExtension>) {
-    extensions.configure(KotlinMultiplatformExtension::class.java, action)
+    extensions.configure(KotlinMultiplatformExtension::class, action)
 }
