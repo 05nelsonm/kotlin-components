@@ -12,8 +12,8 @@ object Versions {
 
     const val androidGradle                 = "4.2.0"
     const val arch                          = "2.1.0"
-    const val camera                        = "1.1.0-alpha09"
-    const val cameraView                    = "1.0.0-alpha29"
+    const val camera                        = "1.1.0-alpha08"
+    const val cameraView                    = "1.0.0-alpha28"
     const val coil                          = "1.3.2"
     const val coroutines                    = "1.5.2"
     const val lifecycle                     = "2.3.1"
