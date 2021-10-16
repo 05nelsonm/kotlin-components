@@ -1,4 +1,4 @@
-import io.matthewnelson.kotlin.components.dependencies.Plugins
+import io.matthewnelson.kotlin.components.dependencies.plugins as Plugins
 
 plugins {
     `kotlin-dsl`

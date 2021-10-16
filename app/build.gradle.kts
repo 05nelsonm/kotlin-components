@@ -1,8 +1,8 @@
-import io.matthewnelson.kotlin.components.dependencies.Deps
-import io.matthewnelson.kotlin.components.dependencies.DebugDeps
-import io.matthewnelson.kotlin.components.dependencies.KaptDeps
-import io.matthewnelson.kotlin.components.dependencies.TestDeps
-import io.matthewnelson.kotlin.components.dependencies.Versions
+import io.matthewnelson.kotlin.components.dependencies.deps
+import io.matthewnelson.kotlin.components.dependencies.depsDebug
+import io.matthewnelson.kotlin.components.dependencies.depsKapt
+import io.matthewnelson.kotlin.components.dependencies.depsTest
+import io.matthewnelson.kotlin.components.dependencies.versions
 
 plugins {
     id("app.cash.exhaustive")
@@ -14,14 +14,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion(Versions.compileSdk)
-    buildToolsVersion(Versions.buildTools)
+    compileSdkVersion(versions.compileSdk)
+    buildToolsVersion(versions.buildTools)
 
     buildFeatures.viewBinding = true
     defaultConfig {
         applicationId("io.matthewnelson.components")
         minSdkVersion(21)
-        targetSdkVersion(Versions.compileSdk)
+        targetSdkVersion(versions.compileSdk)
         versionCode = 1
         versionName = "1.0"
 
@@ -56,79 +56,79 @@ android {
 }
 
 dependencies {
-    implementation(Deps.androidx.annotation)
-    implementation(Deps.androidx.appCompat)
-    implementation(Deps.androidx.camera.core)
-    implementation(Deps.androidx.camera.camera2)
-    implementation(Deps.androidx.camera.lifecycle)
-    implementation(Deps.androidx.camera.view)
-    implementation(Deps.androidx.camera.extensions)
-    implementation(Deps.androidx.constraintLayout)
-    implementation(Deps.androidx.core)
-    implementation(Deps.androidx.exifInterface)
-    implementation(Deps.androidx.lifecycle.commonJava8)
-    implementation(Deps.androidx.lifecycle.hiltViewmodel)
-    implementation(Deps.androidx.lifecycle.processLifecycleOwner)
-    implementation(Deps.androidx.lifecycle.runtime)
-    implementation(Deps.androidx.lifecycle.service)
-    implementation(Deps.androidx.lifecycle.viewModel)
-    implementation(Deps.androidx.lifecycle.viewModelSavedState)
-    implementation(Deps.androidx.media)
-    implementation(Deps.androidx.navigation.fragment)
-    implementation(Deps.androidx.navigation.ui)
-    implementation(Deps.androidx.paging3)
-    implementation(Deps.androidx.recyclerView)
-    implementation(Deps.androidx.securityCrypto)
-    implementation(Deps.androidx.viewBinding)
+    implementation(deps.androidx.annotation)
+    implementation(deps.androidx.appCompat)
+    implementation(deps.androidx.camera.core)
+    implementation(deps.androidx.camera.camera2)
+    implementation(deps.androidx.camera.lifecycle)
+    implementation(deps.androidx.camera.view)
+    implementation(deps.androidx.camera.extensions)
+    implementation(deps.androidx.constraintLayout)
+    implementation(deps.androidx.core)
+    implementation(deps.androidx.exifInterface)
+    implementation(deps.androidx.lifecycle.commonJava8)
+    implementation(deps.androidx.lifecycle.hiltViewmodel)
+    implementation(deps.androidx.lifecycle.processLifecycleOwner)
+    implementation(deps.androidx.lifecycle.runtime)
+    implementation(deps.androidx.lifecycle.service)
+    implementation(deps.androidx.lifecycle.viewModel)
+    implementation(deps.androidx.lifecycle.viewModelSavedState)
+    implementation(deps.androidx.media)
+    implementation(deps.androidx.navigation.fragment)
+    implementation(deps.androidx.navigation.ui)
+    implementation(deps.androidx.paging3)
+    implementation(deps.androidx.recyclerView)
+    implementation(deps.androidx.securityCrypto)
+    implementation(deps.androidx.viewBinding)
 
-    implementation(Deps.insetter)
+    implementation(deps.insetter)
 
-    implementation(Deps.google.hilt)
-//    kapt(KaptDeps.google.hilt)
-    implementation(Deps.google.material)
-    implementation(Deps.google.mlKitBarcodeScanning)
-    implementation(Deps.google.zxing)
+    implementation(deps.google.hilt)
+//    kapt(depsKapt.google.hilt)
+    implementation(deps.google.material)
+    implementation(deps.google.mlKitBarcodeScanning)
+    implementation(deps.google.zxing)
 
-    implementation(Deps.instacart.coil.base)
-    implementation(Deps.instacart.coil.coil)
-    implementation(Deps.instacart.coil.gif)
-    implementation(Deps.instacart.coil.svg)
-    implementation(Deps.instacart.coil.video)
+    implementation(deps.instacart.coil.base)
+    implementation(deps.instacart.coil.coil)
+    implementation(deps.instacart.coil.gif)
+    implementation(deps.instacart.coil.svg)
+    implementation(deps.instacart.coil.video)
 
-    implementation(Deps.javax.inject)
+    implementation(deps.javax.inject)
 
-    implementation(Deps.jncryptor)
+    implementation(deps.jncryptor)
 
-    implementation(Deps.kotlin.coroutines.android)
-    implementation(Deps.kotlin.coroutines.core)
-    implementation(Deps.kotlin.reflect)
+    implementation(deps.kotlin.coroutines.android)
+    implementation(deps.kotlin.coroutines.core)
+    implementation(deps.kotlin.reflect)
 
-    implementation(Deps.sqlCipher)
-    implementation(Deps.sqlRequery)
+    implementation(deps.sqlCipher)
+    implementation(deps.sqlRequery)
 
-    implementation(Deps.square.okio)
-    implementation(Deps.square.okhttp.okhttp)
-    implementation(Deps.square.okhttp.logging)
-    implementation(Deps.square.moshi)
-//    kapt(KaptDeps.square.moshi.codegen.codegen)
-    implementation(Deps.square.sqlDelight.android)
-    implementation(Deps.square.sqlDelight.jvm)
-    implementation(Deps.square.sqlDelight.runtime)
-    implementation(Deps.square.sqlDelight.extensions.coroutines)
-    implementation(Deps.square.sqlDelight.extensions.paging3)
+    implementation(deps.square.okio)
+    implementation(deps.square.okhttp.okhttp)
+    implementation(deps.square.okhttp.logging)
+    implementation(deps.square.moshi)
+//    kapt(depsKapt.square.moshi.codegen.codegen)
+    implementation(deps.square.sqlDelight.android)
+    implementation(deps.square.sqlDelight.jvm)
+    implementation(deps.square.sqlDelight.runtime)
+    implementation(deps.square.sqlDelight.extensions.coroutines)
+    implementation(deps.square.sqlDelight.extensions.paging3)
 
-    implementation(Deps.viewBindingDelegateNoReflect)
+    implementation(deps.viewBindingDelegateNoReflect)
 
-    debugImplementation(DebugDeps.square.leakCanary)
+    debugImplementation(depsDebug.square.leakCanary)
 
-    testImplementation(TestDeps.androidx.archCore)
-    testImplementation(TestDeps.androidx.core)
-    testImplementation(TestDeps.androidx.espresso)
-    testImplementation(TestDeps.androidx.junit)
-    testImplementation(TestDeps.google.hilt)
-    testImplementation(TestDeps.google.guava)
-    testImplementation(TestDeps.junit)
-    testImplementation(TestDeps.kotlin.coroutines)
-    testImplementation(TestDeps.robolectric)
-    testImplementation(TestDeps.turbine)
+    testImplementation(depsTest.androidx.archCore)
+    testImplementation(depsTest.androidx.core)
+    testImplementation(depsTest.androidx.espresso)
+    testImplementation(depsTest.androidx.junit)
+    testImplementation(depsTest.google.hilt)
+    testImplementation(depsTest.google.guava)
+    testImplementation(depsTest.junit)
+    testImplementation(depsTest.kotlin.coroutines)
+    testImplementation(depsTest.robolectric)
+    testImplementation(depsTest.turbine)
 }
