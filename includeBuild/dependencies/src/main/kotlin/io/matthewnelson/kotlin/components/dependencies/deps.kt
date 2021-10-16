@@ -4,17 +4,18 @@ package io.matthewnelson.kotlin.components.dependencies
 
 object versions {
     const val buildTools                    = "30.0.3"
-    const val compileSdk                    = 30
-    const val minSdk16                      = 16
-    const val minSdk21                      = 21
-    const val minSdk23                      = 23
-    const val minSdk26                      = 26
+    const val sdkCompile                    = 30
+    const val sdkMin16                      = 16
+    const val sdkMin21                      = 21
+    const val sdkMin23                      = 23
+    const val sdkMin26                      = 26
+    const val sdkTarget                     = 29
 
     const val androidGradle                 = "4.2.0"
     const val arch                          = "2.1.0"
     const val camera                        = "1.1.0-alpha08"
     const val cameraView                    = "1.0.0-alpha28"
-    const val coil                          = "1.3.2"
+    const val coil                          = "1.4.0"
     const val coroutines                    = "1.5.2"
     const val lifecycle                     = "2.3.1"
     const val hilt                          = "2.39.1"
@@ -54,7 +55,7 @@ object deps {
             const val viewModelSavedState   = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${versions.lifecycle}"
         }
 
-        const val media                     = "androidx.media:media:1.4.2"
+        const val media                     = "androidx.media:media:1.4.3"
 
         object navigation {
             const val fragment              = "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
@@ -243,7 +244,7 @@ object plugins {
     const val intellijGradle                = "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.4.26"
 
     object kotlin {
-        const val dokka                     = "org.jetbrains.dokka:dokka-gradle-plugin:1.5.30"
+        const val dokka                     = "org.jetbrains.dokka:dokka-gradle-plugin:1.5.31"
         const val gradle                    = "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         const val serialization             = "org.jetbrains.kotlin:kotlin-serialization:${versions.kotlin}"
     }

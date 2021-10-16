@@ -14,14 +14,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion(versions.compileSdk)
+    compileSdkVersion(versions.sdkCompile)
     buildToolsVersion(versions.buildTools)
 
     buildFeatures.viewBinding = true
     defaultConfig {
         applicationId("io.matthewnelson.components")
-        minSdkVersion(21)
-        targetSdkVersion(versions.compileSdk)
+        minSdkVersion(versions.sdkMin21)
+        targetSdkVersion(versions.sdkTarget)
         versionCode = 1
         versionName = "1.0"
 
