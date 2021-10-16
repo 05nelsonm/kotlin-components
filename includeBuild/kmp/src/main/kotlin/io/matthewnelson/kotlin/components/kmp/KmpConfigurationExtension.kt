@@ -253,7 +253,6 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                                 if (watchOsTargets.size > (1 + simulatorCount)) {
                                     throw IllegalArgumentException("WATCHOS.ALL cannot be used along with other WATCHOS targets")
                                 }
-                                containsAll = false
                             }
 
                             maybeCreate(DARWIN_COMMON_MAIN).apply {

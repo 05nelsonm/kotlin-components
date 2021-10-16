@@ -148,13 +148,13 @@ sealed class KmpTarget {
         }
 
         class ANDROID(
-            private val buildTools: String,
             private val compileSdk: Int,
             private val minSdk: Int,
-            private val targetSdk: Int,
             manifestPath: String,
-            private val kotlinJvmTarget: String = "1.8",
             override val pluginIds: Set<String>? = null,
+            private val buildTools: String? = null,
+            private val targetSdk: Int? = null,
+            private val kotlinJvmTarget: JavaVersion = JavaVersion.VERSION_1_8,
             private val androidConfig: (BaseExtension.() -> Unit)? = null,
             override val target: (KotlinAndroidTarget.() -> Unit)? = null,
             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -171,33 +171,33 @@ sealed class KmpTarget {
             private val manifestPath: String? = manifestPath.ifEmpty { null }
 
             init {
-                require(buildTools.isNotEmpty()) { "ANDROID.buildTools cannot be null or empty" }
+                require(buildTools?.isNotEmpty() ?: true) { "ANDROID.buildTools cannot be null or empty" }
                 require(compileSdk >= 1) { "ANDROID.compileSdk must be greater than 0" }
                 require(minSdk >= 1) { "ANDROID.minSdk must be greater than 0" }
-                require(targetSdk >= 1) { "ANDROID.targetSdk must be greater than 0" }
-                require(targetSdk >= minSdk) { "ANDROID.targetSdk must be greater than ANDROID.minSdk" }
+                require(if (targetSdk != null) targetSdk >= 1 else true) { "ANDROID.targetSdk must be greater than 0" }
+                require(if (targetSdk != null) targetSdk >= minSdk else true) { "ANDROID.targetSdk must be greater than ANDROID.minSdk" }
                 require(compileSdk >= minSdk) { "ANDROID.compileSdk must be greater than ANDROID.minSdk" }
             }
 
             constructor(
-                buildTools: String,
                 compileSdk: Int,
                 minSdk: Int,
-                targetSdk: Int,
-                kotlinJvmTarget: String = "1.8",
                 pluginIds: Set<String>? = null,
+                buildTools: String? = null,
+                targetSdk: Int? = null,
+                kotlinJvmTarget: JavaVersion = JavaVersion.VERSION_1_8,
                 androidConfig: (BaseExtension.() -> Unit)? = null,
                 target: (KotlinAndroidTarget.() -> Unit)? = null,
                 mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                 testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
             ): this(
-                buildTools,
                 compileSdk,
                 minSdk,
-                targetSdk,
                 "",
-                kotlinJvmTarget,
                 pluginIds,
+                buildTools,
+                targetSdk,
+                kotlinJvmTarget,
                 androidConfig,
                 target,
                 mainSourceSet,
@@ -216,7 +216,7 @@ sealed class KmpTarget {
                         target?.invoke(this@target)
 
                         compilations.all {
-                            kotlinOptions.jvmTarget = kotlinJvmTarget
+                            kotlinOptions.jvmTarget = kotlinJvmTarget.toString()
                         }
                     }
 
@@ -225,13 +225,13 @@ sealed class KmpTarget {
 
                 project.extensions.configure(BaseExtension::class) config@ {
                     compileSdkVersion(this@ANDROID.compileSdk)
-                    buildToolsVersion(this@ANDROID.buildTools)
+                    this@ANDROID.buildTools?.let { buildToolsVersion(it) }
 
                     this@ANDROID.manifestPath?.let { path -> sourceSets.getByName("main").manifest.srcFile(path) }
 
                     defaultConfig {
                         minSdkVersion(this@ANDROID.minSdk)
-                        targetSdkVersion(this@ANDROID.targetSdk)
+                        this@ANDROID.targetSdk?.let { targetSdkVersion(it) }
 
                         testInstrumentationRunnerArguments["disableAnalytics"] = "true"
                     }
