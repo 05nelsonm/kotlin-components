@@ -147,54 +147,14 @@ object depsDebug {
 
 }
 
-/**
- * Setting up `kapt` in KotlinMultiPlatform projects is not straight
- * forward as from the Android's source set configuration lambda you
- * don not have the ability to express `kapt("some-kapt-dep:kapt-dep:1.0")`
- * like you do from a regular `project.kotlin.dependencies` block.
- *
- * Android example configuring the hilt-compiler for it's main source set:
- *
- * dependencies {
- *     // include the dependency implementation
- *     implementation(KaptDeps.google.hilt.hilt)
- *
- *     // configure kapt to utilize it
- *     configurations.getByName(KaptDeps.kapt).dependencies.add(
- *         DefaultExternalModuleDependency(
- *             KaptDeps.google.hilt.group,
- *             KaptDeps.google.hilt.name,
- *             KaptDeps.google.hilt.version,
- *         )
- *     )
- * }
- * */
 object depsKapt {
 
-    const val kapt                          = "kapt"
-
     object google {
-        object hilt {
-            // Needed for KMP projects to specify kapt configs
-            const val group                 = "com.google.dagger"
-            const val name                  = "hilt-compiler"
-            const val version               = versions.hilt
-
-            const val hilt                  = "$group:$name:$version"
-        }
+        const val hilt                      = "com.google.dagger:hilt-compiler:${versions.hilt}"
     }
 
     object square {
-        object moshi {
-            object codegen {
-                // Needed for KMP projects to specify kapt configs
-                const val group             = "com.squareup.moshi"
-                const val name              = "moshi-kotlin-codegen"
-                const val version           = versions.moshi
-
-                const val codegen           = "$group:$name:$version"
-            }
-        }
+        const val moshi                     = "com.squareup.moshi:moshi-kotlin-codegen:${versions.moshi}"
     }
 
 }

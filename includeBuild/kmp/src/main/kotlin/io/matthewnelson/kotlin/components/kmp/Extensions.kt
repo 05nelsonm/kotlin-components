@@ -17,10 +17,26 @@ package io.matthewnelson.kotlin.components.kmp
 
 import org.gradle.api.Action
 import org.gradle.api.Project
+import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun Project.kotlin(action: Action<KotlinMultiplatformExtension>) {
     extensions.configure(KotlinMultiplatformExtension::class, action)
+}
+
+@Suppress("NOTHING_TO_INLINE", "unused")
+inline fun KotlinDependencyHandler.kapt(project: Project, dependencyNotation: String) {
+    implementation(dependencyNotation)
+    val splits = dependencyNotation.split(":")
+    project.configurations["kapt"].dependencies.add(
+        DefaultExternalModuleDependency(
+            splits[0], // group
+            splits[1], // name
+            splits[2]  // version
+        )
+    )
 }
