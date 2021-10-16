@@ -196,65 +196,6 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
                         val darwinTargets = unixTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN>()
                         if (darwinTargets.isNotEmpty()) {
-
-                            val iosTargets = darwinTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.IOS>()
-                            val tvosTargets = darwinTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.TVOS>()
-                            val watchOsTargets = darwinTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.WATCHOS>()
-
-                            var simulatorCount = 0
-                            var containsAll: Boolean = false
-                            for (target in iosTargets) {
-                                if (target is KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.IOS.ALL) {
-                                    containsAll = true
-                                }
-                                if (target is KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.IOS.SIMULATOR_ARM64) {
-                                    simulatorCount = 1
-                                }
-                            }
-
-                            // ensure IOS.ALL is only target passed
-                            if (containsAll) {
-                                if (iosTargets.size > (1 + simulatorCount)) {
-                                    throw IllegalArgumentException("IOS.ALL cannot be used along with other IOS targets")
-                                }
-                                containsAll = false
-                            }
-
-                            simulatorCount = 0
-                            for (target in tvosTargets) {
-                                if (target is KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.TVOS.ALL) {
-                                    containsAll = true
-                                }
-                                if (target is KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.TVOS.SIMULATOR_ARM64) {
-                                    simulatorCount = 1
-                                }
-                            }
-
-                            // ensure TVOS.ALL is only target passed
-                            if (containsAll) {
-                                if (tvosTargets.size > (1 + simulatorCount)) {
-                                    throw IllegalArgumentException("TVOS.ALL cannot be used along with other TVOS targets")
-                                }
-                                containsAll = false
-                            }
-
-                            simulatorCount = 0
-                            for (target in watchOsTargets) {
-                                if (target is KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.WATCHOS.ALL) {
-                                    containsAll = true
-                                }
-                                if (target is KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.WATCHOS.SIMULATOR_ARM64) {
-                                    simulatorCount = 1
-                                }
-                            }
-
-                            // ensure TVOS.ALL is only target passed
-                            if (containsAll) {
-                                if (watchOsTargets.size > (1 + simulatorCount)) {
-                                    throw IllegalArgumentException("WATCHOS.ALL cannot be used along with other WATCHOS targets")
-                                }
-                            }
-
                             maybeCreate(DARWIN_COMMON_MAIN).apply {
                                 dependsOn(getByName(NATIVE_COMMON_MAIN))
                                 dependsOn(getByName(UNIX_COMMON_MAIN))
