@@ -3,8 +3,8 @@
 package io.matthewnelson.kotlin.components.dependencies
 
 object versions {
-    const val buildTools                    = "30.0.3"
-    const val sdkCompile                    = 30
+    const val buildTools                    = "31.0.0"
+    const val sdkCompile                    = 31
     const val sdkMin16                      = 16
     const val sdkMin21                      = 21
     const val sdkMin23                      = 23
@@ -13,8 +13,8 @@ object versions {
 
     const val androidGradle                 = "7.0.3"
     const val arch                          = "2.1.0"
-    const val camera                        = "1.1.0-alpha08"
-    const val cameraView                    = "1.0.0-alpha28"
+    const val camera                        = "1.1.0-alpha10"
+    const val cameraView                    = "1.0.0-alpha30"
     const val coil                          = "1.4.0"
     const val coroutines                    = "1.5.2"
     const val lifecycle                     = "2.3.1"
