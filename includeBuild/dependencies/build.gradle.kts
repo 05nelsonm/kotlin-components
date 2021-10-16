@@ -3,7 +3,7 @@ plugins {
     `java-gradle-plugin`
 }
 
-group = "io.matthewnelson.components.dependencies"
+group = "io.matthewnelson.kotlin.components.dependencies"
 version = "SNAPSHOT"
 
 repositories {
@@ -13,6 +13,6 @@ repositories {
 gradlePlugin {
     plugins.register("dependencies") {
         id = "dependencies"
-        implementationClass = "io.matthewnelson.components.dependencies.DependenciesPlugin"
+        implementationClass = "io.matthewnelson.kotlin.components.dependencies.DependenciesPlugin"
     }
 }

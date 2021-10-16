@@ -13,24 +13,24 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  * */
-package io.matthewnelson.components.kmp
+package io.matthewnelson.kotlin.components.kmp
 
-import io.matthewnelson.components.kmp.KmpTarget.Companion.COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.Companion.COMMON_TEST
-import io.matthewnelson.components.kmp.KmpTarget.JVM.Companion.JVM_COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.JVM.Companion.JVM_COMMON_TEST
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.Companion.NON_JVM_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.Companion.NON_JVM_TEST
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.Companion.NATIVE_COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.Companion.NATIVE_COMMON_TEST
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.MINGW.Companion.MINGW_COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.MINGW.Companion.MINGW_COMMON_TEST
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.Companion.UNIX_COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.Companion.UNIX_COMMON_TEST
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.Companion.DARWIN_COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.Companion.DARWIN_COMMON_TEST
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.Companion.LINUX_COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.Companion.LINUX_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.Companion.COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.Companion.COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.JVM.Companion.JVM_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.JVM.Companion.JVM_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.Companion.NON_JVM_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.Companion.NON_JVM_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.Companion.NATIVE_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.Companion.NATIVE_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.MINGW.Companion.MINGW_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.MINGW.Companion.MINGW_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.Companion.UNIX_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.Companion.UNIX_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.Companion.DARWIN_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.Companion.DARWIN_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.Companion.LINUX_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.Companion.LINUX_COMMON_TEST
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet

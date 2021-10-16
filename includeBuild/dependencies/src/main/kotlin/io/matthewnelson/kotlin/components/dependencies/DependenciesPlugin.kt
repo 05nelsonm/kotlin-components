@@ -1,4 +1,4 @@
-package io.matthewnelson.components.dependencies
+package io.matthewnelson.kotlin.components.dependencies
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

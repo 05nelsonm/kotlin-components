@@ -1,6 +1,6 @@
 @file:Suppress("SpellCheckingInspection", "unused", "ClassName")
 
-package io.matthewnelson.components.dependencies
+package io.matthewnelson.kotlin.components.dependencies
 
 object Versions {
     const val buildTools                    = "30.0.3"

@@ -15,7 +15,7 @@
  * */
 @file:Suppress("SpellCheckingInspection")
 
-package io.matthewnelson.components.kmp
+package io.matthewnelson.kotlin.components.kmp
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -35,7 +35,7 @@ import org.gradle.kotlin.dsl.create
  * Add to module's build.gradle.kts file:
  *
  * ```
- * import io.matthewnelson.components.kmp.KmpTarget
+ * import io.matthewnelson.kotlin.components.kmp.KmpTarget
  *
  * plugins {
  *     id("kmp-configuration")
@@ -122,8 +122,8 @@ import org.gradle.kotlin.dsl.create
  * and configure things further after the `kmpConfiguration` block.
  *
  * ```
- * import io.matthewnelson.components.kmp.KmpTarget
- * import io.matthewnelson.components.kmp.kotlin
+ * import io.matthewnelson.kotlin.components.kmp.KmpTarget
+ * import io.matthewnelson.kotlin.components.kmp.kotlin
  *
  * plugins {
  *     id("kmp-configuration")
@@ -218,7 +218,7 @@ import org.gradle.kotlin.dsl.create
  *
  * @see [KmpConfigurationExtension]
  * @see [KmpTarget]
- * @see [io.matthewnelson.components.kmp.kotlin]
+ * @see [io.matthewnelson.kotlin.components.kmp.kotlin]
  * */
 @Suppress("unused")
 class KmpConfigurationPlugin: Plugin<Project> {

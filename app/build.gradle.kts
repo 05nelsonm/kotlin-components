@@ -1,8 +1,8 @@
-import io.matthewnelson.components.dependencies.Deps
-import io.matthewnelson.components.dependencies.DebugDeps
-import io.matthewnelson.components.dependencies.KaptDeps
-import io.matthewnelson.components.dependencies.TestDeps
-import io.matthewnelson.components.dependencies.Versions
+import io.matthewnelson.kotlin.components.dependencies.Deps
+import io.matthewnelson.kotlin.components.dependencies.DebugDeps
+import io.matthewnelson.kotlin.components.dependencies.KaptDeps
+import io.matthewnelson.kotlin.components.dependencies.TestDeps
+import io.matthewnelson.kotlin.components.dependencies.Versions
 
 plugins {
     id("app.cash.exhaustive")

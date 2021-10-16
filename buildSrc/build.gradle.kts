@@ -1,6 +1,6 @@
 @file:Suppress("SpellCheckingInspection")
 
-import io.matthewnelson.components.dependencies.Plugins
+import io.matthewnelson.kotlin.components.dependencies.Plugins
 
 plugins {
     `kotlin-dsl`
