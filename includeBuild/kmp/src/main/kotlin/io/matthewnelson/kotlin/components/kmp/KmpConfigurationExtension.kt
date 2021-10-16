@@ -13,24 +13,24 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  * */
-package io.matthewnelson.components.kmp
+package io.matthewnelson.kotlin.components.kmp
 
-import io.matthewnelson.components.kmp.KmpTarget.Companion.COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.Companion.COMMON_TEST
-import io.matthewnelson.components.kmp.KmpTarget.JVM.Companion.JVM_COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.JVM.Companion.JVM_COMMON_TEST
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.Companion.NON_JVM_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.Companion.NON_JVM_TEST
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.Companion.NATIVE_COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.Companion.NATIVE_COMMON_TEST
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.MINGW.Companion.MINGW_COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.MINGW.Companion.MINGW_COMMON_TEST
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.Companion.UNIX_COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.Companion.UNIX_COMMON_TEST
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.Companion.DARWIN_COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.Companion.DARWIN_COMMON_TEST
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.Companion.LINUX_COMMON_MAIN
-import io.matthewnelson.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.Companion.LINUX_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.Companion.COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.Companion.COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.JVM.Companion.JVM_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.JVM.Companion.JVM_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.Companion.NON_JVM_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.Companion.NON_JVM_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.Companion.NATIVE_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.Companion.NATIVE_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.MINGW.Companion.MINGW_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.MINGW.Companion.MINGW_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.Companion.UNIX_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.Companion.UNIX_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.Companion.DARWIN_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.Companion.DARWIN_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.Companion.LINUX_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NON_JVM.NATIVE.UNIX.LINUX.Companion.LINUX_COMMON_TEST
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
@@ -81,7 +81,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
             // mingw
             KmpTarget.NON_JVM.NATIVE.MINGW.X64.ENV_PROPERTY_VALUE,
-            KmpTarget.NON_JVM.NATIVE.MINGW.X86.ENV_PROPERTY_VALUE,
+            KmpTarget.NON_JVM.NATIVE.MINGW.X86.ENV_PROPERTY_VALUE
         )
     }
 
@@ -90,7 +90,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         targets: Set<KmpTarget>,
         commonPluginIds: Set<String>? = null,
         commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null
     ): Boolean {
         if (targets.isEmpty()) {
             return false
@@ -136,7 +136,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         project: Project,
         enabledTargets: List<KmpTarget>,
         commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null
     ) {
         project.kotlin {
             sourceSets {
@@ -196,66 +196,6 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
                         val darwinTargets = unixTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN>()
                         if (darwinTargets.isNotEmpty()) {
-
-                            val iosTargets = darwinTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.IOS>()
-                            val tvosTargets = darwinTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.TVOS>()
-                            val watchOsTargets = darwinTargets.filterIsInstance<KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.WATCHOS>()
-
-                            var simulatorCount = 0
-                            var containsAll: Boolean = false
-                            for (target in iosTargets) {
-                                if (target is KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.IOS.ALL) {
-                                    containsAll = true
-                                }
-                                if (target is KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.IOS.SIMULATOR_ARM64) {
-                                    simulatorCount = 1
-                                }
-                            }
-
-                            // ensure IOS.ALL is only target passed
-                            if (containsAll) {
-                                if (iosTargets.size > (1 + simulatorCount)) {
-                                    throw IllegalArgumentException("IOS.ALL cannot be used along with other IOS targets")
-                                }
-                                containsAll = false
-                            }
-
-                            simulatorCount = 0
-                            for (target in tvosTargets) {
-                                if (target is KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.TVOS.ALL) {
-                                    containsAll = true
-                                }
-                                if (target is KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.TVOS.SIMULATOR_ARM64) {
-                                    simulatorCount = 1
-                                }
-                            }
-
-                            // ensure TVOS.ALL is only target passed
-                            if (containsAll) {
-                                if (tvosTargets.size > (1 + simulatorCount)) {
-                                    throw IllegalArgumentException("TVOS.ALL cannot be used along with other TVOS targets")
-                                }
-                                containsAll = false
-                            }
-
-                            simulatorCount = 0
-                            for (target in watchOsTargets) {
-                                if (target is KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.WATCHOS.ALL) {
-                                    containsAll = true
-                                }
-                                if (target is KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.WATCHOS.SIMULATOR_ARM64) {
-                                    simulatorCount = 1
-                                }
-                            }
-
-                            // ensure TVOS.ALL is only target passed
-                            if (containsAll) {
-                                if (watchOsTargets.size > (1 + simulatorCount)) {
-                                    throw IllegalArgumentException("WATCHOS.ALL cannot be used along with other WATCHOS targets")
-                                }
-                                containsAll = false
-                            }
-
                             maybeCreate(DARWIN_COMMON_MAIN).apply {
                                 dependsOn(getByName(NATIVE_COMMON_MAIN))
                                 dependsOn(getByName(UNIX_COMMON_MAIN))

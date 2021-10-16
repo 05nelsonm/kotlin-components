@@ -1,4 +1,4 @@
-import io.matthewnelson.components.dependencies.Plugins
+import io.matthewnelson.kotlin.components.dependencies.plugins as Plugins
 
 plugins {
     `kotlin-dsl`
@@ -12,13 +12,13 @@ repositories {
 }
 
 dependencies {
-    implementation(Plugins.android.gradle)
-    implementation(Plugins.kotlin.gradle)
+    compileOnly(Plugins.android.gradle)
+    compileOnly(Plugins.kotlin.gradle)
 }
 
 gradlePlugin {
     plugins.register("kmp-configuration") {
         id = "kmp-configuration"
-        implementationClass = "io.matthewnelson.components.kmp.KmpConfigurationPlugin"
+        implementationClass = "io.matthewnelson.kotlin.components.kmp.KmpConfigurationPlugin"
     }
 }
