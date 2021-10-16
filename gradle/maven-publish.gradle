@@ -1,7 +1,7 @@
 /**
  * Core configuration file for individual component projects/modules
  *
- * In the project's root build.gradle file add:
+ * In the project's root build.gradle.kts file add:
 
 apply from: rootProject.file('components/gradle/maven-publish-env.gradle')
 
@@ -23,7 +23,7 @@ ext {
 }
 
  *
- * In the individual module's build.gradle file add:
+ * In the individual module's build.gradle.kts file add:
 
 ext {
     POM_ARTIFACT_ID = "module-name"
