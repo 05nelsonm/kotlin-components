@@ -9,7 +9,7 @@ object versions {
     const val sdkMin21                      = 21
     const val sdkMin23                      = 23
     const val sdkMin26                      = 26
-    const val sdkTarget                     = 29
+    const val sdkTarget                     = 31
 
     const val androidGradle                 = "7.0.3"
     const val arch                          = "2.1.0"
