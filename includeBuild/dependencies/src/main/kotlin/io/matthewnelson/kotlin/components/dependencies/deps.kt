@@ -11,7 +11,7 @@ object versions {
     const val sdkMin26                      = 26
     const val sdkTarget                     = 29
 
-    const val androidGradle                 = "4.2.0"
+    const val androidGradle                 = "7.0.3"
     const val arch                          = "2.1.0"
     const val camera                        = "1.1.0-alpha08"
     const val cameraView                    = "1.0.0-alpha28"
@@ -24,7 +24,7 @@ object versions {
     const val moshi                         = "1.12.0"
     const val navigation                    = "2.3.5"
     const val okhttp                        = "4.9.2"
-    const val sqlDelight                    = "1.5.1"
+    const val sqlDelight                    = "1.5.2"
 }
 
 object deps {

@@ -154,7 +154,9 @@ sealed class KmpTarget {
             override val pluginIds: Set<String>? = null,
             private val buildTools: String? = null,
             private val targetSdk: Int? = null,
-            private val kotlinJvmTarget: JavaVersion = JavaVersion.VERSION_1_8,
+            private val compileSourceOption: JavaVersion = JavaVersion.VERSION_11,
+            private val compileTargetOption: JavaVersion = compileSourceOption,
+            private val kotlinJvmTarget: JavaVersion = JavaVersion.VERSION_11,
             private val androidConfig: (BaseExtension.() -> Unit)? = null,
             override val target: (KotlinAndroidTarget.() -> Unit)? = null,
             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -185,7 +187,9 @@ sealed class KmpTarget {
                 pluginIds: Set<String>? = null,
                 buildTools: String? = null,
                 targetSdk: Int? = null,
-                kotlinJvmTarget: JavaVersion = JavaVersion.VERSION_1_8,
+                compileSourceOption: JavaVersion = JavaVersion.VERSION_11,
+                compileTargetOption: JavaVersion = compileSourceOption,
+                kotlinJvmTarget: JavaVersion = JavaVersion.VERSION_11,
                 androidConfig: (BaseExtension.() -> Unit)? = null,
                 target: (KotlinAndroidTarget.() -> Unit)? = null,
                 mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -197,6 +201,8 @@ sealed class KmpTarget {
                 pluginIds,
                 buildTools,
                 targetSdk,
+                compileSourceOption,
+                compileTargetOption,
                 kotlinJvmTarget,
                 androidConfig,
                 target,
@@ -225,20 +231,20 @@ sealed class KmpTarget {
 
                 project.extensions.configure(BaseExtension::class) config@ {
                     compileSdkVersion(this@ANDROID.compileSdk)
-                    this@ANDROID.buildTools?.let { buildToolsVersion(it) }
+                    this@ANDROID.buildTools?.let { buildToolsVersion = it }
 
                     this@ANDROID.manifestPath?.let { path -> sourceSets.getByName("main").manifest.srcFile(path) }
 
                     defaultConfig {
-                        minSdkVersion(this@ANDROID.minSdk)
-                        this@ANDROID.targetSdk?.let { targetSdkVersion(it) }
+                        minSdk = this@ANDROID.minSdk
+                        this@ANDROID.targetSdk?.let { targetSdk = it }
 
                         testInstrumentationRunnerArguments["disableAnalytics"] = "true"
                     }
 
                     compileOptions {
-                        sourceCompatibility(JavaVersion.VERSION_1_8)
-                        targetCompatibility(JavaVersion.VERSION_1_8)
+                        sourceCompatibility = compileSourceOption
+                        targetCompatibility = compileTargetOption
                     }
 
                     androidConfig?.invoke(this@config)

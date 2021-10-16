@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.dsl.decorator.SupportedPropertyType
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
 
@@ -46,7 +48,7 @@ task clean(type: Delete) {
 ////////////////////////////////////////////////////////////////////////////
 apply plugin: "com.github.ben-manes.versions"
 
-def isNonStable = { String version ->
+def isNonStable = { version ->
     def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
     def regex = /^[0-9,.v-]+(-r)?$/
     return !stableKeyword && !(version ==~ regex)

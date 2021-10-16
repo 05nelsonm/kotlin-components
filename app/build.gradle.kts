@@ -14,19 +14,19 @@ plugins {
 }
 
 android {
-    compileSdkVersion(versions.sdkCompile)
-    buildToolsVersion(versions.buildTools)
+    compileSdk = versions.sdkCompile
+    buildToolsVersion = versions.buildTools
 
     buildFeatures.viewBinding = true
     defaultConfig {
-        applicationId("io.matthewnelson.components")
-        minSdkVersion(versions.sdkMin21)
-        targetSdkVersion(versions.sdkTarget)
+        applicationId  = "io.matthewnelson.components"
+        minSdk = versions.sdkMin21
+        targetSdk = versions.sdkTarget
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments.putIfAbsent("disableAnalytics", "true")
+        testInstrumentationRunnerArguments["disableAnalytics"] = "true"
     }
 
     // Gradle 4.0's introduction of Google analytics to Android App Developers.
@@ -40,18 +40,18 @@ android {
 
     buildTypes {
         getByName("release") {
-            minifyEnabled(false)
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
 
