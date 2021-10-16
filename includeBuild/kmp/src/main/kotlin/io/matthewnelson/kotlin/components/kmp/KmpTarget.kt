@@ -119,7 +119,7 @@ sealed class KmpTarget {
             override val pluginIds: Set<String>? = null,
             override val target: (KotlinJvmTarget.() -> Unit)? = null,
             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
         ) : KmpTarget.JVM(), TargetCallback<KotlinJvmTarget> {
 
             companion object {
@@ -160,7 +160,7 @@ sealed class KmpTarget {
             private val androidConfig: (BaseExtension.() -> Unit)? = null,
             override val target: (KotlinAndroidTarget.() -> Unit)? = null,
             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
         ) : KmpTarget.JVM(), TargetCallback<KotlinAndroidTarget> {
 
             companion object {
@@ -193,7 +193,7 @@ sealed class KmpTarget {
                 androidConfig: (BaseExtension.() -> Unit)? = null,
                 target: (KotlinAndroidTarget.() -> Unit)? = null,
                 mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                testSourceSet: (KotlinSourceSet.() -> Unit)? = null
             ): this(
                 compileSdk,
                 minSdk,
@@ -278,7 +278,7 @@ sealed class KmpTarget {
             private val node: Node?,
             override val pluginIds: Set<String>? = null,
             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
         ) : NON_JVM() {
 
             class Browser(val jsBrowserDsl: (KotlinJsBrowserDsl.() -> Unit)? = null) {
@@ -433,7 +433,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ): IOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
@@ -465,7 +465,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : IOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
@@ -497,7 +497,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-                            override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+                            override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null
                         ) : IOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
@@ -529,7 +529,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : IOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
@@ -561,7 +561,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : IOS(), TargetCallback<KotlinNativeTargetWithSimulatorTests> {
 
                             companion object {
@@ -597,7 +597,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTargetWithHostTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : MACOS(), TargetCallback<KotlinNativeTargetWithHostTests> {
 
                              companion object {
@@ -629,7 +629,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTargetWithHostTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : MACOS(), TargetCallback<KotlinNativeTargetWithHostTests> {
 
                              companion object {
@@ -665,7 +665,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : TVOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
@@ -697,7 +697,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : TVOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
@@ -729,7 +729,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : TVOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
@@ -761,7 +761,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : TVOS(), TargetCallback<KotlinNativeTargetWithSimulatorTests> {
 
                             companion object {
@@ -797,7 +797,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
@@ -829,7 +829,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
@@ -861,7 +861,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
@@ -893,7 +893,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
@@ -925,7 +925,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
@@ -957,7 +957,7 @@ sealed class KmpTarget {
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : WATCHOS(), TargetCallback<KotlinNativeTargetWithSimulatorTests> {
 
                             companion object {
@@ -1016,7 +1016,7 @@ sealed class KmpTarget {
                         override val pluginIds: Set<String>? = null,
                         override val target: (KotlinNativeTarget.() -> Unit)? = null,
                         override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                     ) : LINUX(), TargetCallback<KotlinNativeTarget> {
 
                         companion object {
@@ -1048,7 +1048,7 @@ sealed class KmpTarget {
                         override val pluginIds: Set<String>? = null,
                         override val target: (KotlinNativeTarget.() -> Unit)? = null,
                         override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                     ) : LINUX(), TargetCallback<KotlinNativeTarget> {
 
                         companion object {
@@ -1080,7 +1080,7 @@ sealed class KmpTarget {
                         override val pluginIds: Set<String>? = null,
                         override val target: (KotlinNativeTarget.() -> Unit)? = null,
                         override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                     ) : LINUX(), TargetCallback<KotlinNativeTarget> {
 
                         companion object {
@@ -1112,7 +1112,7 @@ sealed class KmpTarget {
                         override val pluginIds: Set<String>? = null,
                         override val target: (KotlinNativeTarget.() -> Unit)? = null,
                         override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                     ) : LINUX(), TargetCallback<KotlinNativeTarget> {
 
                         companion object {
@@ -1172,7 +1172,7 @@ sealed class KmpTarget {
                     override val pluginIds: Set<String>? = null,
                     override val target: (KotlinNativeTargetWithHostTests.() -> Unit)? = null,
                     override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-                    override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+                    override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null
                 ) : MINGW(), TargetCallback<KotlinNativeTargetWithHostTests> {
 
                     companion object {
@@ -1204,7 +1204,7 @@ sealed class KmpTarget {
                     override val pluginIds: Set<String>? = null,
                     override val target: (KotlinNativeTarget.() -> Unit)? = null,
                     override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-                    override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null,
+                    override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null
                 ) : MINGW(), TargetCallback<KotlinNativeTarget> {
 
                     companion object {

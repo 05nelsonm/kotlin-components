@@ -81,7 +81,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
             // mingw
             KmpTarget.NON_JVM.NATIVE.MINGW.X64.ENV_PROPERTY_VALUE,
-            KmpTarget.NON_JVM.NATIVE.MINGW.X86.ENV_PROPERTY_VALUE,
+            KmpTarget.NON_JVM.NATIVE.MINGW.X86.ENV_PROPERTY_VALUE
         )
     }
 
@@ -90,7 +90,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         targets: Set<KmpTarget>,
         commonPluginIds: Set<String>? = null,
         commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null
     ): Boolean {
         if (targets.isEmpty()) {
             return false
@@ -136,7 +136,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         project: Project,
         enabledTargets: List<KmpTarget>,
         commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null
     ) {
         project.kotlin {
             sourceSets {
