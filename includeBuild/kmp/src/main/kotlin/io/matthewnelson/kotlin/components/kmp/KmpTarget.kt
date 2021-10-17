@@ -20,6 +20,7 @@ package io.matthewnelson.kotlin.components.kmp
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import com.android.build.gradle.BaseExtension
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Ios.SimulatorArm64
 import org.gradle.api.JavaVersion
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
@@ -513,9 +514,20 @@ sealed class KmpTarget {
 
                     sealed class Ios : Darwin() {
 
+                        /**
+                         * To enable the [SimulatorArm64] target, set [enableSimulator] value.
+                         * It will create a new instance of [SimulatorArm64] and utilize your
+                         * already declared [mainSourceSet] and [testSourceSet] values.
+                         *
+                         * If you need something different for the Main and Test sourceSets as
+                         * they pertain to the SimulatorArm64 functionality, simply leave
+                         * [enableSimulator] null, and pass the additional [KmpTarget] in the
+                         * [Set] during configuration.
+                         * */
                         class All(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            private val enableSimulator: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ): Ios(), TargetCallback<KotlinNativeTarget> {
@@ -541,6 +553,15 @@ sealed class KmpTarget {
                                     }
 
                                     setupDarwinSourceSets(project)
+                                }
+
+                                if (enableSimulator != null) {
+                                    SimulatorArm64(
+                                        pluginIds = null,
+                                        target = enableSimulator,
+                                        mainSourceSet = mainSourceSet,
+                                        testSourceSet = testSourceSet
+                                    ).setupMultiplatform(project)
                                 }
                             }
                         }
@@ -745,9 +766,20 @@ sealed class KmpTarget {
 
                     sealed class Tvos : Darwin() {
 
+                        /**
+                         * To enable the [SimulatorArm64] target, set [enableSimulator] value.
+                         * It will create a new instance of [SimulatorArm64] and utilize your
+                         * already declared [mainSourceSet] and [testSourceSet] values.
+                         *
+                         * If you need something different for the Main and Test sourceSets as
+                         * they pertain to the SimulatorArm64 functionality, simply leave
+                         * [enableSimulator] null, and pass the additional [KmpTarget] in the
+                         * [Set] during configuration.
+                         * */
                         class All(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            private val enableSimulator: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : Tvos(), TargetCallback<KotlinNativeTarget> {
@@ -773,6 +805,15 @@ sealed class KmpTarget {
                                     }
 
                                     setupDarwinSourceSets(project)
+                                }
+
+                                if (enableSimulator != null) {
+                                    SimulatorArm64(
+                                        pluginIds = null,
+                                        target = enableSimulator,
+                                        mainSourceSet = mainSourceSet,
+                                        testSourceSet = testSourceSet
+                                    ).setupMultiplatform(project)
                                 }
                             }
                         }
@@ -877,9 +918,20 @@ sealed class KmpTarget {
 
                     sealed class Watchos : Darwin() {
 
+                        /**
+                         * To enable the [SimulatorArm64] target, set [enableSimulator] value.
+                         * It will create a new instance of [SimulatorArm64] and utilize your
+                         * already declared [mainSourceSet] and [testSourceSet] values.
+                         *
+                         * If you need something different for the Main and Test sourceSets as
+                         * they pertain to the SimulatorArm64 functionality, simply leave
+                         * [enableSimulator] null, and pass the additional [KmpTarget] in the
+                         * [Set] during configuration.
+                         * */
                         class All(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            private val enableSimulator: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                         ) : Watchos(), TargetCallback<KotlinNativeTarget> {
@@ -905,6 +957,15 @@ sealed class KmpTarget {
                                     }
 
                                     setupDarwinSourceSets(project)
+                                }
+
+                                if (enableSimulator != null) {
+                                    SimulatorArm64(
+                                        pluginIds = null,
+                                        target = enableSimulator,
+                                        mainSourceSet = mainSourceSet,
+                                        testSourceSet = testSourceSet
+                                    ).setupMultiplatform(project)
                                 }
                             }
                         }
