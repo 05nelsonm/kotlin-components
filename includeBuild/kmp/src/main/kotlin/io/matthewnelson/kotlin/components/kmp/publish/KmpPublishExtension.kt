@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package io.matthewnelson.kotlin.components.kmp.publish
 
 import com.vanniktech.maven.publish.MavenPublishPluginExtension
@@ -5,12 +7,10 @@ import org.gradle.api.Project
 import org.gradle.plugins.signing.SigningExtension
 import java.util.*
 import javax.inject.Inject
-import kotlin.Throws
 
+@Suppress("unused")
 open class KmpPublishExtension @Inject constructor(private val project: Project) {
 
-    @Suppress("unused")
-    @Throws(IllegalStateException::class)
     fun setupRootProject(
         versionName: String,
         versionCode: Int,
@@ -78,15 +78,14 @@ open class KmpPublishExtension @Inject constructor(private val project: Project)
         )
     }
 
-    @Suppress("unused")
-    @Throws(IllegalStateException::class)
+    @Suppress("DefaultLocale")
     fun setupModule(
         pomDescription: String,
         pomArtifactId: String = project.name,
         pomName: String = pomArtifactId
             .split("-")
             .joinToString("") {
-                it.capitalize(Locale.ROOT)
+                it.capitalize()
         }
     ) {
         check(!project.rootProject.equals(project)) {
@@ -99,14 +98,19 @@ open class KmpPublishExtension @Inject constructor(private val project: Project)
             require(pomName.isNotEmpty()) { "pomName cannot be empty" }
 
             project.propertyExt {
+
+                // TODO: FIX... does not work properly and must instead set a value
+                //  in gradle.properties for that module
                 set("POM_ARTIFACT_ID", pomArtifactId)
+
+
                 set("POM_NAME", pomName)
                 set("POM_DESCRIPTION", pomDescription)
             }
 
-            config.mavenPublish?.let { publish ->
-                project.extensions.configure<MavenPublishPluginExtension>("mavenPublish") {
-                    publish.invoke(this, project)
+            project.extensions.configure<MavenPublishPluginExtension>("mavenPublish") {
+                if (config.mavenPublish?.invoke(this, project) == null) {
+                    releaseSigningEnabled = true
                 }
             }
 
