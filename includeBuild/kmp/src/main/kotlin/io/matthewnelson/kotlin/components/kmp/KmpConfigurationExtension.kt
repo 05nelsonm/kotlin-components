@@ -31,6 +31,7 @@ import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwi
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Companion.DARWIN_COMMON_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.util.EnvProperty
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
@@ -43,7 +44,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
     companion object {
 
-        private val ALL_ENV_PROPERTY_TARGETS: Set<String> = setOf(
+        internal val ALL_ENV_PROPERTY_TARGETS: Set<String> = setOf(
             // jvm
             KmpTarget.Jvm.Jvm.ENV_PROPERTY_VALUE,
             KmpTarget.Jvm.Android.ENV_PROPERTY_VALUE,
@@ -235,6 +236,13 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
     private fun getEnabledEnvironmentTargets(project: Project): Set<String> {
         val propertyTargets: Any? = project.findProperty("KMP_TARGETS")
+
+        if (EnvProperty.isPublishingAll) {
+            println("""
+                Property 'KMP_PUBLISH_ALL' is set. Enabling all targets.
+            """.trimIndent())
+            return ALL_ENV_PROPERTY_TARGETS
+        }
 
         return if (propertyTargets != null && propertyTargets is String && propertyTargets.isNotEmpty()) {
 
