@@ -39,11 +39,95 @@ import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 sealed class KmpTarget {
 
     companion object {
-        const val COMMON_MAIN = KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME
-        const val COMMON_TEST = KotlinSourceSet.COMMON_TEST_SOURCE_SET_NAME
-
         private const val MAIN = "Main"
         private const val TEST = "Test"
+    }
+
+    object SetNames {
+
+        val COMMON_MAIN get() = KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME
+        val COMMON_TEST get() = KotlinSourceSet.COMMON_TEST_SOURCE_SET_NAME
+
+        val JVM_COMMON_MAIN get() = Jvm.JVM_COMMON_MAIN
+        val JVM_COMMON_TEST get() = Jvm.JVM_COMMON_TEST
+
+        val JVM_MAIN get() = Jvm.Jvm.SOURCE_SET_MAIN_NAME
+        val JVM_TEST get() = Jvm.Jvm.SOURCE_SET_TEST_NAME
+
+        val ANDROID_MAIN get() = Jvm.Android.SOURCE_SET_MAIN_NAME
+        val ANDROID_TEST get() = Jvm.Android.SOURCE_SET_TEST_NAME
+
+        val NON_JVM_MAIN get() = NonJvm.NON_JVM_MAIN
+        val NON_JVM_TEST get() = NonJvm.NON_JVM_TEST
+
+        val JS_MAIN get() = NonJvm.JS.SOURCE_SET_MAIN_NAME
+        val JS_TEST get() = NonJvm.JS.SOURCE_SET_TEST_NAME
+
+        val NATIVE_COMMON_MAIN get() = NonJvm.Native.NATIVE_COMMON_MAIN
+        val NATIVE_COMMON_TEST get() = NonJvm.Native.NATIVE_COMMON_TEST
+
+        val UNIX_COMMON_MAIN get() = NonJvm.Native.Unix.UNIX_COMMON_MAIN
+        val UNIX_COMMON_TEST get() = NonJvm.Native.Unix.UNIX_COMMON_TEST
+
+        val DARWIN_COMMON_MAIN get() = NonJvm.Native.Unix.Darwin.DARWIN_COMMON_MAIN
+        val DARWIN_COMMON_TEST get() = NonJvm.Native.Unix.Darwin.DARWIN_COMMON_TEST
+
+        val IOS_MAIN get() = NonJvm.Native.Unix.Darwin.Ios.All.SOURCE_SET_MAIN_NAME
+        val IOS_TEST get() = NonJvm.Native.Unix.Darwin.Ios.All.SOURCE_SET_TEST_NAME
+        val IOS_ARM32_MAIN get() = NonJvm.Native.Unix.Darwin.Ios.Arm32.SOURCE_SET_MAIN_NAME
+        val IOS_ARM32_TEST get() = NonJvm.Native.Unix.Darwin.Ios.Arm32.SOURCE_SET_TEST_NAME
+        val IOS_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Ios.Arm64.SOURCE_SET_MAIN_NAME
+        val IOS_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Ios.Arm64.SOURCE_SET_TEST_NAME
+        val IOS_X64_MAIN get() = NonJvm.Native.Unix.Darwin.Ios.X64.SOURCE_SET_MAIN_NAME
+        val IOS_X64_TEST get() = NonJvm.Native.Unix.Darwin.Ios.X64.SOURCE_SET_TEST_NAME
+        val IOS_SIMULATOR_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Ios.SimulatorArm64.SOURCE_SET_MAIN_NAME
+        val IOS_SIMULATOR_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Ios.SimulatorArm64.SOURCE_SET_TEST_NAME
+
+        val MACOS_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Macos.Arm64.SOURCE_SET_MAIN_NAME
+        val MACOS_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Macos.Arm64.SOURCE_SET_TEST_NAME
+        val MACOS_X64_MAIN get() = NonJvm.Native.Unix.Darwin.Macos.X64.SOURCE_SET_MAIN_NAME
+        val MACOS_X64_TEST get() = NonJvm.Native.Unix.Darwin.Macos.X64.SOURCE_SET_TEST_NAME
+
+        val TVOS_MAIN get() = NonJvm.Native.Unix.Darwin.Tvos.All.SOURCE_SET_MAIN_NAME
+        val TVOS_TEST get() = NonJvm.Native.Unix.Darwin.Tvos.All.SOURCE_SET_TEST_NAME
+        val TVOS_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Tvos.Arm64.SOURCE_SET_MAIN_NAME
+        val TVOS_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Tvos.Arm64.SOURCE_SET_TEST_NAME
+        val TVOS_X64_MAIN get() = NonJvm.Native.Unix.Darwin.Tvos.X64.SOURCE_SET_MAIN_NAME
+        val TVOS_X64_TEST get() = NonJvm.Native.Unix.Darwin.Tvos.X64.SOURCE_SET_TEST_NAME
+        val TVOS_SIMULATOR_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Tvos.SimulatorArm64.SOURCE_SET_MAIN_NAME
+        val TVOS_SIMULATOR_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Tvos.SimulatorArm64.SOURCE_SET_TEST_NAME
+
+        val WATCHOS_MAIN get() = NonJvm.Native.Unix.Darwin.Watchos.All.SOURCE_SET_MAIN_NAME
+        val WATCHOS_TEST get() = NonJvm.Native.Unix.Darwin.Watchos.All.SOURCE_SET_TEST_NAME
+        val WATCHOS_ARM32_MAIN get() = NonJvm.Native.Unix.Darwin.Watchos.Arm32.SOURCE_SET_MAIN_NAME
+        val WATCHOS_ARM32_TEST get() = NonJvm.Native.Unix.Darwin.Watchos.Arm32.SOURCE_SET_TEST_NAME
+        val WATCHOS_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Watchos.Arm64.SOURCE_SET_MAIN_NAME
+        val WATCHOS_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Watchos.Arm64.SOURCE_SET_TEST_NAME
+        val WATCHOS_X64_MAIN get() = NonJvm.Native.Unix.Darwin.Watchos.X64.SOURCE_SET_MAIN_NAME
+        val WATCHOS_X64_TEST get() = NonJvm.Native.Unix.Darwin.Watchos.X64.SOURCE_SET_TEST_NAME
+        val WATCHOS_X86_MAIN get() = NonJvm.Native.Unix.Darwin.Watchos.X86.SOURCE_SET_MAIN_NAME
+        val WATCHOS_X86_TEST get() = NonJvm.Native.Unix.Darwin.Watchos.X86.SOURCE_SET_TEST_NAME
+        val WATCHOS_SIMULATOR_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Watchos.SimulatorArm64.SOURCE_SET_MAIN_NAME
+        val WATCHOS_SIMULATOR_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Watchos.SimulatorArm64.SOURCE_SET_TEST_NAME
+
+        val LINUX_COMMON_MAIN get() = NonJvm.Native.Unix.Linux.LINUX_COMMON_MAIN
+        val LINUX_COMMON_TEST get() = NonJvm.Native.Unix.Linux.LINUX_COMMON_TEST
+        val LINUX_ARM32HFP_MAIN get() = NonJvm.Native.Unix.Linux.Arm32Hfp.SOURCE_SET_MAIN_NAME
+        val LINUX_ARM32HFP_TEST get() = NonJvm.Native.Unix.Linux.Arm32Hfp.SOURCE_SET_TEST_NAME
+        val LINUX_MIPS32_MAIN get() = NonJvm.Native.Unix.Linux.Mips32.SOURCE_SET_MAIN_NAME
+        val LINUX_MIPS32_TEST get() = NonJvm.Native.Unix.Linux.Mips32.SOURCE_SET_TEST_NAME
+        val LINUX_MIPSEL32_MAIN get() = NonJvm.Native.Unix.Linux.Mipsel32.SOURCE_SET_MAIN_NAME
+        val LINUX_MIPSEL32_TEST get() = NonJvm.Native.Unix.Linux.Mipsel32.SOURCE_SET_TEST_NAME
+        val LINUX_X64_MAIN get() = NonJvm.Native.Unix.Linux.X64.SOURCE_SET_MAIN_NAME
+        val LINUX_X64_TEST get() = NonJvm.Native.Unix.Linux.X64.SOURCE_SET_TEST_NAME
+
+        val MINGW_COMMON_MAIN get() = NonJvm.Native.Mingw.MINGW_COMMON_MAIN
+        val MINGW_COMMON_TEST get() = NonJvm.Native.Mingw.MINGW_COMMON_TEST
+        val MINGW_X64_MAIN get() = NonJvm.Native.Mingw.X64.SOURCE_SET_MAIN_NAME
+        val MINGW_X64_TEST get() = NonJvm.Native.Mingw.X64.SOURCE_SET_TEST_NAME
+        val MINGW_X86_MAIN get() = NonJvm.Native.Mingw.X86.SOURCE_SET_MAIN_NAME
+        val MINGW_X86_TEST get() = NonJvm.Native.Mingw.X86.SOURCE_SET_TEST_NAME
+
     }
 
     protected abstract val mainSourceSet: (KotlinSourceSet.() -> Unit)?
@@ -87,7 +171,7 @@ sealed class KmpTarget {
         return "${this.javaClass.toString().split("$").takeLast(2).joinToString(".")}()"
     }
 
-    sealed class JVM: KmpTarget() {
+    sealed class Jvm: KmpTarget() {
 
         companion object {
             const val JVM_COMMON_MAIN = "jvmCommon$MAIN"
@@ -105,7 +189,7 @@ sealed class KmpTarget {
                     maybeCreate(sourceSetTestName).apply testSourceSet@ {
                         dependsOn(getByName(JVM_COMMON_TEST))
 
-                        if (this@JVM is ANDROID) {
+                        if (this@Jvm is Android) {
                             dependsOn(getByName("androidAndroidTestRelease"))
                         }
 
@@ -115,15 +199,15 @@ sealed class KmpTarget {
             }
         }
 
-        class JVM(
+        class Jvm(
             override val pluginIds: Set<String>? = null,
             override val target: (KotlinJvmTarget.() -> Unit)? = null,
             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-        ) : KmpTarget.JVM(), TargetCallback<KotlinJvmTarget> {
+        ) : KmpTarget.Jvm(), TargetCallback<KotlinJvmTarget> {
 
             companion object {
-                val DEFAULT: JVM = JVM()
+                val DEFAULT: Jvm = Jvm()
 
                 const val TARGET_NAME: String = "jvm"
                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -147,7 +231,7 @@ sealed class KmpTarget {
             }
         }
 
-        class ANDROID(
+        class Android(
             private val compileSdk: Int,
             private val minSdk: Int,
             manifestPath: String,
@@ -161,7 +245,7 @@ sealed class KmpTarget {
             override val target: (KotlinAndroidTarget.() -> Unit)? = null,
             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-        ) : KmpTarget.JVM(), TargetCallback<KotlinAndroidTarget> {
+        ) : KmpTarget.Jvm(), TargetCallback<KotlinAndroidTarget> {
 
             companion object {
                 const val TARGET_NAME: String = "android"
@@ -230,14 +314,14 @@ sealed class KmpTarget {
                 }
 
                 project.extensions.configure(BaseExtension::class) config@ {
-                    compileSdkVersion(this@ANDROID.compileSdk)
-                    this@ANDROID.buildTools?.let { buildToolsVersion = it }
+                    compileSdkVersion(this@Android.compileSdk)
+                    this@Android.buildTools?.let { buildToolsVersion = it }
 
-                    this@ANDROID.manifestPath?.let { path -> sourceSets.getByName("main").manifest.srcFile(path) }
+                    this@Android.manifestPath?.let { path -> sourceSets.getByName("main").manifest.srcFile(path) }
 
                     defaultConfig {
-                        minSdk = this@ANDROID.minSdk
-                        this@ANDROID.targetSdk?.let { targetSdk = it }
+                        minSdk = this@Android.minSdk
+                        this@Android.targetSdk?.let { targetSdk = it }
 
                         testInstrumentationRunnerArguments["disableAnalytics"] = "true"
                     }
@@ -265,7 +349,7 @@ sealed class KmpTarget {
 
     }
 
-    sealed class NON_JVM: KmpTarget() {
+    sealed class NonJvm: KmpTarget() {
 
         companion object {
             const val NON_JVM_MAIN = "nonJvmMain"
@@ -279,7 +363,7 @@ sealed class KmpTarget {
             override val pluginIds: Set<String>? = null,
             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-        ) : NON_JVM() {
+        ) : NonJvm() {
 
             class Browser(val jsBrowserDsl: (KotlinJsBrowserDsl.() -> Unit)? = null) {
                 override fun toString(): String {
@@ -389,21 +473,21 @@ sealed class KmpTarget {
 
         }
 
-        sealed class NATIVE: NON_JVM() {
+        sealed class Native: NonJvm() {
 
             companion object {
                 const val NATIVE_COMMON_MAIN = "nativeCommon$MAIN"
                 const val NATIVE_COMMON_TEST = "nativeCommon$TEST"
             }
 
-            sealed class UNIX: NATIVE() {
+            sealed class Unix: Native() {
 
                 companion object {
                     const val UNIX_COMMON_MAIN = "unixCommon$MAIN"
                     const val UNIX_COMMON_TEST = "unixCommon$TEST"
                 }
 
-                sealed class DARWIN: UNIX() {
+                sealed class Darwin: Unix() {
 
                     companion object {
                         const val DARWIN_COMMON_MAIN = "darwinCommon$MAIN"
@@ -427,17 +511,17 @@ sealed class KmpTarget {
                         }
                     }
 
-                    sealed class IOS : DARWIN() {
+                    sealed class Ios : Darwin() {
 
-                        class ALL(
+                        class All(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ): IOS(), TargetCallback<KotlinNativeTarget> {
+                        ): Ios(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ALL()
+                                val DEFAULT = All()
 
                                 const val TARGET_NAME: String = "ios"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -461,15 +545,15 @@ sealed class KmpTarget {
                             }
                         }
 
-                        class ARM32(
+                        class Arm32(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : IOS(), TargetCallback<KotlinNativeTarget> {
+                        ) : Ios(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ARM32()
+                                val DEFAULT = Arm32()
 
                                 const val TARGET_NAME: String = "iosArm32"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -493,15 +577,15 @@ sealed class KmpTarget {
                             }
                         }
 
-                        class ARM64(
+                        class Arm64(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
                             override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null
-                        ) : IOS(), TargetCallback<KotlinNativeTarget> {
+                        ) : Ios(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ARM64()
+                                val DEFAULT = Arm64()
 
                                 const val TARGET_NAME: String = "iosArm64"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -530,7 +614,7 @@ sealed class KmpTarget {
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : IOS(), TargetCallback<KotlinNativeTarget> {
+                        ) : Ios(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
                                 val DEFAULT = X64()
@@ -557,15 +641,15 @@ sealed class KmpTarget {
                             }
                         }
 
-                        class SIMULATOR_ARM64(
+                        class SimulatorArm64(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : IOS(), TargetCallback<KotlinNativeTargetWithSimulatorTests> {
+                        ) : Ios(), TargetCallback<KotlinNativeTargetWithSimulatorTests> {
 
                             companion object {
-                                val DEFAULT = SIMULATOR_ARM64()
+                                val DEFAULT = SimulatorArm64()
 
                                 const val TARGET_NAME: String = "iosSimulatorArm64"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -591,17 +675,17 @@ sealed class KmpTarget {
 
                     }
 
-                    sealed class MACOS : DARWIN() {
+                    sealed class Macos : Darwin() {
 
-                        class ARM64(
+                        class Arm64(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTargetWithHostTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : MACOS(), TargetCallback<KotlinNativeTargetWithHostTests> {
+                        ) : Macos(), TargetCallback<KotlinNativeTargetWithHostTests> {
 
                              companion object {
-                                 val DEFAULT = ARM64()
+                                 val DEFAULT = Arm64()
 
                                  const val TARGET_NAME: String = "macosArm64"
                                  const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -630,7 +714,7 @@ sealed class KmpTarget {
                             override val target: (KotlinNativeTargetWithHostTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : MACOS(), TargetCallback<KotlinNativeTargetWithHostTests> {
+                        ) : Macos(), TargetCallback<KotlinNativeTargetWithHostTests> {
 
                              companion object {
                                  val DEFAULT = X64()
@@ -659,17 +743,17 @@ sealed class KmpTarget {
 
                     }
 
-                    sealed class TVOS : DARWIN() {
+                    sealed class Tvos : Darwin() {
 
-                        class ALL(
+                        class All(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : TVOS(), TargetCallback<KotlinNativeTarget> {
+                        ) : Tvos(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ALL()
+                                val DEFAULT = All()
 
                                 const val TARGET_NAME: String = "tvos"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -693,15 +777,15 @@ sealed class KmpTarget {
                             }
                         }
 
-                        class ARM64(
+                        class Arm64(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : TVOS(), TargetCallback<KotlinNativeTarget> {
+                        ) : Tvos(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ARM64()
+                                val DEFAULT = Arm64()
 
                                 const val TARGET_NAME: String = "tvosArm64"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -730,7 +814,7 @@ sealed class KmpTarget {
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : TVOS(), TargetCallback<KotlinNativeTarget> {
+                        ) : Tvos(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
                                 val DEFAULT = X64()
@@ -757,15 +841,15 @@ sealed class KmpTarget {
                             }
                         }
 
-                        class SIMULATOR_ARM64(
+                        class SimulatorArm64(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : TVOS(), TargetCallback<KotlinNativeTargetWithSimulatorTests> {
+                        ) : Tvos(), TargetCallback<KotlinNativeTargetWithSimulatorTests> {
 
                             companion object {
-                                val DEFAULT = SIMULATOR_ARM64()
+                                val DEFAULT = SimulatorArm64()
 
                                 const val TARGET_NAME: String = "tvosSimulatorArm64"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -791,17 +875,17 @@ sealed class KmpTarget {
 
                     }
 
-                    sealed class WATCHOS : DARWIN() {
+                    sealed class Watchos : Darwin() {
 
-                        class ALL(
+                        class All(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
+                        ) : Watchos(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ALL()
+                                val DEFAULT = All()
 
                                 const val TARGET_NAME: String = "watchos"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -825,15 +909,15 @@ sealed class KmpTarget {
                             }
                         }
 
-                        class ARM32(
+                        class Arm32(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
+                        ) : Watchos(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ARM32()
+                                val DEFAULT = Arm32()
 
                                 const val TARGET_NAME: String = "watchosArm32"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -857,15 +941,15 @@ sealed class KmpTarget {
                             }
                         }
 
-                        class ARM64(
+                        class Arm64(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
+                        ) : Watchos(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
-                                val DEFAULT = ARM64()
+                                val DEFAULT = Arm64()
 
                                 const val TARGET_NAME: String = "watchosArm64"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -894,7 +978,7 @@ sealed class KmpTarget {
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
+                        ) : Watchos(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
                                 val DEFAULT = X64()
@@ -926,7 +1010,7 @@ sealed class KmpTarget {
                             override val target: (KotlinNativeTarget.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : WATCHOS(), TargetCallback<KotlinNativeTarget> {
+                        ) : Watchos(), TargetCallback<KotlinNativeTarget> {
 
                             companion object {
                                 val DEFAULT = X86()
@@ -953,15 +1037,15 @@ sealed class KmpTarget {
                             }
                         }
 
-                        class SIMULATOR_ARM64(
+                        class SimulatorArm64(
                             override val pluginIds: Set<String>? = null,
                             override val target: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
                             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : WATCHOS(), TargetCallback<KotlinNativeTargetWithSimulatorTests> {
+                        ) : Watchos(), TargetCallback<KotlinNativeTargetWithSimulatorTests> {
 
                             companion object {
-                                val DEFAULT = SIMULATOR_ARM64()
+                                val DEFAULT = SimulatorArm64()
 
                                 const val TARGET_NAME: String = "watchosSimulatorArm64"
                                 const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -988,7 +1072,7 @@ sealed class KmpTarget {
                     }
                 }
 
-                sealed class LINUX : UNIX() {
+                sealed class Linux : Unix() {
 
                     companion object {
                         const val LINUX_COMMON_MAIN = "linuxCommon$MAIN"
@@ -1012,15 +1096,15 @@ sealed class KmpTarget {
                         }
                     }
 
-                    class ARM32HFP(
+                    class Arm32Hfp(
                         override val pluginIds: Set<String>? = null,
                         override val target: (KotlinNativeTarget.() -> Unit)? = null,
                         override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                         override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                    ) : LINUX(), TargetCallback<KotlinNativeTarget> {
+                    ) : Linux(), TargetCallback<KotlinNativeTarget> {
 
                         companion object {
-                            val DEFAULT = ARM32HFP()
+                            val DEFAULT = Arm32Hfp()
 
                             const val TARGET_NAME: String = "linuxArm32Hfp"
                             const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -1044,15 +1128,15 @@ sealed class KmpTarget {
                         }
                     }
 
-                    class MIPS32(
+                    class Mips32(
                         override val pluginIds: Set<String>? = null,
                         override val target: (KotlinNativeTarget.() -> Unit)? = null,
                         override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                         override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                    ) : LINUX(), TargetCallback<KotlinNativeTarget> {
+                    ) : Linux(), TargetCallback<KotlinNativeTarget> {
 
                         companion object {
-                            val DEFAULT = MIPS32()
+                            val DEFAULT = Mips32()
 
                             const val TARGET_NAME: String = "linuxMips32"
                             const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -1076,15 +1160,15 @@ sealed class KmpTarget {
                         }
                     }
 
-                    class MIPSEL32(
+                    class Mipsel32(
                         override val pluginIds: Set<String>? = null,
                         override val target: (KotlinNativeTarget.() -> Unit)? = null,
                         override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                         override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                    ) : LINUX(), TargetCallback<KotlinNativeTarget> {
+                    ) : Linux(), TargetCallback<KotlinNativeTarget> {
 
                         companion object {
-                            val DEFAULT = MIPSEL32()
+                            val DEFAULT = Mipsel32()
 
                             const val TARGET_NAME: String = "linuxMipsel32"
                             const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
@@ -1113,7 +1197,7 @@ sealed class KmpTarget {
                         override val target: (KotlinNativeTarget.() -> Unit)? = null,
                         override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
                         override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                    ) : LINUX(), TargetCallback<KotlinNativeTarget> {
+                    ) : Linux(), TargetCallback<KotlinNativeTarget> {
 
                         companion object {
                             val DEFAULT = X64()
@@ -1144,7 +1228,7 @@ sealed class KmpTarget {
 
             }
 
-            sealed class MINGW : NATIVE() {
+            sealed class Mingw : Native() {
 
                 companion object {
                     const val MINGW_COMMON_MAIN = "mingwCommon$MAIN"
@@ -1173,7 +1257,7 @@ sealed class KmpTarget {
                     override val target: (KotlinNativeTargetWithHostTests.() -> Unit)? = null,
                     override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
                     override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null
-                ) : MINGW(), TargetCallback<KotlinNativeTargetWithHostTests> {
+                ) : Mingw(), TargetCallback<KotlinNativeTargetWithHostTests> {
 
                     companion object {
                         val DEFAULT = X64()
@@ -1205,7 +1289,7 @@ sealed class KmpTarget {
                     override val target: (KotlinNativeTarget.() -> Unit)? = null,
                     override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
                     override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null
-                ) : MINGW(), TargetCallback<KotlinNativeTarget> {
+                ) : Mingw(), TargetCallback<KotlinNativeTarget> {
 
                     companion object {
                         val DEFAULT = X86()

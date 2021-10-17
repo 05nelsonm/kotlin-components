@@ -45,7 +45,7 @@ import org.gradle.kotlin.dsl.create
  *     setupMultiplatform(
  *         setOf(
  *             // list all kmp targets that the module will utilize
- *             KmpTarget.ANDROID(
+ *             KmpTarget.Jvm.Android(
  *                 buildTools = "30.0.3",
  *                 compileSdk = 30,
  *                 minSdk = 16,
@@ -84,7 +84,7 @@ import org.gradle.kotlin.dsl.create
  *                 },
  *
  *             ),
- *             KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.IOS.ARM32(
+ *             KmpTarget.NonJvm.Native.Unix.Darwin.Ios.Arm32(
  *                 target = {
  *                     ...
  *                 },
@@ -96,7 +96,7 @@ import org.gradle.kotlin.dsl.create
  *             ),
  *
  *             // Optionally, utilize the `DEFAULT`s provided (no callbacks)
- *             KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.IOS.ARM64.DEFAULT,
+ *             KmpTarget.NonJvm.Native.Unix.Darwin.Ios.Arm64.DEFAULT,
  *             ...
  *         ),
  *
@@ -118,7 +118,7 @@ import org.gradle.kotlin.dsl.create
  * }
  * ```
  *
- * Alternatively, import the [io.matthewnelson.components.kmp.kotlin] extension function
+ * Alternatively, import the [io.matthewnelson.kotlin.components.kmp.kotlin] extension function
  * and configure things further after the `kmpConfiguration` block.
  *
  * ```
@@ -135,19 +135,19 @@ import org.gradle.kotlin.dsl.create
  *
  * kotlin {
  *     sourceSets {
- *         getByName(KmpTarget.COMMON_MAIN) {
+ *         getByName(KmpTarget.SetNames.COMMON_MAIN) {
  *             dependencies {
  *                 implementation(project(":my-other-project-module"))
  *             }
  *         }
- *         getByName(KmpTarget.NON_JVM.NATIVE.UNIX.DARWIN.MACOS.X64.SOURCE_SET_MAIN_NAME) {
+ *         getByName(KmpTarget.SetNames.MACOS_X64_MAIN) {
  *             dependencies {
  *                 implementation(project(":my-other-macos-only-project"))
  *             }
  *         }
  *     }
  *
- *     targets.getByName(KmpTarget.NON_JVM.JS.TARGET_NAME) {
+ *     targets.getByName(KmpTarget.NonJvm.JS.TARGET_NAME) {
  *         ...
  *     }
  * }
@@ -168,10 +168,10 @@ import org.gradle.kotlin.dsl.create
  *   JVM,
  *   JS,
  *   LINUX_ARM32HFP,LINUX_MIPS32,LINUX_MIPSEL32,LINUX_X64,
- *   [ IOS_ALL **OR*** IOS_ARM32,IOS_ARM64,IOS_X64 ], **AND/OR** IOS_SIMULATOR_ARM64,
+ *   IOS_ALL,IOS_ARM32,IOS_ARM64,IOS_X64,IOS_SIMULATOR_ARM64,
  *   MACOS_ARM64,MACOS_X64,
- *   [ TVOS_ALL **OR** TVOS_ARM64,TVOS_X64 ], **AND/OR** TVOS_SIMULATOR_ARM64,
- *   [ WATCHOS_ALL **OR** WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_X64,WATCHOS_X86], **AND/OR** WATCHOS_SIMULATOR_ARM64,
+ *   TVOS_ALL,TVOS_ARM64,TVOS_X64,TVOS_SIMULATOR_ARM64,
+ *   WATCHOS_ALL,WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_X64,WATCHOS_X86,WATCHOS_SIMULATOR_ARM64,
  *   MINGW_X64,MINGW_X86,
  *
  * Depending on the [KmpTarget]s passed, as well as what is enabled (as mentioned above),
@@ -199,7 +199,6 @@ import org.gradle.kotlin.dsl.create
  *                  |       |        |-- watchosArm32
  *                  |       |        |-- watchosArm64
  *                  |       |        |-- watchosX64
- *                  |       |        |-- watchosX64
  *                  |       |        '-- watchosSimulatorArm64
  *                  |       '-- linuxCommon
  *                  |                |-- linuxArm32Hfp
@@ -223,6 +222,6 @@ import org.gradle.kotlin.dsl.create
 @Suppress("unused")
 class KmpConfigurationPlugin: Plugin<Project> {
     override fun apply(target: Project) {
-        target.extensions.create("kmpConfiguration", KmpConfigurationExtension::class, target)
+        target.extensions.create<KmpConfigurationExtension>("kmpConfiguration", target)
     }
 }
