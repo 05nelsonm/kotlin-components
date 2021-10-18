@@ -2,6 +2,9 @@
 
 package io.matthewnelson.kotlin.components.kmp.publish
 
+import com.vanniktech.maven.publish.AndroidLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.MavenPublishPluginExtension
 import org.gradle.api.Project
 import org.gradle.plugins.signing.SigningExtension
@@ -38,7 +41,7 @@ open class KmpPublishExtension @Inject constructor(private val project: Project)
         pomScmConnection: String = "scm:git:git://github.com/05nelsonm/$repoName",
         pomScmDevConnection: String = "scm:git:ssh://git@github.com/05nelsonm/$repoName.git"
     ) {
-        check(project.rootProject.equals(project)) {
+        check(project.rootProject == project) {
             "setupRootProject is only available from the rootProject's build.gradle(.kts) file"
         }
 
@@ -88,7 +91,7 @@ open class KmpPublishExtension @Inject constructor(private val project: Project)
                 it.capitalize()
         }
     ) {
-        check(!project.rootProject.equals(project)) {
+        check(project.rootProject != project) {
             "setupModule is only available from the subproject's build.gradle(.kts) file"
         }
 
@@ -98,15 +101,12 @@ open class KmpPublishExtension @Inject constructor(private val project: Project)
             require(pomName.isNotEmpty()) { "pomName cannot be empty" }
 
             project.propertyExt {
-
-                // TODO: FIX... does not work properly and must instead set a value
-                //  in gradle.properties for that module
                 set("POM_ARTIFACT_ID", pomArtifactId)
-
-
                 set("POM_NAME", pomName)
                 set("POM_DESCRIPTION", pomDescription)
             }
+
+            project.pluginManager.apply("com.vanniktech.maven.publish")
 
             project.extensions.configure<MavenPublishPluginExtension>("mavenPublish") {
                 if (config.mavenPublish?.invoke(this, project) == null) {
