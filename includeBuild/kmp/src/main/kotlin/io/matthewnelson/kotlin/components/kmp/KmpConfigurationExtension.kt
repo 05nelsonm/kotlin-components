@@ -112,8 +112,6 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
             project.plugins.apply("com.android.library")
         }
 
-        project.plugins.apply("org.jetbrains.kotlin.multiplatform")
-
         commonPluginIds?.let { ids ->
             for (id in ids) {
                 project.plugins.apply(id)
