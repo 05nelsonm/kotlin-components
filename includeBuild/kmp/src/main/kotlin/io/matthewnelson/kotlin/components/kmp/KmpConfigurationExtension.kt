@@ -235,9 +235,11 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
     private fun getEnabledEnvironmentTargets(project: Project): Set<String> {
         val propertyTargets: Any? = project.findProperty("KMP_TARGETS")
 
-        if (EnvProperty.isPublishingAll) {
+        if (EnvProperty.isEnableAllTargetsSet) {
             println("""
-                Property 'KMP_PUBLISH_ALL' is set. Enabling all targets.
+                
+                Property 'KMP_TARGET_ALL' is set. Overriding 'KMP_TARGETS' and enabling all.
+                
             """.trimIndent())
             return ALL_ENV_PROPERTY_TARGETS
         }
@@ -248,24 +250,30 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                 if (ALL_ENV_PROPERTY_TARGETS.contains(propertyTarget)) {
                     propertyTarget
                 } else {
-                    println(
-                        "\nWARNING: KMP_TARGET environment property '$propertyTarget' not recognized..."
-                    )
+                    println("""
+                        
+                        WARNING: KMP_TARGET property '$propertyTarget' not recognized...
+                        
+                    """.trimIndent())
                     null
                 }
             }.toSet()
 
             if (enabledTargets.isEmpty()) {
                 throw IllegalArgumentException(
-                    "KMP_TARGETS environment variable is set, but did not contain any recognized values"
+                    "KMP_TARGETS property is set, but did not contain any recognized values"
                 )
             }
 
             enabledTargets
         } else {
             println(
-                "\nWARNING: KMP_TARGETS environment variable not set... " +
-                "Enabling all targets for project '" + project.name + "'\n"
+                """
+                    
+                    WARNING: KMP_TARGETS property not set...
+                    Enabling all targets for project ${project.name}
+                    
+                """.trimIndent()
             )
             ALL_ENV_PROPERTY_TARGETS
         }
