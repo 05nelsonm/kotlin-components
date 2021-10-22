@@ -33,7 +33,9 @@ import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_TEST
 import io.matthewnelson.kotlin.components.kmp.util.EnvProperty
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import javax.inject.Inject
 
@@ -91,14 +93,29 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         targets: Set<KmpTarget>,
         commonPluginIds: Set<String>? = null,
         commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null
+        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+        kotlin: (KotlinMultiplatformExtension.() -> Unit)? = null
     ): Boolean {
+        
+        check(project.rootProject != project) {
+            """
+                KmpConfiguration.setupMultiplatform can not be run
+                from the root project's build.gradle(.kts) file.
+            """.trimIndent()
+        }
+
         if (targets.isEmpty()) {
             return false
         }
 
         val enabledEnvironmentTargets: Set<String> = getEnabledEnvironmentTargets(project)
         val enabledTargets: List<KmpTarget> = targets.filter { enabledEnvironmentTargets.contains(it.envPropertyValue) }
+
+        if (enabledTargets.isEmpty()) {
+            return false
+        }
+
+        project.plugins.apply("org.jetbrains.kotlin.multiplatform")
 
         var android: KmpTarget.Jvm.Android? = null
         for (target in enabledTargets) {
@@ -125,6 +142,12 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         for (target in enabledTargets) {
             if (target !is KmpTarget.Jvm.Android) {
                 target.setupMultiplatform(project)
+            }
+        }
+
+        if (kotlin != null) {
+            project.extensions.configure<KotlinMultiplatformExtension>() {
+                kotlin.invoke(this)
             }
         }
 
