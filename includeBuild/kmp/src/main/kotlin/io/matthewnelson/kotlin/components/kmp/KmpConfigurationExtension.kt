@@ -96,6 +96,14 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
         kotlin: (KotlinMultiplatformExtension.() -> Unit)? = null
     ): Boolean {
+        
+        check(project.rootProject != project) {
+            """
+                KmpConfiguration.setupMultiplatform can not be run
+                from the root project's build.gradle(.kts) file.
+            """.trimIndent()
+        }
+
         if (targets.isEmpty()) {
             return false
         }
