@@ -222,9 +222,6 @@ import org.gradle.kotlin.dsl.create
 @Suppress("unused")
 class KmpConfigurationPlugin: Plugin<Project> {
     override fun apply(target: Project) {
-        if (target.rootProject != target) {
-            target.plugins.apply("org.jetbrains.kotlin.multiplatform")
-        }
         target.extensions.create<KmpConfigurationExtension>("kmpConfiguration", target)
     }
 }

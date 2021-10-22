@@ -33,7 +33,9 @@ import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_TEST
 import io.matthewnelson.kotlin.components.kmp.util.EnvProperty
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import javax.inject.Inject
 
@@ -99,6 +101,12 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
         val enabledEnvironmentTargets: Set<String> = getEnabledEnvironmentTargets(project)
         val enabledTargets: List<KmpTarget> = targets.filter { enabledEnvironmentTargets.contains(it.envPropertyValue) }
+
+        if (enabledTargets.isEmpty()) {
+            return false
+        }
+
+        project.plugins.apply("org.jetbrains.kotlin.multiplatform")
 
         var android: KmpTarget.Jvm.Android? = null
         for (target in enabledTargets) {
