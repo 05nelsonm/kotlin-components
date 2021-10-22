@@ -93,7 +93,8 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         targets: Set<KmpTarget>,
         commonPluginIds: Set<String>? = null,
         commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null
+        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+        kotlin: (KotlinMultiplatformExtension.() -> Unit)? = null
     ): Boolean {
         if (targets.isEmpty()) {
             return false
@@ -133,6 +134,12 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         for (target in enabledTargets) {
             if (target !is KmpTarget.Jvm.Android) {
                 target.setupMultiplatform(project)
+            }
+        }
+
+        if (kotlin != null) {
+            project.extensions.configure<KotlinMultiplatformExtension>() {
+                kotlin.invoke(this)
             }
         }
 
