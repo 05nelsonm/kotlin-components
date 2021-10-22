@@ -16,7 +16,7 @@
 package io.matthewnelson.kotlin.components.kmp.util
 
 internal object EnvProperty {
-    // ./gradlew publishAllPublicationsToMavenRepository --no-daemon --no-parallel -DKMP_TARGET_ALL
+    // ./gradlew publishAllPublicationsToMavenRepository --no-daemon --no-parallel -DKMP_TARGETS_ALL
     val isEnableAllTargetsSet: Boolean
-        get() = System.getProperty("KMP_TARGET_ALL") != null
+        get() = System.getProperty("KMP_TARGETS_ALL") != null
 }
