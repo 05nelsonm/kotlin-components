@@ -238,8 +238,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         if (EnvProperty.isEnableAllTargetsSet) {
             println("""
                 
-                Property 'KMP_TARGET_ALL' is set. Overriding 'KMP_TARGETS' and enabling all.
-                
+                Property 'KMP_TARGETS_ALL' is set. Overriding 'KMP_TARGETS' and enabling all.
             """.trimIndent())
             return ALL_ENV_PROPERTY_TARGETS
         }
@@ -253,7 +252,6 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                     println("""
                         
                         WARNING: KMP_TARGET property '$propertyTarget' not recognized...
-                        
                     """.trimIndent())
                     null
                 }
@@ -270,9 +268,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
             println(
                 """
                     
-                    WARNING: KMP_TARGETS property not set...
-                    Enabling all targets for project ${project.name}
-                    
+                    KMP_TARGETS property not set... Enabling all targets for project ${project.name}
                 """.trimIndent()
             )
             ALL_ENV_PROPERTY_TARGETS
