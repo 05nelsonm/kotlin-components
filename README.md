@@ -1,3 +1,3 @@
-# components
+# kotlin-components
 
-A git repository for managing dependency versions across multiple projects via use of git submodules
+See **[Project Website](https://kotlin-components.matthewnelson.io)**
