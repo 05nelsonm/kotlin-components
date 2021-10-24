@@ -21,6 +21,7 @@ import com.vanniktech.maven.publish.AndroidLibrary
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.MavenPublishPluginExtension
+import io.matthewnelson.kotlin.components.kmp.util.propertyExt
 import org.gradle.api.Project
 import org.gradle.plugins.signing.SigningExtension
 import java.util.*

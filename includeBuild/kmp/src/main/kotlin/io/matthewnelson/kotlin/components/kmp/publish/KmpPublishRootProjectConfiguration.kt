@@ -16,6 +16,8 @@
 package io.matthewnelson.kotlin.components.kmp.publish
 
 import com.vanniktech.maven.publish.MavenPublishPluginExtension
+import io.matthewnelson.kotlin.components.kmp.util.propertyExt
+import io.matthewnelson.kotlin.components.kmp.util.setPropertyIfDifferent
 import org.gradle.api.Project
 import org.gradle.plugins.signing.SigningExtension
 

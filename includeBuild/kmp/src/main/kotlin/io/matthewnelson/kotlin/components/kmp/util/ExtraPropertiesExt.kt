@@ -13,7 +13,7 @@
 *  See the License for the specific language governing permissions and
 *  limitations under the License.
 * */
-package io.matthewnelson.kotlin.components.kmp.publish
+package io.matthewnelson.kotlin.components.kmp.util
 
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtraPropertiesExtension
