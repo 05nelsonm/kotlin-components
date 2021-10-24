@@ -12,7 +12,7 @@ function help() {
   echo "                       darwin"
   echo "                       mingw"
   echo ""
-  echo "            --check-publication    verifys MavenCentral publications are good"
+  echo "            --check-publication    verifies MavenCentral publications are good"
   echo ""
 }
 
@@ -98,7 +98,7 @@ case $1 in
         echo ""
         echo "./gradlew $PUBLISH_TASKS --no-parallel --no-daemon"
         echo ""
-        sleep 10
+        sleep 15
         ;;
 
       *)
@@ -108,12 +108,14 @@ case $1 in
     esac
     ;;
 
+  # Running on each platform for the given version requires that
+  # publications on all platforms be published first.
   "--check-publication")
     checkGradlewExists
     checkKotlinComponentsProject
     checkCheckPublicationProjectExists
     clean
-    ./gradlew :tools:check-publication:build --refresh-dependencies -PCHECK_PUBLICATION -DKMP_TARGETS_ALL
+    ./gradlew :tools:check-publication:build --refresh-dependencies -PCHECK_PUBLICATION
     ;;
 
   *)
@@ -122,4 +124,5 @@ case $1 in
 
 esac
 
+sleep 1
 exit 0
