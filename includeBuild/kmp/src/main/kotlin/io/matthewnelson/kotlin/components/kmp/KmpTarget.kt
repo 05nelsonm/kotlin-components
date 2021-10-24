@@ -20,7 +20,7 @@ package io.matthewnelson.kotlin.components.kmp
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import com.android.build.gradle.BaseExtension
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Ios.SimulatorArm64
+import io.matthewnelson.kotlin.components.kmp.util.kotlin
 import org.gradle.api.JavaVersion
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke

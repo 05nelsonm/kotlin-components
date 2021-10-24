@@ -15,8 +15,20 @@
 * */
 package io.matthewnelson.kotlin.components.kmp.util
 
-internal object EnvProperty {
-    // ./gradlew publishAllPublicationsToMavenCentralRepository --no-daemon --no-parallel -DKMP_TARGETS_ALL
-    val isEnableAllTargetsSet: Boolean
-        get() = System.getProperty("KMP_TARGETS_ALL") != null
+import org.gradle.api.Project
+import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
+import org.gradle.kotlin.dsl.get
+import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+
+@Suppress("NOTHING_TO_INLINE", "unused")
+inline fun KotlinDependencyHandler.kapt(project: Project, dependencyNotation: String) {
+    implementation(dependencyNotation)
+    val splits = dependencyNotation.split(":")
+    project.configurations["kapt"].dependencies.add(
+        DefaultExternalModuleDependency(
+            splits[0], // group
+            splits[1], // name
+            splits[2]  // version
+        )
+    )
 }

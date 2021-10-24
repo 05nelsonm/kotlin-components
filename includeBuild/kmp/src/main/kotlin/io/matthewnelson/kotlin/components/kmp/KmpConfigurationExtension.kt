@@ -32,6 +32,7 @@ import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwi
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_TEST
 import io.matthewnelson.kotlin.components.kmp.util.EnvProperty
+import io.matthewnelson.kotlin.components.kmp.util.kotlin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke

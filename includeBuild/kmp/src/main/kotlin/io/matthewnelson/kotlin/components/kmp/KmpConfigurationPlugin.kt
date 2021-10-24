@@ -118,7 +118,7 @@ import org.gradle.kotlin.dsl.create
  * }
  * ```
  *
- * Alternatively, import the [io.matthewnelson.kotlin.components.kmp.kotlin] extension function
+ * Alternatively, import the [io.matthewnelson.kotlin.components.kmp.util.kotlin] extension function
  * and configure things further after the `kmpConfiguration` block.
  *
  * ```
@@ -217,7 +217,7 @@ import org.gradle.kotlin.dsl.create
  *
  * @see [KmpConfigurationExtension]
  * @see [KmpTarget]
- * @see [io.matthewnelson.kotlin.components.kmp.kotlin]
+ * @see [io.matthewnelson.kotlin.components.kmp.util.kotlin]
  * */
 @Suppress("unused")
 class KmpConfigurationPlugin: Plugin<Project> {
