@@ -17,9 +17,6 @@
 
 package io.matthewnelson.kotlin.components.kmp.publish
 
-import com.vanniktech.maven.publish.AndroidLibrary
-import com.vanniktech.maven.publish.JavadocJar
-import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.MavenPublishPluginExtension
 import io.matthewnelson.kotlin.components.kmp.util.propertyExt
 import org.gradle.api.Project
@@ -100,8 +97,7 @@ open class KmpPublishExtension @Inject constructor(private val project: Project)
     @Suppress("DefaultLocale")
     fun setupModule(
         pomDescription: String,
-        pomArtifactId: String = project.name,
-        pomName: String = pomArtifactId
+        pomName: String = project.name
             .split("-")
             .joinToString("") {
                 it.capitalize()
@@ -113,11 +109,9 @@ open class KmpPublishExtension @Inject constructor(private val project: Project)
 
         project.kmpPublishRootProjectConfiguration?.let { config ->
             require(pomDescription.isNotEmpty()) { "pomDescription cannot be empty" }
-            require(pomArtifactId.isNotEmpty()) { "pomArtifactId cannot be empty" }
             require(pomName.isNotEmpty()) { "pomName cannot be empty" }
 
             project.propertyExt {
-                set("POM_ARTIFACT_ID", pomArtifactId)
                 set("POM_NAME", pomName)
                 set("POM_DESCRIPTION", pomDescription)
             }
