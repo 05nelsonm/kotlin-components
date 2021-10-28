@@ -14,7 +14,7 @@ buildscript {
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.androidx.navigation.safeArgs)
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.google.hilt)
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.gradleVersions)
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.intellijGradle)
+        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.intellij)
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.kotlin.dokka)
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.kotlin.gradle)
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.kotlin.serialization)
