@@ -29,28 +29,20 @@ object versions {
         const val sdkTarget                 = 31
     }
 
-    const val buildTools                    = "31.0.0"
-    const val sdkCompile                    = 31
-    const val sdkMin16                      = 16
-    const val sdkMin21                      = 21
-    const val sdkMin23                      = 23
-    const val sdkMin26                      = 26
-    const val sdkTarget                     = 31
-
     object androidx {
         const val annotation                = "1.2.0"
         const val appCompat                 = "1.3.1"
         const val camera                    = "1.1.0-alpha10"
         const val cameraExt                 = "1.0.0-alpha30"
         const val constraintLayout          = "2.1.1"
-        const val core                      = "1.6.0"
+        const val core                      = "1.7.0"
         const val exifInterface             = "1.3.3"
 
         object hilt {
             const val lifecycle             = "1.0.0-alpha03"
         }
 
-        const val lifecycle                 = "2.3.1"
+        const val lifecycle                 = "2.4.0"
         const val navigation                = "2.3.5"
         const val media                     = "1.4.3"
         const val paging3                   = "3.0.1"
@@ -74,7 +66,7 @@ object versions {
     }
 
     object google {
-        const val hilt                      = "2.39.1"
+        const val hilt                      = "2.40"
         const val guava                     = "31.0.1"
         const val material                  = "1.4.0-rc01"
         const val mlKitBarcodeScanning      = "17.0.0"
@@ -98,12 +90,12 @@ object versions {
         const val leakCanary                = "2.7"
         const val moshi                     = "1.12.0"
         const val sqlDelight                = "1.5.2"
-        const val turbine                   = "0.6.1"
+        const val turbine                   = "0.7.0"
     }
 
     object sql {
-        const val cipher                     = "4.4.3"
-        const val requery                    = "3.36.0"
+        const val cipher                    = "4.5.0"
+        const val requery                   = "3.36.0"
     }
 
     const val viewBindingDelegate           = "1.4.7"
@@ -123,24 +115,24 @@ object versions {
 
     object test {
         object androidx {
-            const val archCore = "2.1.0"
-            const val core = "1.4.0"
-            const val espresso = "3.4.0"
-            const val junit = "1.1.3"
+            const val archCore              = "2.1.0"
+            const val core                  = "1.4.0"
+            const val espresso              = "3.4.0"
+            const val junit                 = "1.1.3"
         }
 
         object google {
-            const val hilt = versions.google.hilt
+            const val hilt                  = versions.google.hilt
         }
 
-        const val junit = "4.12"
+        const val junit                     = "4.12"
 
         object kotlin {
-            const val coroutines = versions.kotlin.coroutines
+            const val coroutines            = versions.kotlin.coroutines
         }
 
-        const val robolectric = "4.6.1"
-        const val turbine = versions.square.turbine
+        const val robolectric               = "4.6.1"
+        const val turbine                   = versions.square.turbine
     }
 
 }
@@ -247,8 +239,8 @@ object deps {
     }
 
     object sql {
-        const val cipher                     = "net.zetetic:android-database-sqlcipher:${versions.sql.cipher}"
-        const val requery                    = "com.github.requery:sqlite-android:${versions.sql.requery}"
+        const val cipher                    = "net.zetetic:android-database-sqlcipher:${versions.sql.cipher}"
+        const val requery                   = "com.github.requery:sqlite-android:${versions.sql.requery}"
     }
 
     object square {
