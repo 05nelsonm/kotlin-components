@@ -31,10 +31,9 @@ import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwi
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Companion.DARWIN_COMMON_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.util.*
 import io.matthewnelson.kotlin.components.kmp.util.EnvProperty
-import io.matthewnelson.kotlin.components.kmp.util.kotlin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
@@ -146,10 +145,11 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
             }
         }
 
-        if (kotlin != null) {
-            project.extensions.configure<KotlinMultiplatformExtension>() {
-                kotlin.invoke(this)
+        project.kotlin {
+            sourceSets.all {
+                languageSettings.optIn("kotlin.RequiresOptIn")
             }
+            kotlin?.invoke(this)
         }
 
         return true
@@ -163,13 +163,6 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
     ) {
         project.kotlin {
             sourceSets {
-
-                all {
-                    languageSettings.apply {
-                        optIn("kotlin.RequiresOptIn")
-                    }
-                }
-
                 getByName(COMMON_MAIN) sourceSetMain@ {
                     commonMainSourceSet?.invoke(this@sourceSetMain)
                 }
