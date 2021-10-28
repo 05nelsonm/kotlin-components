@@ -109,6 +109,8 @@ object deps {
     const val jncryptor                     = "org.cryptonode.jncryptor:jncryptor:1.2.0"
 
     object kotlin {
+        const val atomicfu                  = "org.jetbrains.kotlinx:atomicfu:0.16.3"
+
         object coroutines {
             const val android               = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
             const val core                  = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
