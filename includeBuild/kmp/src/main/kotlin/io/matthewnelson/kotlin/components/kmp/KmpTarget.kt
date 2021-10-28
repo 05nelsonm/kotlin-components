@@ -155,17 +155,11 @@ sealed class KmpTarget {
             return false
         }
 
-        if (other is KmpTarget) {
-            return other.toString() == this.toString()
-        }
-
-        return false
+        return other is KmpTarget && other.toString() == this.toString()
     }
 
     override fun hashCode(): Int {
-        var result = 17
-        result = result * 31 + toString().hashCode()
-        return result
+        return 17 * 31 + toString().hashCode()
     }
 
     override fun toString(): String {
@@ -335,17 +329,6 @@ sealed class KmpTarget {
                     androidConfig?.invoke(this@config)
                 }
             }
-
-            override fun toString(): String {
-                return  "ANDROID(" +
-                        "buildTools=" + buildTools + "," +
-                        "compileSdk=" + compileSdk + "," +
-                        "manifestPath=" + manifestPath + "," +
-                        "minSdk=" + minSdk + "," +
-                        "targetSdk=" + targetSdk + "," +
-                        "kotlinJvmTarget=" + kotlinJvmTarget +
-                        ")"
-            }
         }
 
     }
@@ -463,15 +446,6 @@ sealed class KmpTarget {
                     }
                 }
             }
-
-            override fun toString(): String {
-                return  "JS(" +
-                        "compilerType=" + compilerType + "," +
-                        "browser=" + browser.toString() + "," +
-                        "node=" + node.toString() +
-                        ")"
-            }
-
         }
 
         sealed class Native: NonJvm() {
