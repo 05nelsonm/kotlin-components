@@ -196,6 +196,7 @@ sealed class KmpTarget {
 
         class Jvm(
             override val pluginIds: Set<String>? = null,
+            private val kotlinJvmTarget: JavaVersion = JavaVersion.VERSION_11,
             override val target: (KotlinJvmTarget.() -> Unit)? = null,
             override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
             override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
@@ -219,6 +220,10 @@ sealed class KmpTarget {
                 project.kotlin {
                     jvm(TARGET_NAME) target@ {
                         target?.invoke(this@target)
+
+                        compilations.all {
+                            kotlinOptions.jvmTarget = kotlinJvmTarget.toString()
+                        }
                     }
 
                     setupJvmSourceSets(project)
