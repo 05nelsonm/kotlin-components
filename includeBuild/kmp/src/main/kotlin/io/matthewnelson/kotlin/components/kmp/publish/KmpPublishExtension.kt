@@ -101,7 +101,12 @@ open class KmpPublishExtension @Inject constructor(private val project: Project)
             .split("-")
             .joinToString("") {
                 it.capitalize()
-        }
+        },
+        setProjectGroup: Boolean = true,
+        setProjectVersion: Boolean = true,
+        versionNameOverride: String? = null,
+        versionCodeOverride: Int? = null,
+        holdPublication: Boolean = false,
     ) {
         check(project.rootProject != project) {
             "setupModule is only available from the subproject's build.gradle(.kts) file"
@@ -114,6 +119,26 @@ open class KmpPublishExtension @Inject constructor(private val project: Project)
             project.propertyExt {
                 set("POM_NAME", pomName)
                 set("POM_DESCRIPTION", pomDescription)
+
+                if (versionCodeOverride != null) {
+                    set("VERSION_CODE", versionCodeOverride)
+                }
+
+                if (versionNameOverride != null) {
+                    set("VERSION_NAME", versionNameOverride)
+                }
+            }
+
+            if (setProjectGroup) {
+                project.group = config.group
+            }
+
+            if (setProjectVersion) {
+                project.version = versionNameOverride ?: config.versionName
+            }
+
+            if (holdPublication) {
+                return
             }
 
             project.pluginManager.apply("com.vanniktech.maven.publish")
