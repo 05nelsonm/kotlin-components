@@ -14,14 +14,14 @@ plugins {
 }
 
 android {
-    compileSdk = versions.sdkCompile
-    buildToolsVersion = versions.buildTools
+    compileSdk = versions.android.sdkCompile
+    buildToolsVersion = versions.android.buildTools
 
     buildFeatures.viewBinding = true
     defaultConfig {
         applicationId  = "io.matthewnelson.components"
-        minSdk = versions.sdkMin21
-        targetSdk = versions.sdkTarget
+        minSdk = versions.android.sdkMin21
+        targetSdk = versions.android.sdkTarget
         versionCode = 1
         versionName = "1.0"
 
@@ -60,9 +60,9 @@ dependencies {
     implementation(deps.androidx.appCompat)
     implementation(deps.androidx.camera.core)
     implementation(deps.androidx.camera.camera2)
+    implementation(deps.androidx.camera.extensions)
     implementation(deps.androidx.camera.lifecycle)
     implementation(deps.androidx.camera.view)
-    implementation(deps.androidx.camera.extensions)
     implementation(deps.androidx.constraintLayout)
     implementation(deps.androidx.core)
     implementation(deps.androidx.exifInterface)
@@ -85,6 +85,7 @@ dependencies {
 
     implementation(deps.google.hilt)
 //    kapt(depsKapt.google.hilt)
+    implementation(deps.google.guava.jre)
     implementation(deps.google.material)
     implementation(deps.google.mlKitBarcodeScanning)
     implementation(deps.google.zxing)
@@ -97,20 +98,19 @@ dependencies {
 
     implementation(deps.javax.inject)
 
-    implementation(deps.jncryptor)
-
+    implementation(deps.kotlin.atomicfu)
     implementation(deps.kotlin.coroutines.android)
     implementation(deps.kotlin.coroutines.core)
     implementation(deps.kotlin.reflect)
 
-    implementation(deps.sqlCipher)
-    implementation(deps.sqlRequery)
+    implementation(deps.sql.cipher)
+    implementation(deps.sql.requery)
 
-    implementation(deps.square.okio)
     implementation(deps.square.okhttp.okhttp)
     implementation(deps.square.okhttp.logging)
+    implementation(deps.square.okio)
     implementation(deps.square.moshi)
-//    kapt(depsKapt.square.moshi.codegen.codegen)
+//    kapt(depsKapt.square.moshi)
     implementation(deps.square.sqlDelight.android)
     implementation(deps.square.sqlDelight.jvm)
     implementation(deps.square.sqlDelight.runtime)
@@ -126,7 +126,6 @@ dependencies {
     testImplementation(depsTest.androidx.espresso)
     testImplementation(depsTest.androidx.junit)
     testImplementation(depsTest.google.hilt)
-    testImplementation(depsTest.google.guava)
     testImplementation(depsTest.junit)
     testImplementation(depsTest.kotlin.coroutines)
     testImplementation(depsTest.robolectric)

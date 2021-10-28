@@ -18,6 +18,17 @@
 package io.matthewnelson.kotlin.components.dependencies
 
 object versions {
+
+    object android {
+        const val buildTools                = "31.0.0"
+        const val sdkCompile                = 31
+        const val sdkMin16                  = 16
+        const val sdkMin21                  = 21
+        const val sdkMin23                  = 23
+        const val sdkMin26                  = 26
+        const val sdkTarget                 = 31
+    }
+
     const val buildTools                    = "31.0.0"
     const val sdkCompile                    = 31
     const val sdkMin16                      = 16
@@ -26,140 +37,252 @@ object versions {
     const val sdkMin26                      = 26
     const val sdkTarget                     = 31
 
-    const val androidGradle                 = "7.0.3"
-    const val arch                          = "2.1.0"
-    const val camera                        = "1.1.0-alpha10"
-    const val cameraView                    = "1.0.0-alpha30"
-    const val coil                          = "1.4.0"
-    const val coroutines                    = "1.5.2"
-    const val lifecycle                     = "2.3.1"
-    const val hilt                          = "2.39.1"
-    const val hiltJetpack                   = "1.0.0-alpha03"
-    const val kotlin                        = "1.5.31"
-    const val moshi                         = "1.12.0"
-    const val navigation                    = "2.3.5"
-    const val okhttp                        = "4.9.2"
-    const val sqlDelight                    = "1.5.2"
+    object androidx {
+        const val annotation                = "1.2.0"
+        const val appCompat                 = "1.3.1"
+        const val camera                    = "1.1.0-alpha10"
+        const val cameraExt                 = "1.0.0-alpha30"
+        const val constraintLayout          = "2.1.1"
+        const val core                      = "1.6.0"
+        const val exifInterface             = "1.3.3"
+
+        object hilt {
+            const val lifecycle             = "1.0.0-alpha03"
+        }
+
+        const val lifecycle                 = "2.3.1"
+        const val navigation                = "2.3.5"
+        const val media                     = "1.4.3"
+        const val paging3                   = "3.0.1"
+        const val recyclerView              = "1.2.1"
+        const val securityCrypto            = "1.1.0-alpha03"
+    }
+
+    object components {
+        object request {
+            const val concept               = "2"
+            const val feature               = "$concept.0.0"
+        }
+
+        const val coroutines                = "1.0.0"
+    }
+
+    object kotlin {
+        const val atomicfu                  = "0.16.3"
+        const val kotlin                    = "1.5.31"
+        const val coroutines                = "1.5.2"
+    }
+
+    object google {
+        const val hilt                      = "2.39.1"
+        const val guava                     = "31.0.1"
+        const val material                  = "1.4.0-rc01"
+        const val mlKitBarcodeScanning      = "17.0.0"
+        const val zxing                     = "3.4.1"
+    }
+
+    const val insetter                      = "0.6.0"
+
+    object instacart {
+        const val coil                      = "1.4.0"
+    }
+
+    object javax {
+        const val inject                    = "1"
+    }
+
+    object square {
+        const val exhaustive                = "0.2.0"
+        const val okhttp                    = "4.9.2"
+        const val okio                      = "2.10.0"
+        const val leakCanary                = "2.7"
+        const val moshi                     = "1.12.0"
+        const val sqlDelight                = "1.5.2"
+        const val turbine                   = "0.6.1"
+    }
+
+    object sql {
+        const val cipher                     = "4.4.3"
+        const val requery                    = "3.36.0"
+    }
+
+    const val viewBindingDelegate           = "1.4.7"
+
+    object gradle {
+        const val android                   = "7.0.3"
+        const val exhaustive                = versions.square.exhaustive
+        const val dokka                     = "1.5.31"
+        const val gradleVersions            = "0.39.0"
+        const val kotlin                    = versions.kotlin.kotlin
+        const val hilt                      = versions.google.hilt
+        const val intellij                  = "0.4.26"
+        const val mavenPublish              = "0.18.0"
+        const val navigation                = versions.androidx.navigation
+        const val sqlDelight                = versions.square.sqlDelight
+    }
+
+    object test {
+        object androidx {
+            const val archCore = "2.1.0"
+            const val core = "1.4.0"
+            const val espresso = "3.4.0"
+            const val junit = "1.1.3"
+        }
+
+        object google {
+            const val hilt = versions.google.hilt
+        }
+
+        const val junit = "4.12"
+
+        object kotlin {
+            const val coroutines = versions.kotlin.coroutines
+        }
+
+        const val robolectric = "4.6.1"
+        const val turbine = versions.square.turbine
+    }
+
 }
 
 object deps {
 
     object androidx {
-        const val annotation                = "androidx.annotation:annotation:1.2.0"
-        const val appCompat                 = "androidx.appcompat:appcompat:1.3.1"
+        const val annotation                = "androidx.annotation:annotation:${versions.androidx.annotation}"
+        const val appCompat                 = "androidx.appcompat:appcompat:${versions.androidx.appCompat}"
 
         object camera {
-            const val core                  = "androidx.camera:camera-core:${versions.camera}"
-            const val camera2               = "androidx.camera:camera-camera2:${versions.camera}"
-            const val extensions            = "androidx.camera:camera-extensions:${versions.cameraView}"
-            const val lifecycle             = "androidx.camera:camera-lifecycle:${versions.camera}"
-            const val view                  = "androidx.camera:camera-view:${versions.cameraView}"
+            const val core                  = "androidx.camera:camera-core:${versions.androidx.camera}"
+            const val camera2               = "androidx.camera:camera-camera2:${versions.androidx.camera}"
+            const val extensions            = "androidx.camera:camera-extensions:${versions.androidx.cameraExt}"
+            const val lifecycle             = "androidx.camera:camera-lifecycle:${versions.androidx.camera}"
+            const val view                  = "androidx.camera:camera-view:${versions.androidx.cameraExt}"
         }
 
-        const val constraintLayout          = "androidx.constraintlayout:constraintlayout:2.1.1"
-        const val core                      = "androidx.core:core-ktx:1.6.0"
-        const val exifInterface             = "androidx.exifinterface:exifinterface:1.3.3"
+        const val constraintLayout          = "androidx.constraintlayout:constraintlayout:${versions.androidx.constraintLayout}"
+        const val core                      = "androidx.core:core-ktx:${versions.androidx.core}"
+        const val exifInterface             = "androidx.exifinterface:exifinterface:${versions.androidx.exifInterface}"
 
         object lifecycle {
-            const val commonJava8           = "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle}"
-            const val hiltViewmodel         = "androidx.hilt:hilt-lifecycle-viewmodel:${versions.hiltJetpack}"
-            const val processLifecycleOwner = "androidx.lifecycle:lifecycle-process:${versions.lifecycle}"
-            const val runtime               = "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycle}"
-            const val service               = "androidx.lifecycle:lifecycle-service:${versions.lifecycle}"
-            const val viewModel             = "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}"
-            const val viewModelSavedState   = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${versions.lifecycle}"
+            const val commonJava8           = "androidx.lifecycle:lifecycle-common-java8:${versions.androidx.lifecycle}"
+            const val hiltViewmodel         = "androidx.hilt:hilt-lifecycle-viewmodel:${versions.androidx.hilt.lifecycle}"
+            const val processLifecycleOwner = "androidx.lifecycle:lifecycle-process:${versions.androidx.lifecycle}"
+            const val runtime               = "androidx.lifecycle:lifecycle-runtime-ktx:${versions.androidx.lifecycle}"
+            const val service               = "androidx.lifecycle:lifecycle-service:${versions.androidx.lifecycle}"
+            const val viewModel             = "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.androidx.lifecycle}"
+            const val viewModelSavedState   = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${versions.androidx.lifecycle}"
         }
 
-        const val media                     = "androidx.media:media:1.4.3"
+        const val media                     = "androidx.media:media:${versions.androidx.media}"
 
         object navigation {
-            const val fragment              = "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
-            const val ui                    = "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
+            const val fragment              = "androidx.navigation:navigation-fragment-ktx:${versions.androidx.navigation}"
+            const val ui                    = "androidx.navigation:navigation-ui-ktx:${versions.androidx.navigation}"
         }
 
-        const val paging3                   = "androidx.paging:paging-runtime:3.0.1"
-        const val recyclerView              = "androidx.recyclerview:recyclerview:1.2.1"
-        const val securityCrypto            = "androidx.security:security-crypto:1.1.0-alpha03"
-        const val viewBinding               = "androidx.databinding:viewbinding:${versions.androidGradle}"
+        const val paging3                   = "androidx.paging:paging-runtime:${versions.androidx.paging3}"
+        const val recyclerView              = "androidx.recyclerview:recyclerview:${versions.androidx.recyclerView}"
+        const val securityCrypto            = "androidx.security:security-crypto:${versions.androidx.securityCrypto}"
+        const val viewBinding               = "androidx.databinding:viewbinding:${versions.gradle.android}"
     }
 
-    const val insetter                      = "dev.chrisbanes.insetter:insetter:0.6.0"
+    object components {
+        private const val group             = "io.matthewnelson.kotlin-components"
 
-    object google {
-        const val hilt                      = "com.google.dagger:hilt-android:${versions.hilt}"
-        const val material                  = "com.google.android.material:material:1.4.0-rc01"
-        const val mlKitBarcodeScanning      = "com.google.mlkit:barcode-scanning:17.0.0"
-        const val zxing                     = "com.google.zxing:core:3.4.1"
-    }
-
-    object instacart {
-        object coil {
-            const val base                  = "io.coil-kt:coil-base:${versions.coil}"
-            const val coil                  = "io.coil-kt:coil:${versions.coil}"
-            const val gif                   = "io.coil-kt:coil-gif:${versions.coil}"
-            const val svg                   = "io.coil-kt:coil-svg:${versions.coil}"
-            const val video                 = "io.coil-kt:coil-video:${versions.coil}"
-        }
-    }
-
-    object javax {
-        const val inject                    = "javax.inject:javax.inject:1"
-    }
-
-    const val jncryptor                     = "org.cryptonode.jncryptor:jncryptor:1.2.0"
-
-    object kotlin {
-        const val atomicfu                  = "org.jetbrains.kotlinx:atomicfu:0.16.3"
-
-        object coroutines {
-            const val android               = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
-            const val core                  = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
-        }
-
-        const val reflect                   = "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}"
-
-        object stdLib {
-            const val common                = "org.jetbrains.kotlin:kotlin-stdlib-common:${versions.kotlin}"
-            const val jdk8                  = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}"
-            const val js                    = "org.jetbrains.kotlin:kotlin-stdlib-js:${versions.kotlin}"
-        }
-    }
-
-    const val sqlCipher                     = "net.zetetic:android-database-sqlcipher:4.4.3"
-    const val sqlRequery                    = "com.github.requery:sqlite-android:3.36.0"
-
-    object square {
-        const val okio                      = "com.squareup.okio:okio:2.10.0"
-
-        object okhttp {
-            const val logging               = "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}"
-            const val okhttp                = "com.squareup.okhttp3:okhttp:${versions.okhttp}"
-        }
-
-        const val moshi                     = "com.squareup.moshi:moshi-kotlin:${versions.moshi}"
-
-        object sqlDelight {
-            const val android               = "com.squareup.sqldelight:android-driver:${versions.sqlDelight}"
-            const val jvm                   = "com.squareup.sqldelight:sqlite-driver:${versions.sqlDelight}"
-            const val js                    = "com.squareup.sqldelight:sqljs-driver:${versions.sqlDelight}"
-            const val native                = "com.squareup.sqldelight:native-driver:${versions.sqlDelight}"
-            const val runtime               = "com.squareup.sqldelight:runtime:${versions.sqlDelight}"
+        object request {
+            const val concept               = "$group:request-concept:${versions.components.request.concept}"
+            const val feature               = "$group:request-feature:${versions.components.request.feature}"
 
             object extensions {
-                const val paging3           = "com.squareup.sqldelight:android-paging3-extensions:${versions.sqlDelight}"
-                const val coroutines        = "com.squareup.sqldelight:coroutines-extensions:${versions.sqlDelight}"
+                const val navigation        = "$group:request-extension-navigation:${versions.components.request.concept}"
+                const val navigationAndroid = "$group:request-extension-navigation-androidx:${versions.components.request.concept}"
             }
         }
     }
 
-    const val viewBindingDelegateNoReflect  = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.4.7"
+    const val insetter                      = "dev.chrisbanes.insetter:insetter:${versions.insetter}"
+
+    object google {
+        const val hilt                      = "com.google.dagger:hilt-android:${versions.google.hilt}"
+
+        object guava {
+            const val android               = "com.google.guava:guava:${versions.google.guava}-android"
+            const val jre                   = "com.google.guava:guava:${versions.google.guava}-jre"
+        }
+
+        const val material                  = "com.google.android.material:material:${versions.google.material}"
+        const val mlKitBarcodeScanning      = "com.google.mlkit:barcode-scanning:${versions.google.mlKitBarcodeScanning}"
+        const val zxing                     = "com.google.zxing:core:${versions.google.zxing}"
+    }
+
+    object instacart {
+        object coil {
+            const val base                  = "io.coil-kt:coil-base:${versions.instacart.coil}"
+            const val coil                  = "io.coil-kt:coil:${versions.instacart.coil}"
+            const val gif                   = "io.coil-kt:coil-gif:${versions.instacart.coil}"
+            const val svg                   = "io.coil-kt:coil-svg:${versions.instacart.coil}"
+            const val video                 = "io.coil-kt:coil-video:${versions.instacart.coil}"
+        }
+    }
+
+    object javax {
+        const val inject                    = "javax.inject:javax.inject:${versions.javax.inject}"
+    }
+
+    object kotlin {
+        const val atomicfu                  = "org.jetbrains.kotlinx:atomicfu:${versions.kotlin.atomicfu}"
+
+        object coroutines {
+            const val android               = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlin.coroutines}"
+            const val core                  = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlin.coroutines}"
+        }
+
+        const val reflect                   = "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin.kotlin}"
+
+        object stdLib {
+            const val common                = "org.jetbrains.kotlin:kotlin-stdlib-common:${versions.kotlin.kotlin}"
+            const val jdk8                  = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin.kotlin}"
+            const val js                    = "org.jetbrains.kotlin:kotlin-stdlib-js:${versions.kotlin.kotlin}"
+        }
+    }
+
+    object sql {
+        const val cipher                     = "net.zetetic:android-database-sqlcipher:${versions.sql.cipher}"
+        const val requery                    = "com.github.requery:sqlite-android:${versions.sql.requery}"
+    }
+
+    object square {
+
+        object okhttp {
+            const val logging               = "com.squareup.okhttp3:logging-interceptor:${versions.square.okhttp}"
+            const val okhttp                = "com.squareup.okhttp3:okhttp:${versions.square.okhttp}"
+        }
+
+        const val okio                      = "com.squareup.okio:okio:${versions.square.okio}"
+        const val moshi                     = "com.squareup.moshi:moshi-kotlin:${versions.square.moshi}"
+
+        object sqlDelight {
+            const val android               = "com.squareup.sqldelight:android-driver:${versions.square.sqlDelight}"
+            const val jvm                   = "com.squareup.sqldelight:sqlite-driver:${versions.square.sqlDelight}"
+            const val js                    = "com.squareup.sqldelight:sqljs-driver:${versions.square.sqlDelight}"
+            const val native                = "com.squareup.sqldelight:native-driver:${versions.square.sqlDelight}"
+            const val runtime               = "com.squareup.sqldelight:runtime:${versions.square.sqlDelight}"
+
+            object extensions {
+                const val paging3           = "com.squareup.sqldelight:android-paging3-extensions:${versions.square.sqlDelight}"
+                const val coroutines        = "com.squareup.sqldelight:coroutines-extensions:${versions.square.sqlDelight}"
+            }
+        }
+    }
+
+    const val viewBindingDelegateNoReflect  = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:${versions.viewBindingDelegate}"
 
 }
 
 object depsDebug {
 
     object square {
-        const val leakCanary                = "com.squareup.leakcanary:leakcanary-android:2.7"
+        const val leakCanary                = "com.squareup.leakcanary:leakcanary-android:${versions.square.leakCanary}"
     }
 
 }
@@ -167,11 +290,11 @@ object depsDebug {
 object depsKapt {
 
     object google {
-        const val hilt                      = "com.google.dagger:hilt-compiler:${versions.hilt}"
+        const val hilt                      = "com.google.dagger:hilt-compiler:${versions.google.hilt}"
     }
 
     object square {
-        const val moshi                     = "com.squareup.moshi:moshi-kotlin-codegen:${versions.moshi}"
+        const val moshi                     = "com.squareup.moshi:moshi-kotlin-codegen:${versions.square.moshi}"
     }
 
 }
@@ -179,58 +302,57 @@ object depsKapt {
 object depsTest {
 
     object androidx {
-        const val archCore                  = "androidx.arch.core:core-testing:${versions.arch}"
-        const val core                      = "androidx.test:core:1.4.0"
-        const val espresso                  = "androidx.test.espresso:espresso-core:3.4.0"
-        const val junit                     = "androidx.test.ext:junit:1.1.3"
+        const val archCore                  = "androidx.arch.core:core-testing:${versions.test.androidx.archCore}"
+        const val core                      = "androidx.test:core:${versions.test.androidx.core}"
+        const val espresso                  = "androidx.test.espresso:espresso-core:${versions.test.androidx.espresso}"
+        const val junit                     = "androidx.test.ext:junit:${versions.test.androidx.junit}"
     }
 
     object google {
-        const val hilt                      = "com.google.dagger:hilt-android-testing:${versions.hilt}"
-        const val guava                     = "com.google.guava:guava:31.0.1-jre"
+        const val hilt                      = "com.google.dagger:hilt-android-testing:${versions.test.google.hilt}"
     }
 
-    const val junit                         = "junit:junit:4.12"
+    const val junit                         = "junit:junit:${versions.test.junit}"
 
     object kotlin {
-        const val coroutines                = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutines}"
+        const val coroutines                = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.test.kotlin.coroutines}"
     }
 
-    const val robolectric                   = "org.robolectric:robolectric:4.6.1"
-    const val turbine                       = "app.cash.turbine:turbine:0.6.1"
+    const val robolectric                   = "org.robolectric:robolectric:${versions.test.robolectric}"
+    const val turbine                       = "app.cash.turbine:turbine:${versions.test.turbine}"
 
 }
 
 object plugins {
 
     object android {
-        const val gradle                    = "com.android.tools.build:gradle:${versions.androidGradle}"
+        const val gradle                    = "com.android.tools.build:gradle:${versions.gradle.android}"
     }
 
     object androidx {
         object navigation {
-            const val safeArgs              = "androidx.navigation:navigation-safe-args-gradle-plugin:${versions.navigation}"
+            const val safeArgs              = "androidx.navigation:navigation-safe-args-gradle-plugin:${versions.gradle.navigation}"
         }
     }
 
     object google {
-        const val hilt                      = "com.google.dagger:hilt-android-gradle-plugin:${versions.hilt}"
+        const val hilt                      = "com.google.dagger:hilt-android-gradle-plugin:${versions.gradle.hilt}"
     }
 
-    const val gradleVersions                = "com.github.ben-manes:gradle-versions-plugin:0.39.0"
-    const val intellijGradle                = "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.4.26"
+    const val gradleVersions                = "com.github.ben-manes:gradle-versions-plugin:${versions.gradle.gradleVersions}"
+    const val intellij                      = "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:${versions.gradle.intellij}"
 
     object kotlin {
-        const val dokka                     = "org.jetbrains.dokka:dokka-gradle-plugin:1.5.31"
-        const val gradle                    = "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
-        const val serialization             = "org.jetbrains.kotlin:kotlin-serialization:${versions.kotlin}"
+        const val dokka                     = "org.jetbrains.dokka:dokka-gradle-plugin:${versions.gradle.dokka}"
+        const val gradle                    = "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.gradle.kotlin}"
+        const val serialization             = "org.jetbrains.kotlin:kotlin-serialization:${versions.gradle.kotlin}"
     }
 
-    const val mavenPublish                  = "com.vanniktech:gradle-maven-publish-plugin:0.18.0"
+    const val mavenPublish                  = "com.vanniktech:gradle-maven-publish-plugin:${versions.gradle.mavenPublish}"
 
     object square {
-        const val exhaustive                = "app.cash.exhaustive:exhaustive-gradle:0.2.0"
-        const val sqlDelight                = "com.squareup.sqldelight:gradle-plugin:${versions.sqlDelight}"
+        const val exhaustive                = "app.cash.exhaustive:exhaustive-gradle:${versions.gradle.exhaustive}"
+        const val sqlDelight                = "com.squareup.sqldelight:gradle-plugin:${versions.gradle.sqlDelight}"
     }
 
 }
