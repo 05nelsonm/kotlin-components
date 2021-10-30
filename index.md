@@ -4,7 +4,7 @@ A git repository for managing dependencies and build tools across multiple Kotli
 
 ### Projects
 
-|       Framework       | [component-coroutines](https://github.com/05nelsonm/component-coroutines) || [component-encoding](https://github.com/05nelsonm/component-encoding)  [component-request](https://github.com/05nelsonm/component-request) |
+|       Framework       | [component-coroutines](https://github.com/05nelsonm/component-coroutines) | [component-encoding](https://github.com/05nelsonm/component-encoding) | [component-request](https://github.com/05nelsonm/component-request) |
 | :-------------------: | :---------------------------: | :---------------------------: | :---------------------------: |
 | Android               | ✔️                             | ✔️                             | ✔️                             |
 | Jvm                   | ✔️                             | ✔️                             | ✔️                             |
