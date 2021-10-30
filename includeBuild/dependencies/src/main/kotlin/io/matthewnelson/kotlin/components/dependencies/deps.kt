@@ -51,12 +51,13 @@ object versions {
     }
 
     object components {
+        const val coroutines                = "1.0.0"
+        const val encoding                  = "1.0.0"
+
         object request {
             const val concept               = "2"
             const val feature               = "$concept.0.0"
         }
-
-        const val coroutines                = "1.0.0"
     }
 
     object kotlin {
@@ -180,6 +181,13 @@ object deps {
 
     object components {
         private const val group             = "io.matthewnelson.kotlin-components"
+
+        const val coroutines                = "$group:coroutines:${versions.components.coroutines}"
+
+        object encoding {
+            const val base32                = "$group:encoding-base32:${versions.components.encoding}"
+            const val base64                = "$group:encoding-base64:${versions.components.encoding}"
+        }
 
         object request {
             const val concept               = "$group:request-concept:${versions.components.request.concept}"
