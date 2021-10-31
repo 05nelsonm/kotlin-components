@@ -106,7 +106,7 @@ open class KmpPublishExtension @Inject constructor(private val project: Project)
         setProjectVersion: Boolean = true,
         versionNameOverride: String? = null,
         versionCodeOverride: Int? = null,
-        holdPublication: Boolean = false,
+        holdPublication: Boolean = false
     ) {
         check(project.rootProject != project) {
             "setupModule is only available from the subproject's build.gradle(.kts) file"
