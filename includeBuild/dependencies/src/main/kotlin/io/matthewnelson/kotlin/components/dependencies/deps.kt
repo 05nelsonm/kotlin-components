@@ -51,6 +51,7 @@ object versions {
     }
 
     object components {
+        const val buildConfig               = "1"
         const val coroutines                = "1.0.0"
         const val encoding                  = "1.0.0"
 
@@ -182,6 +183,7 @@ object deps {
     object components {
         private const val group             = "io.matthewnelson.kotlin-components"
 
+        const val buildConfig               = "$group:build-configuration:${versions.components.buildConfig}"
         const val coroutines                = "$group:coroutines:${versions.components.coroutines}"
 
         object encoding {
