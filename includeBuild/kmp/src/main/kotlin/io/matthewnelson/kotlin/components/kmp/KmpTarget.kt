@@ -441,11 +441,7 @@ sealed class KmpTarget {
                             maybeCreate(sourceSetTestName).apply testSourceSet@ {
                                 dependsOn(getByName(NON_JVM_TEST))
 
-                                if (testSourceSet?.invoke(this@testSourceSet) == null) {
-                                    dependencies {
-                                        implementation(kotlin("test-js"))
-                                    }
-                                }
+                                testSourceSet?.invoke(this@testSourceSet)
                             }
                         }
                     }
