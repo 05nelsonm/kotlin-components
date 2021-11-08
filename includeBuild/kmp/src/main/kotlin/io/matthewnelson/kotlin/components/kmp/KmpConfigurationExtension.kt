@@ -90,7 +90,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
     @Suppress("unused")
     fun setupMultiplatform(
-        targets: Set<KmpTarget>,
+        targets: Set<KmpTarget<*>>,
         commonPluginIds: Set<String>? = null,
         commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
         commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
@@ -109,7 +109,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         }
 
         val enabledEnvironmentTargets: Set<String> = getEnabledEnvironmentTargets(project)
-        val enabledTargets: List<KmpTarget> = targets.filter { enabledEnvironmentTargets.contains(it.envPropertyValue) }
+        val enabledTargets: List<KmpTarget<*>> = targets.filter { enabledEnvironmentTargets.contains(it.envPropertyValue) }
 
         if (enabledTargets.isEmpty()) {
             return false
@@ -157,7 +157,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
     private fun setupMultiplatformCommon(
         project: Project,
-        enabledTargets: List<KmpTarget>,
+        enabledTargets: List<KmpTarget<*>>,
         commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
         commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null
     ) {
@@ -171,7 +171,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                     commonTestSourceSet?.invoke(this@sourceSetTest)
                 }
 
-                val jvmTargets = enabledTargets.filterIsInstance<KmpTarget.Jvm>()
+                val jvmTargets = enabledTargets.filterIsInstance<KmpTarget.Jvm<*>>()
                 if (jvmTargets.isNotEmpty()) {
                     maybeCreate(JVM_COMMON_MAIN).apply {
                         dependsOn(getByName(COMMON_MAIN))
@@ -182,7 +182,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                 }
 
                 val jsTargets = enabledTargets.filterIsInstance<KmpTarget.NonJvm.JS>()
-                val nativeTargets = enabledTargets.filterIsInstance<KmpTarget.NonJvm.Native>()
+                val nativeTargets = enabledTargets.filterIsInstance<KmpTarget.NonJvm.Native<*>>()
 
                 if (jsTargets.isNotEmpty() || nativeTargets.isNotEmpty()) {
                     maybeCreate(NON_JVM_MAIN).apply {
@@ -201,7 +201,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                         dependsOn(getByName(NON_JVM_TEST))
                     }
 
-                    val unixTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix>()
+                    val unixTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix<*>>()
                     if (unixTargets.isNotEmpty()) {
                         maybeCreate(UNIX_COMMON_MAIN).apply {
                             dependsOn(getByName(NATIVE_COMMON_MAIN))
@@ -210,7 +210,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                             dependsOn(getByName(NATIVE_COMMON_TEST))
                         }
 
-                        val darwinTargets = unixTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Darwin>()
+                        val darwinTargets = unixTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Darwin<*>>()
                         if (darwinTargets.isNotEmpty()) {
                             maybeCreate(DARWIN_COMMON_MAIN).apply {
                                 dependsOn(getByName(NATIVE_COMMON_MAIN))
@@ -235,7 +235,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                         }
                     }
 
-                    val mingwTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Mingw>()
+                    val mingwTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Mingw<*>>()
                     if (mingwTargets.isNotEmpty()) {
                         maybeCreate(MINGW_COMMON_MAIN).apply {
                             dependsOn(getByName(NATIVE_COMMON_MAIN))
