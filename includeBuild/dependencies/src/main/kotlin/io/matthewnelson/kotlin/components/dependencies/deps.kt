@@ -88,7 +88,7 @@ object versions {
     object square {
         const val exhaustive                = "0.2.0"
         const val okhttp                    = "4.9.2"
-        const val okio                      = "2.10.0"
+        const val okio                      = "3.0.0"
         const val leakCanary                = "2.7"
         const val moshi                     = "1.12.0"
         const val sqlDelight                = "1.5.2"
@@ -232,11 +232,53 @@ object deps {
     }
 
     object kotlin {
-        const val atomicfu                  = "org.jetbrains.kotlinx:atomicfu:${versions.kotlin.atomicfu}"
+        object atomicfu {
+            const val atomicfu              = "org.jetbrains.kotlinx:atomicfu:${versions.kotlin.atomicfu}"
+            const val iosArm32              = "org.jetbrains.kotlinx:atomicfu-iosarm32:${versions.kotlin.atomicfu}"
+            const val iosArm64              = "org.jetbrains.kotlinx:atomicfu-iosarm64:${versions.kotlin.atomicfu}"
+            const val iosSimArm64           = "org.jetbrains.kotlinx:atomicfu-iossimulatorarm64:${versions.kotlin.atomicfu}"
+            const val iosX64                = "org.jetbrains.kotlinx:atomicfu-iosx64:${versions.kotlin.atomicfu}"
+            const val js                    = "org.jetbrains.kotlinx:atomicfu-js:${versions.kotlin.atomicfu}"
+            const val jvm                   = "org.jetbrains.kotlinx:atomicfu-jvm:${versions.kotlin.atomicfu}"
+            const val linuxX64              = "org.jetbrains.kotlinx:atomicfu-linuxx64:${versions.kotlin.atomicfu}"
+            const val macosArm64            = "org.jetbrains.kotlinx:atomicfu-macosarm64:${versions.kotlin.atomicfu}"
+            const val macosX64              = "org.jetbrains.kotlinx:atomicfu-macosx64:${versions.kotlin.atomicfu}"
+            const val mingwX64              = "org.jetbrains.kotlinx:atomicfu-mingwx64:${versions.kotlin.atomicfu}"
+            const val tvosArm64             = "org.jetbrains.kotlinx:atomicfu-tvosarm64:${versions.kotlin.atomicfu}"
+            const val tvosSimArm64          = "org.jetbrains.kotlinx:atomicfu-tvossimulatorarm64:${versions.kotlin.atomicfu}"
+            const val tvosX64               = "org.jetbrains.kotlinx:atomicfu-tvosx64:${versions.kotlin.atomicfu}"
+            const val watchosArm32          = "org.jetbrains.kotlinx:atomicfu-watchosarm32:${versions.kotlin.atomicfu}"
+            const val watchosArm64          = "org.jetbrains.kotlinx:atomicfu-watchosarm64:${versions.kotlin.atomicfu}"
+            const val watchosSimArm64       = "org.jetbrains.kotlinx:atomicfu-watchossimulatorarm64:${versions.kotlin.atomicfu}"
+            const val watchosX64            = "org.jetbrains.kotlinx:atomicfu-watchosx64:${versions.kotlin.atomicfu}"
+            const val watchosX86            = "org.jetbrains.kotlinx:atomicfu-watchosx86:${versions.kotlin.atomicfu}"
+        }
 
         object coroutines {
             const val android               = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlin.coroutines}"
-            const val core                  = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlin.coroutines}"
+
+            object core {
+                const val core              = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlin.coroutines}"
+                const val iosArm32          = "org.jetbrains.kotlinx:kotlinx-coroutines-core-iosarm32:${versions.kotlin.coroutines}"
+                const val iosArm64          = "org.jetbrains.kotlinx:kotlinx-coroutines-core-iosarm64:${versions.kotlin.coroutines}"
+                const val iosSimArm64       = "org.jetbrains.kotlinx:kotlinx-coroutines-core-iossimulatorarm64:${versions.kotlin.coroutines}"
+                const val iosX64            = "org.jetbrains.kotlinx:kotlinx-coroutines-core-iosx64:${versions.kotlin.coroutines}"
+                const val js                = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${versions.kotlin.coroutines}"
+                const val jvm               = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${versions.kotlin.coroutines}"
+                const val linuxX64          = "org.jetbrains.kotlinx:kotlinx-coroutines-core-linuxx64:${versions.kotlin.coroutines}"
+                const val macosArm64        = "org.jetbrains.kotlinx:kotlinx-coroutines-core-macosarm64:${versions.kotlin.coroutines}"
+                const val macosX64          = "org.jetbrains.kotlinx:kotlinx-coroutines-core-macosx64:${versions.kotlin.coroutines}"
+                const val mingwX64          = "org.jetbrains.kotlinx:kotlinx-coroutines-core-mingwx64:${versions.kotlin.coroutines}"
+
+                const val tvosArm64         = "org.jetbrains.kotlinx:kotlinx-coroutines-core-tvosarm64:${versions.kotlin.coroutines}"
+                const val tvosSimArm64      = "org.jetbrains.kotlinx:kotlinx-coroutines-core-tvossimulatorarm64:${versions.kotlin.coroutines}"
+                const val tvosX64           = "org.jetbrains.kotlinx:kotlinx-coroutines-core-tvosx64:${versions.kotlin.coroutines}"
+                const val watchosArm32      = "org.jetbrains.kotlinx:kotlinx-coroutines-core-watchosarm32:${versions.kotlin.coroutines}"
+                const val watchosArm64      = "org.jetbrains.kotlinx:kotlinx-coroutines-core-watchosarm64:${versions.kotlin.coroutines}"
+                const val watchosSimArm64   = "org.jetbrains.kotlinx:kotlinx-coroutines-core-watchossimulatorarm64:${versions.kotlin.coroutines}"
+                const val watchosX64        = "org.jetbrains.kotlinx:kotlinx-coroutines-core-watchosx64:${versions.kotlin.coroutines}"
+                const val watchosX86        = "org.jetbrains.kotlinx:kotlinx-coroutines-core-watchosx86:${versions.kotlin.coroutines}"
+            }
         }
 
         const val reflect                   = "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin.kotlin}"
@@ -260,7 +302,10 @@ object deps {
             const val okhttp                = "com.squareup.okhttp3:okhttp:${versions.square.okhttp}"
         }
 
-        const val okio                      = "com.squareup.okio:okio:${versions.square.okio}"
+        object okio {
+            const val common                = "com.squareup.okio:okio:${versions.square.okio}"
+            const val nodeFileSys           = "com.squareup.okio:okio:${versions.square.okio}"
+        }
         const val moshi                     = "com.squareup.moshi:moshi-kotlin:${versions.square.moshi}"
 
         object sqlDelight {
@@ -321,7 +366,14 @@ object depsTest {
     }
 
     const val robolectric                   = "org.robolectric:robolectric:${versions.test.robolectric}"
-    const val turbine                       = "app.cash.turbine:turbine:${versions.test.turbine}"
+
+    object square {
+        object okio {
+            const val fakeFileSys           = "com.squareup.okio:okio:${versions.square.okio}"
+        }
+
+        const val turbine                   = "app.cash.turbine:turbine:${versions.test.turbine}"
+    }
 
 }
 
