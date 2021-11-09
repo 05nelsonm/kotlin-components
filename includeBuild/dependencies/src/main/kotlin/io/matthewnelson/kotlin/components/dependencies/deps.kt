@@ -303,8 +303,8 @@ object deps {
         }
 
         object okio {
-            const val common                = "com.squareup.okio:okio:${versions.square.okio}"
-            const val nodeFileSys           = "com.squareup.okio:okio:${versions.square.okio}"
+            const val okio                  = "com.squareup.okio:okio:${versions.square.okio}"
+            const val nodeFileSys           = "com.squareup.okio:okio-nodefilesystem:${versions.square.okio}"
         }
         const val moshi                     = "com.squareup.moshi:moshi-kotlin:${versions.square.moshi}"
 
@@ -369,7 +369,7 @@ object depsTest {
 
     object square {
         object okio {
-            const val fakeFileSys           = "com.squareup.okio:okio:${versions.square.okio}"
+            const val fakeFileSys           = "com.squareup.okio:okio-fakefilesystem:${versions.square.okio}"
         }
 
         const val turbine                   = "app.cash.turbine:turbine:${versions.test.turbine}"
