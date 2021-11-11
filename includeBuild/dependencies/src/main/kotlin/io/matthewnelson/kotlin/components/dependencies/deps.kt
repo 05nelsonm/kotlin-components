@@ -104,6 +104,7 @@ object versions {
 
     object gradle {
         const val android                   = "7.0.3"
+        const val atomicfu                  = versions.kotlin.atomicfu
         const val exhaustive                = versions.square.exhaustive
         const val dokka                     = "1.5.31"
         const val gradleVersions            = "0.39.0"
@@ -397,6 +398,7 @@ object plugins {
     const val intellij                      = "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:${versions.gradle.intellij}"
 
     object kotlin {
+        const val atomicfu                  = "org.jetbrains.kotlinx:atomicfu-gradle-plugin:${versions.gradle.atomicfu}"
         const val dokka                     = "org.jetbrains.dokka:dokka-gradle-plugin:${versions.gradle.dokka}"
         const val gradle                    = "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.gradle.kotlin}"
         const val serialization             = "org.jetbrains.kotlin:kotlin-serialization:${versions.gradle.kotlin}"
