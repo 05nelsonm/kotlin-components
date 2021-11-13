@@ -98,9 +98,9 @@ dependencies {
 
     implementation(deps.javax.inject)
 
-    implementation(deps.kotlin.atomicfu)
+    implementation(deps.kotlin.atomicfu.atomicfu)
     implementation(deps.kotlin.coroutines.android)
-    implementation(deps.kotlin.coroutines.core)
+    implementation(deps.kotlin.coroutines.core.core)
     implementation(deps.kotlin.reflect)
 
     implementation(deps.sql.cipher)
@@ -108,7 +108,7 @@ dependencies {
 
     implementation(deps.square.okhttp.okhttp)
     implementation(deps.square.okhttp.logging)
-    implementation(deps.square.okio)
+    implementation(deps.square.okio.okio)
     implementation(deps.square.moshi)
 //    kapt(depsKapt.square.moshi)
     implementation(deps.square.sqlDelight.android)
@@ -129,5 +129,6 @@ dependencies {
     testImplementation(depsTest.junit)
     testImplementation(depsTest.kotlin.coroutines)
     testImplementation(depsTest.robolectric)
-    testImplementation(depsTest.turbine)
+    testImplementation(depsTest.square.okio.fakeFileSys)
+    testImplementation(depsTest.square.turbine)
 }
