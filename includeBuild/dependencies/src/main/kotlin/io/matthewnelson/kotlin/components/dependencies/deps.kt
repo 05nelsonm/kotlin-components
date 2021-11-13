@@ -53,7 +53,7 @@ object versions {
     object components {
         const val buildConfig               = "1"
         const val coroutines                = "1.0.0"
-        const val encoding                  = "1.0.0"
+        const val encoding                  = "1.0.1"
 
         object request {
             const val concept               = "2"
@@ -188,6 +188,7 @@ object deps {
         const val coroutines                = "$group:coroutines:${versions.components.coroutines}"
 
         object encoding {
+            const val base16                = "$group:encoding-base16:${versions.components.encoding}"
             const val base32                = "$group:encoding-base32:${versions.components.encoding}"
             const val base64                = "$group:encoding-base64:${versions.components.encoding}"
         }
