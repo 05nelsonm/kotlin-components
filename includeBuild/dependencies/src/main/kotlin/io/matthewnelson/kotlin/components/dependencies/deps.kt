@@ -53,7 +53,7 @@ object versions {
     object components {
         const val buildConfig               = "1"
         const val coroutines                = "1.0.0"
-        const val encoding                  = "1.0.1"
+        const val encoding                  = "1.0.2"
 
         object request {
             const val concept               = "2"
