@@ -86,6 +86,8 @@ sealed class KmpTarget<T: KotlinTarget> {
         val IOS_SIMULATOR_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Ios.SimulatorArm64.SOURCE_SET_MAIN_NAME
         val IOS_SIMULATOR_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Ios.SimulatorArm64.SOURCE_SET_TEST_NAME
 
+        val MACOS_COMMON_MAIN get() = NonJvm.Native.Unix.Darwin.Macos.MACOS_COMMON_MAIN
+        val MACOS_COMMON_TEST get() = NonJvm.Native.Unix.Darwin.Macos.MACOS_COMMON_TEST
         val MACOS_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Macos.Arm64.SOURCE_SET_MAIN_NAME
         val MACOS_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Macos.Arm64.SOURCE_SET_TEST_NAME
         val MACOS_X64_MAIN get() = NonJvm.Native.Unix.Darwin.Macos.X64.SOURCE_SET_MAIN_NAME
@@ -480,12 +482,20 @@ sealed class KmpTarget<T: KotlinTarget> {
                         project.kotlin {
                             sourceSets {
                                 maybeCreate(sourceSetMainName).apply sourceSetMain@ {
-                                    dependsOn(getByName(DARWIN_COMMON_MAIN))
+                                    if (this@Darwin is Macos) {
+                                        dependsOn(getByName(Macos.MACOS_COMMON_MAIN))
+                                    } else {
+                                        dependsOn(getByName(DARWIN_COMMON_MAIN))
+                                    }
 
                                     mainSourceSet?.invoke(this@sourceSetMain)
                                 }
                                 maybeCreate(sourceSetTestName).apply sourceSetTest@ {
-                                    dependsOn(getByName(DARWIN_COMMON_TEST))
+                                    if (this@Darwin is Macos) {
+                                        dependsOn(getByName(Macos.MACOS_COMMON_TEST))
+                                    } else {
+                                        dependsOn(getByName(DARWIN_COMMON_TEST))
+                                    }
 
                                     testSourceSet?.invoke(this@sourceSetTest)
                                 }
@@ -678,6 +688,11 @@ sealed class KmpTarget<T: KotlinTarget> {
                     }
 
                     sealed class Macos : Darwin<KotlinNativeTargetWithHostTests>() {
+
+                        companion object {
+                            const val MACOS_COMMON_MAIN = "macosCommon$MAIN"
+                            const val MACOS_COMMON_TEST = "macosCommon$TEST"
+                        }
 
                         class Arm64(
                             override val pluginIds: Set<String>? = null,

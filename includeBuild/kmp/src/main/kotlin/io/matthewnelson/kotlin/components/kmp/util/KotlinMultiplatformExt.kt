@@ -232,6 +232,20 @@ inline fun KotlinMultiplatformExtension.sourceSetMacosArm64Main(crossinline acti
 inline val KotlinMultiplatformExtension.sourceSetMacosArm64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.MACOS_ARM64_MAIN)
 
+inline fun KotlinMultiplatformExtension.sourceSetMacosCommonMain(crossinline action: KotlinSourceSet.() -> Unit) {
+    sourceSetMacosCommonMain?.let { action.invoke(it) }
+}
+
+inline val KotlinMultiplatformExtension.sourceSetMacosCommonMain: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.MACOS_COMMON_MAIN)
+
+inline fun KotlinMultiplatformExtension.sourceSetMacosCommonTest(crossinline action: KotlinSourceSet.() -> Unit) {
+    sourceSetMacosCommonTest?.let { action.invoke(it) }
+}
+
+inline val KotlinMultiplatformExtension.sourceSetMacosCommonTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.MACOS_COMMON_TEST)
+
 inline fun KotlinMultiplatformExtension.sourceSetMacosArm64Test(crossinline action: KotlinSourceSet.() -> Unit) {
     sourceSetMacosArm64Test?.let { action.invoke(it) }
 }

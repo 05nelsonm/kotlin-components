@@ -31,6 +31,8 @@ import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwi
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Companion.DARWIN_COMMON_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.MACOS_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.MACOS_COMMON_TEST
 import io.matthewnelson.kotlin.components.kmp.util.*
 import io.matthewnelson.kotlin.components.kmp.util.EnvProperty
 import org.gradle.api.Project
@@ -231,6 +233,22 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                                 dependsOn(getByName(NON_JVM_TEST))
                                 dependsOn(getByName(NATIVE_COMMON_TEST))
                                 dependsOn(getByName(UNIX_COMMON_TEST))
+                            }
+
+                            val macosTargets = darwinTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Darwin.Macos>()
+                            if (macosTargets.isNotEmpty()) {
+                                maybeCreate(MACOS_COMMON_MAIN).apply {
+                                    dependsOn(getByName(NON_JVM_MAIN))
+                                    dependsOn(getByName(NATIVE_COMMON_MAIN))
+                                    dependsOn(getByName(UNIX_COMMON_MAIN))
+                                    dependsOn(getByName(DARWIN_COMMON_MAIN))
+                                }
+                                maybeCreate(MACOS_COMMON_TEST).apply {
+                                    dependsOn(getByName(NON_JVM_TEST))
+                                    dependsOn(getByName(NATIVE_COMMON_TEST))
+                                    dependsOn(getByName(UNIX_COMMON_TEST))
+                                    dependsOn(getByName(DARWIN_COMMON_TEST))
+                                }
                             }
                         }
 
