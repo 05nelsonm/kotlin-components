@@ -1312,8 +1312,8 @@ sealed class KmpTarget<T: KotlinTarget> {
                 class X64(
                     override val pluginIds: Set<String>? = null,
                     override val target: (KotlinNativeTargetWithHostTests.() -> Unit)? = null,
-                    override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-                    override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null
+                    override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                    override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                 ) : Mingw<KotlinNativeTargetWithHostTests>() {
 
                     companion object {
@@ -1344,8 +1344,8 @@ sealed class KmpTarget<T: KotlinTarget> {
                 class X86(
                     override val pluginIds: Set<String>? = null,
                     override val target: (KotlinNativeTarget.() -> Unit)? = null,
-                    override val mainSourceSet: ((KotlinSourceSet) -> Unit)? = null,
-                    override val testSourceSet: ((KotlinSourceSet) -> Unit)? = null
+                    override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                    override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
                 ) : Mingw<KotlinNativeTarget>() {
 
                     companion object {
