@@ -204,19 +204,23 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                     val unixTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix<*>>()
                     if (unixTargets.isNotEmpty()) {
                         maybeCreate(UNIX_COMMON_MAIN).apply {
+                            dependsOn(getByName(NON_JVM_MAIN))
                             dependsOn(getByName(NATIVE_COMMON_MAIN))
                         }
                         maybeCreate(UNIX_COMMON_TEST).apply {
+                            dependsOn(getByName(NON_JVM_TEST))
                             dependsOn(getByName(NATIVE_COMMON_TEST))
                         }
 
                         val darwinTargets = unixTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Darwin<*>>()
                         if (darwinTargets.isNotEmpty()) {
                             maybeCreate(DARWIN_COMMON_MAIN).apply {
+                                dependsOn(getByName(NON_JVM_MAIN))
                                 dependsOn(getByName(NATIVE_COMMON_MAIN))
                                 dependsOn(getByName(UNIX_COMMON_MAIN))
                             }
                             maybeCreate(DARWIN_COMMON_TEST).apply {
+                                dependsOn(getByName(NON_JVM_TEST))
                                 dependsOn(getByName(NATIVE_COMMON_TEST))
                                 dependsOn(getByName(UNIX_COMMON_TEST))
                             }
@@ -225,10 +229,12 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                         val linuxTargets = unixTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Linux>()
                         if (linuxTargets.isNotEmpty()) {
                             maybeCreate(LINUX_COMMON_MAIN).apply {
+                                dependsOn(getByName(NON_JVM_MAIN))
                                 dependsOn(getByName(NATIVE_COMMON_MAIN))
                                 dependsOn(getByName(UNIX_COMMON_MAIN))
                             }
                             maybeCreate(LINUX_COMMON_TEST).apply {
+                                dependsOn(getByName(NON_JVM_TEST))
                                 dependsOn(getByName(NATIVE_COMMON_TEST))
                                 dependsOn(getByName(UNIX_COMMON_TEST))
                             }
@@ -238,9 +244,11 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                     val mingwTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Mingw<*>>()
                     if (mingwTargets.isNotEmpty()) {
                         maybeCreate(MINGW_COMMON_MAIN).apply {
+                            dependsOn(getByName(NON_JVM_MAIN))
                             dependsOn(getByName(NATIVE_COMMON_MAIN))
                         }
                         maybeCreate(MINGW_COMMON_TEST).apply {
+                            dependsOn(getByName(NON_JVM_TEST))
                             dependsOn(getByName(NATIVE_COMMON_TEST))
                         }
                     }
