@@ -163,7 +163,16 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
     ) {
         project.kotlin {
             sourceSets {
+
+                val jvmTargets = enabledTargets.filterIsInstance<KmpTarget.Jvm<*>>()
+
                 getByName(COMMON_MAIN) sourceSetMain@ {
+                    if (jvmTargets.isEmpty()) {
+                        dependencies {
+                            // https://youtrack.jetbrains.com/issue/KT-40333
+                            implementation(kotlin("stdlib-common"))
+                        }
+                    }
                     commonMainSourceSet?.invoke(this@sourceSetMain)
                 }
 
@@ -171,7 +180,6 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                     commonTestSourceSet?.invoke(this@sourceSetTest)
                 }
 
-                val jvmTargets = enabledTargets.filterIsInstance<KmpTarget.Jvm<*>>()
                 if (jvmTargets.isNotEmpty()) {
                     maybeCreate(JVM_COMMON_MAIN).apply {
                         dependsOn(getByName(COMMON_MAIN))
