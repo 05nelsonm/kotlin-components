@@ -17,6 +17,7 @@
 
 package io.matthewnelson.kotlin.components.kmp
 
+import com.android.build.api.dsl.AndroidSourceSet
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import com.android.build.gradle.BaseExtension
@@ -236,10 +237,11 @@ sealed class KmpTarget<T: KotlinTarget> {
             }
         }
 
+        @Suppress("UnstableApiUsage")
         class Android(
             val compileSdk: Int,
             val minSdk: Int,
-            manifestPath: String,
+            val androidMainSourceSet: (AndroidSourceSet.() -> Unit)? = null,
             override val pluginIds: Set<String>? = null,
             val buildTools: String? = null,
             val targetSdk: Int? = null,
@@ -258,8 +260,6 @@ sealed class KmpTarget<T: KotlinTarget> {
                 const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
                 const val ENV_PROPERTY_VALUE: String = "ANDROID"
             }
-
-            val manifestPath: String? = manifestPath.ifEmpty { null }
 
             init {
                 require(buildTools?.isNotEmpty() ?: true) { "ANDROID.buildTools cannot be null or empty" }
@@ -286,7 +286,7 @@ sealed class KmpTarget<T: KotlinTarget> {
             ): this(
                 compileSdk,
                 minSdk,
-                "",
+                null,
                 pluginIds,
                 buildTools,
                 targetSdk,
@@ -322,7 +322,11 @@ sealed class KmpTarget<T: KotlinTarget> {
                     compileSdkVersion(this@Android.compileSdk)
                     this@Android.buildTools?.let { buildToolsVersion = it }
 
-                    this@Android.manifestPath?.let { path -> sourceSets.getByName("main").manifest.srcFile(path) }
+                    this@Android.androidMainSourceSet?.let { callback ->
+                        sourceSets.getByName("main") {
+                            callback.invoke(this)
+                        }
+                    }
 
                     defaultConfig {
                         minSdk = this@Android.minSdk
