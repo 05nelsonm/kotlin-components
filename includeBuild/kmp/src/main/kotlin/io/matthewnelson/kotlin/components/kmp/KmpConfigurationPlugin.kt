@@ -191,8 +191,9 @@ import org.gradle.kotlin.dsl.create
  *                  |       |        |-- iosArm64
  *                  |       |        |-- iosX64
  *                  |       |        |-- iosSimulatorArm64
- *                  |       |        |-- macosArm64
- *                  |       |        |-- macosX64
+ *                  |       |        |-- macosCommon
+ *                  |       |        |       |-- macosArm64
+ *                  |       |        |       '-- macosX64
  *                  |       |        |-- tvosArm64
  *                  |       |        |-- tvosX64
  *                  |       |        |-- tvosSimulatorArm64
