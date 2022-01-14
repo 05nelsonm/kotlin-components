@@ -31,10 +31,10 @@ object versions {
 
     object androidx {
         const val annotation                = "1.3.0"
-        const val appCompat                 = "1.4.0"
+        const val appCompat                 = "1.4.1"
         const val camera                    = "1.1.0-alpha10"
         const val cameraExt                 = "1.0.0-alpha30"
-        const val constraintLayout          = "2.1.2"
+        const val constraintLayout          = "2.1.3"
         const val core                      = "1.7.0"
         const val exifInterface             = "1.3.3"
 
@@ -62,16 +62,16 @@ object versions {
     }
 
     object kotlin {
-        const val atomicfu                  = "0.16.3"
-        const val kotlin                    = "1.5.31"
-        const val coroutines                = "1.5.2"
+        const val atomicfu                  = "0.17.0"
+        const val kotlin                    = "1.6.10"
+        const val coroutines                = "1.6.0"
     }
 
     object google {
         const val hilt                      = "2.40.5"
         const val guava                     = "31.0.1"
         const val material                  = "1.4.0-rc01"
-        const val mlKitBarcodeScanning      = "17.0.0"
+        const val mlKitBarcodeScanning      = "17.0.1"
         const val zxing                     = "3.4.1"
     }
 
@@ -89,7 +89,7 @@ object versions {
         const val exhaustive                = "0.2.0"
         const val okhttp                    = "4.9.3"
         const val okio                      = "3.0.0"
-        const val leakCanary                = "2.7"
+        const val leakCanary                = "2.8.1"
         const val moshi                     = "1.12.0"
         const val sqlDelight                = "1.5.3"
         const val turbine                   = "0.7.0"
@@ -100,14 +100,14 @@ object versions {
         const val requery                   = "3.36.0"
     }
 
-    const val viewBindingDelegate           = "1.5.3"
+    const val viewBindingDelegate           = "1.5.6"
 
     object gradle {
-        const val android                   = "7.0.3"
+        const val android                   = "7.0.4"
         const val atomicfu                  = versions.kotlin.atomicfu
         const val exhaustive                = versions.square.exhaustive
         const val dokka                     = versions.kotlin.kotlin
-        const val gradleVersions            = "0.39.0"
+        const val gradleVersions            = "0.41.0"
         const val kotlin                    = versions.kotlin.kotlin
         const val hilt                      = versions.google.hilt
         const val intellij                  = "0.4.26"
