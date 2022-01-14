@@ -30,6 +30,8 @@ kmpPublish {
 
 - Update `version` in project's `README.md` documentation
 
+- Update the Kotlin Version compatibility matrix in project's `README.md` documentation
+
 - Update `CHANGELOG.md`
 
 - Commit Changes
