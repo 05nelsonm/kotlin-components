@@ -51,14 +51,10 @@ object versions {
     }
 
     object components {
-        const val buildConfig               = "1"
-        const val coroutines                = "1.0.0"
-        const val encoding                  = "1.0.3"
-
-        object request {
-            const val concept               = "2"
-            const val feature               = "$concept.0.0"
-        }
+        const val buildConfig               = "2.0.0"
+        const val coroutines                = "1.1.0"
+        const val encoding                  = "1.1.0"
+        const val request                   = "3.0.0"
     }
 
     object kotlin {
@@ -194,12 +190,12 @@ object deps {
         }
 
         object request {
-            const val concept               = "$group:request-concept:${versions.components.request.concept}"
-            const val feature               = "$group:request-feature:${versions.components.request.feature}"
+            const val concept               = "$group:request-concept:${versions.components.request}"
+            const val feature               = "$group:request-feature:${versions.components.request}"
 
             object extensions {
-                const val navigation        = "$group:request-extension-navigation:${versions.components.request.concept}"
-                const val navigationAndroid = "$group:request-extension-navigation-androidx:${versions.components.request.concept}"
+                const val navigation        = "$group:request-extension-navigation:${versions.components.request}"
+                const val navigationAndroid = "$group:request-extension-navigation-androidx:${versions.components.request}"
             }
         }
     }
