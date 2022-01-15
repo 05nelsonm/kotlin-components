@@ -10,7 +10,7 @@ A git repository for managing dependencies and build tools across multiple Kotli
 | Jvm                   | ✔️                             | ✔️                             | ✔️                             | ✔️                             |
 | JS-browser            | ✔️                             | ✔️                             | ✔️                             | ✔️                             |
 | JS-node               | ✔️                             | ✔️                             | ✔️                             | ✔️                             |
-| IosArm32              |                               | ✔️                             |                               | ✔️                             |
+| IosArm32              | ✔️                             | ✔️                             | ✔️                             | ✔️                             |
 | IosArm64              | ✔️                             | ✔️                             | ✔️                             | ✔️                             |
 | IosX64                | ✔️                             | ✔️                             | ✔️                             | ✔️                             |
 | IosSimulatorArm64     |                               |                               |                               |                               |
@@ -22,7 +22,7 @@ A git repository for managing dependencies and build tools across multiple Kotli
 | WatchosArm32          | ✔️                             | ✔️                             | ✔️                             | ✔️                             |
 | WatchosArm64          | ✔️                             | ✔️                             | ✔️                             | ✔️                             |
 | WatchosX64            | ✔️                             | ✔️                             | ✔️                             | ✔️                             |
-| WatchosX86            |                               | ✔️                             |                               | ✔️                             |
+| WatchosX86            | ✔️                             | ✔️                             | ✔️                             | ✔️                             |
 | WatchosSimulatorArm64 |                               |                               |                               |                               |
 | LinuxArm32Hfp         |                               | ✔️                             |                               | ✔️                             |
 | LinuxMips32           |                               | ✔️                             |                               | ✔️                             |
