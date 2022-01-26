@@ -71,6 +71,20 @@ inline fun KotlinMultiplatformExtension.sourceSetJvmTest(crossinline action: Kot
 inline val KotlinMultiplatformExtension.sourceSetJvmTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.JVM_TEST)
 
+inline fun KotlinMultiplatformExtension.sourceSetJvmJsCommonMain(crossinline action: KotlinSourceSet.() -> Unit) {
+    sourceSetJvmMain?.let { action.invoke(it) }
+}
+
+inline val KotlinMultiplatformExtension.sourceSetJvmJsCommonMain: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.JVM_JS_COMMON_MAIN)
+
+inline fun KotlinMultiplatformExtension.sourceSetJvmJsCommonTest(crossinline action: KotlinSourceSet.() -> Unit) {
+    sourceSetJvmTest?.let { action.invoke(it) }
+}
+
+inline val KotlinMultiplatformExtension.sourceSetJvmJsCommonTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.JVM_JS_COMMON_TEST)
+
 inline fun KotlinMultiplatformExtension.sourceSetAndroidMain(crossinline action: KotlinSourceSet.() -> Unit) {
     sourceSetAndroidMain?.let { action.invoke(it) }
 }
