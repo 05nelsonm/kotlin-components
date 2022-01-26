@@ -178,12 +178,12 @@ import org.gradle.kotlin.dsl.create
  * the structure of source sets will be as depicted below (diagram shamelessly stolen from
  * Jesse Wilson: https://github.com/square/okio/blob/master/okio/build.gradle.kts).
  *
- * common
- *   |-- jvmCommon
- *   |      |-- jvm
- *   |      '-- android
- *   '-- nonJvm
- *          |-- js
+ * common --------------------------,
+ *   |-- jvmCommon                  |
+ *   |      |-- jvm --------,       |
+ *   |      '-- android     |-- jvmJsCommon
+ *   '-- nonJvm             |
+ *          |-- js ---------'
  *          '-- nativeCommon
  *                  |-- unixCommon
  *                  |       |-- darwinCommon

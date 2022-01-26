@@ -31,6 +31,8 @@ import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwi
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Companion.DARWIN_COMMON_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_JS_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_JS_COMMON_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.MACOS_COMMON_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.MACOS_COMMON_TEST
 import io.matthewnelson.kotlin.components.kmp.util.*
@@ -191,7 +193,18 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                     }
                 }
 
+                val jvmTarget = jvmTargets.filterIsInstance<KmpTarget.Jvm.Jvm>()
                 val jsTargets = enabledTargets.filterIsInstance<KmpTarget.NonJvm.JS>()
+
+                if (jvmTarget.isNotEmpty() && jsTargets.isNotEmpty()) {
+                    maybeCreate(JVM_JS_COMMON_MAIN).apply {
+                        dependsOn(getByName(COMMON_MAIN))
+                    }
+                    maybeCreate(JVM_JS_COMMON_TEST).apply {
+                        dependsOn(getByName(COMMON_TEST))
+                    }
+                }
+
                 val nativeTargets = enabledTargets.filterIsInstance<KmpTarget.NonJvm.Native<*>>()
 
                 if (jsTargets.isNotEmpty() || nativeTargets.isNotEmpty()) {

@@ -21,7 +21,11 @@ import com.android.build.api.dsl.AndroidSourceSet
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import com.android.build.gradle.BaseExtension
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_JS_COMMON_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_JS_COMMON_TEST
 import io.matthewnelson.kotlin.components.kmp.util.kotlin
+import io.matthewnelson.kotlin.components.kmp.util.sourceSetJvmJsCommonMain
+import io.matthewnelson.kotlin.components.kmp.util.sourceSetJvmJsCommonTest
 import org.gradle.api.JavaVersion
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
@@ -66,6 +70,9 @@ sealed class KmpTarget<T: KotlinTarget> {
 
         val JS_MAIN get() = NonJvm.JS.SOURCE_SET_MAIN_NAME
         val JS_TEST get() = NonJvm.JS.SOURCE_SET_TEST_NAME
+
+        const val JVM_JS_COMMON_MAIN = "jvmJsCommon$MAIN"
+        const val JVM_JS_COMMON_TEST = "jvmJsCommon$TEST"
 
         val NATIVE_COMMON_MAIN get() = NonJvm.Native.NATIVE_COMMON_MAIN
         val NATIVE_COMMON_TEST get() = NonJvm.Native.NATIVE_COMMON_TEST
@@ -185,6 +192,12 @@ sealed class KmpTarget<T: KotlinTarget> {
                     maybeCreate(sourceSetMainName).apply mainSourceSet@ {
                         dependsOn(getByName(JVM_COMMON_MAIN))
 
+                        if (this@Jvm !is Android) {
+                            sourceSetJvmJsCommonMain?.let { ss ->
+                                dependsOn(ss)
+                            }
+                        }
+
                         mainSourceSet?.invoke(this@mainSourceSet)
                     }
                     maybeCreate(sourceSetTestName).apply testSourceSet@ {
@@ -192,6 +205,10 @@ sealed class KmpTarget<T: KotlinTarget> {
 
                         if (this@Jvm is Android) {
                             dependsOn(getByName("androidAndroidTestRelease"))
+                        } else {
+                            sourceSetJvmJsCommonTest?.let { ss ->
+                                dependsOn(ss)
+                            }
                         }
 
                         testSourceSet?.invoke(this@testSourceSet)
@@ -447,11 +464,17 @@ sealed class KmpTarget<T: KotlinTarget> {
                         sourceSets {
                             maybeCreate(sourceSetMainName).apply mainSourceSet@ {
                                 dependsOn(getByName(NON_JVM_MAIN))
+                                sourceSetJvmJsCommonMain?.let { ss ->
+                                    dependsOn(ss)
+                                }
 
                                 mainSourceSet?.invoke(this@mainSourceSet)
                             }
                             maybeCreate(sourceSetTestName).apply testSourceSet@ {
                                 dependsOn(getByName(NON_JVM_TEST))
+                                sourceSetJvmJsCommonTest?.let { ss ->
+                                    dependsOn(ss)
+                                }
 
                                 testSourceSet?.invoke(this@testSourceSet)
                             }
