@@ -196,7 +196,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                 val jvmTarget = jvmTargets.filterIsInstance<KmpTarget.Jvm.Jvm>()
                 val jsTargets = enabledTargets.filterIsInstance<KmpTarget.NonJvm.JS>()
 
-                if (jvmTarget.isNotEmpty() && jsTargets.isNotEmpty()) {
+                if (jvmTarget.isNotEmpty() || jsTargets.isNotEmpty()) {
                     maybeCreate(JVM_JS_COMMON_MAIN).apply {
                         dependsOn(getByName(COMMON_MAIN))
                     }
