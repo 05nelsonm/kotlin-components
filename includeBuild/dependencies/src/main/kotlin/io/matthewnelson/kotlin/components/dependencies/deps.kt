@@ -43,7 +43,7 @@ object versions {
         }
 
         const val lifecycle                 = "2.4.0"
-        const val navigation                = "2.3.5"
+        const val navigation                = "2.4.0"
         const val media                     = "1.4.3"
         const val paging3                   = "3.1.0"
         const val recyclerView              = "1.2.1"
@@ -67,7 +67,7 @@ object versions {
         const val hilt                      = "2.40.5"
         const val guava                     = "31.0.1"
         const val material                  = "1.4.0-rc01"
-        const val mlKitBarcodeScanning      = "17.0.1"
+        const val mlKitBarcodeScanning      = "17.0.2"
         const val zxing                     = "3.4.1"
     }
 
@@ -99,11 +99,11 @@ object versions {
     const val viewBindingDelegate           = "1.5.6"
 
     object gradle {
-        const val android                   = "7.0.4"
+        const val android                   = "7.1.1"
         const val atomicfu                  = versions.kotlin.atomicfu
         const val exhaustive                = versions.square.exhaustive
         const val dokka                     = versions.kotlin.kotlin
-        const val gradleVersions            = "0.41.0"
+        const val gradleVersions            = "0.42.0"
         const val kotlin                    = versions.kotlin.kotlin
         const val hilt                      = versions.google.hilt
         const val intellij                  = "0.4.26"
