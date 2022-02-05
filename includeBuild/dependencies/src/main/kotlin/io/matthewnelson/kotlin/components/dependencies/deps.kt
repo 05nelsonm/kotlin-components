@@ -99,7 +99,7 @@ object versions {
     const val viewBindingDelegate           = "1.5.6"
 
     object gradle {
-        const val android                   = "7.0.3"
+        const val android                   = "7.0.4"
         const val atomicfu                  = versions.kotlin.atomicfu
         const val exhaustive                = versions.square.exhaustive
         const val dokka                     = versions.kotlin.kotlin
