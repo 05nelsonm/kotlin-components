@@ -54,7 +54,7 @@ object versions {
         const val buildConfig               = "2.0.0"
         const val coroutines                = "1.1.0"
         const val encoding                  = "1.1.0"
-        const val request                   = "3.0.0"
+        const val request                   = "3.0.1"
     }
 
     object kotlin {
