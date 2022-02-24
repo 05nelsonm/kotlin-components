@@ -205,6 +205,9 @@ sealed class KmpTarget<T: KotlinTarget> {
 
                         if (this@Jvm is Android) {
                             dependsOn(getByName("androidAndroidTestRelease"))
+                            dependsOn(getByName("androidTestFixtures"))
+                            dependsOn(getByName("androidTestFixturesDebug"))
+                            dependsOn(getByName("androidTestFixturesRelease"))
                         } else {
                             sourceSetJvmJsCommonTest?.let { ss ->
                                 dependsOn(ss)
