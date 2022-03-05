@@ -65,7 +65,7 @@ object versions {
 
     object google {
         const val hilt                      = "2.41"
-        const val guava                     = "31.0.1"
+        const val guava                     = "31.1"
         const val material                  = "1.5.0"
         const val mlKitBarcodeScanning      = "17.0.2"
         const val zxing                     = "3.4.1"
@@ -86,20 +86,20 @@ object versions {
         const val okhttp                    = "4.9.3"
         const val okio                      = "3.0.0"
         const val leakCanary                = "2.8.1"
-        const val moshi                     = "1.12.0"
+        const val moshi                     = "1.13.0"
         const val sqlDelight                = "1.5.3"
         const val turbine                   = "0.7.0"
     }
 
     object sql {
-        const val cipher                    = "4.5.0"
+        const val cipher                    = "4.5.1"
         const val requery                   = "3.36.0"
     }
 
     const val viewBindingDelegate           = "1.5.6"
 
     object gradle {
-        const val android                   = "7.1.1"
+        const val android                   = "7.1.2"
         const val atomicfu                  = versions.kotlin.atomicfu
         const val exhaustive                = versions.square.exhaustive
         const val dokka                     = versions.kotlin.kotlin
@@ -107,7 +107,7 @@ object versions {
         const val kotlin                    = versions.kotlin.kotlin
         const val hilt                      = versions.google.hilt
         const val intellij                  = "0.4.26"
-        const val mavenPublish              = "0.18.0"
+        const val mavenPublish              = "0.19.0"
         const val navigation                = versions.androidx.navigation
         const val sqlDelight                = versions.square.sqlDelight
     }
