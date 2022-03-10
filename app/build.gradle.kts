@@ -67,7 +67,6 @@ dependencies {
     implementation(deps.androidx.core)
     implementation(deps.androidx.exifInterface)
     implementation(deps.androidx.lifecycle.commonJava8)
-    implementation(deps.androidx.lifecycle.hiltViewmodel)
     implementation(deps.androidx.lifecycle.processLifecycleOwner)
     implementation(deps.androidx.lifecycle.runtime)
     implementation(deps.androidx.lifecycle.service)
@@ -80,6 +79,21 @@ dependencies {
     implementation(deps.androidx.recyclerView)
     implementation(deps.androidx.securityCrypto)
     implementation(deps.androidx.viewBinding)
+
+    implementation(deps.components.buildConfig)
+    implementation(deps.components.coroutines)
+    implementation(deps.components.encoding.base16)
+    implementation(deps.components.encoding.base32)
+    implementation(deps.components.encoding.base64)
+    implementation(deps.components.kmptor.manager.manager)
+    implementation(deps.components.kmptor.binary.android)
+    implementation(deps.components.kmptor.binary.geoip)
+    implementation(deps.components.kmptor.binary.extract)
+    implementation(deps.components.request.concept)
+    implementation(deps.components.request.feature)
+    implementation(deps.components.request.extensions.navigationAndroid)
+
+    implementation(deps.toxicity.rsaApiKeyValidator)
 
     implementation(deps.insetter)
 

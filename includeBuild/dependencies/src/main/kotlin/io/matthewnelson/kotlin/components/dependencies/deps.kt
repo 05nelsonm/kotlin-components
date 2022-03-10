@@ -37,23 +37,24 @@ object versions {
         const val constraintLayout          = "2.1.3"
         const val core                      = "1.7.0"
         const val exifInterface             = "1.3.3"
-
-        object hilt {
-            const val lifecycle             = "1.0.0-alpha03"
-        }
-
         const val lifecycle                 = "2.4.1"
         const val navigation                = "2.4.1"
         const val media                     = "1.5.0"
-        const val paging3                   = "3.1.0"
+        const val paging3                   = "3.1.1"
         const val recyclerView              = "1.2.1"
         const val securityCrypto            = "1.1.0-alpha03"
     }
 
     object components {
-        const val buildConfig               = "2.0.0"
+        const val buildConfig               = "3.0.0"
         const val coroutines                = "1.1.0"
         const val encoding                  = "1.1.0"
+
+        object kmptor {
+            const val binary                = "0.4.6.10"
+            const val kmptor                = "0.1.0-alpha4"
+        }
+
         const val request                   = "3.0.1"
     }
 
@@ -94,6 +95,10 @@ object versions {
     object sql {
         const val cipher                    = "4.5.1"
         const val requery                   = "3.36.0"
+    }
+
+    object toxicity {
+        const val rsaApiKeyValidator        = "1.0.0"
     }
 
     const val viewBindingDelegate           = "1.5.6"
@@ -156,7 +161,6 @@ object deps {
 
         object lifecycle {
             const val commonJava8           = "androidx.lifecycle:lifecycle-common-java8:${versions.androidx.lifecycle}"
-            const val hiltViewmodel         = "androidx.hilt:hilt-lifecycle-viewmodel:${versions.androidx.hilt.lifecycle}"
             const val processLifecycleOwner = "androidx.lifecycle:lifecycle-process:${versions.androidx.lifecycle}"
             const val runtime               = "androidx.lifecycle:lifecycle-runtime-ktx:${versions.androidx.lifecycle}"
             const val service               = "androidx.lifecycle:lifecycle-service:${versions.androidx.lifecycle}"
@@ -187,6 +191,33 @@ object deps {
             const val base16                = "$group:encoding-base16:${versions.components.encoding}"
             const val base32                = "$group:encoding-base32:${versions.components.encoding}"
             const val base64                = "$group:encoding-base64:${versions.components.encoding}"
+        }
+
+        object kmptor {
+            object binary {
+                const val geoip             = "$group:kmp-tor-binary-geoip:${versions.components.kmptor.binary}"
+                const val extract           = "$group:kmp-tor-binary-extract:${versions.components.kmptor.binary}"
+
+                const val android           = "$group:kmp-tor-binary-android:${versions.components.kmptor.binary}"
+                const val linuxx64          = "$group:kmp-tor-binary-linuxx64:${versions.components.kmptor.binary}"
+                const val linuxx86          = "$group:kmp-tor-binary-linuxx86:${versions.components.kmptor.binary}"
+                const val macosx64          = "$group:kmp-tor-binary-macosx64:${versions.components.kmptor.binary}"
+                const val mingwx64          = "$group:kmp-tor-binary-mingwx64:${versions.components.kmptor.binary}"
+                const val mingwx86          = "$group:kmp-tor-binary-mingwx86:${versions.components.kmptor.binary}"
+            }
+
+            const val kmptor                = "$group:kmp-tor:${versions.components.kmptor.binary}+${versions.components.kmptor.kmptor}"
+            const val common                = "$group:kmp-tor-common:${versions.components.kmptor.kmptor}"
+
+            object controller {
+                const val controller        = "$group:kmp-tor-controller:${versions.components.kmptor.kmptor}"
+                const val common            = "$group:kmp-tor-controller-common:${versions.components.kmptor.kmptor}"
+            }
+
+            object manager {
+                const val manager           = "$group:kmp-tor-manager:${versions.components.kmptor.kmptor}"
+                const val common            = "$group:kmp-tor-manager-common:${versions.components.kmptor.kmptor}"
+            }
         }
 
         object request {
@@ -318,6 +349,10 @@ object deps {
                 const val coroutines        = "com.squareup.sqldelight:coroutines-extensions:${versions.square.sqlDelight}"
             }
         }
+    }
+
+    object toxicity {
+        const val rsaApiKeyValidator        = "io.toxicity:rsa-api-key-validator:${versions.toxicity.rsaApiKeyValidator}"
     }
 
     const val viewBindingDelegateNoReflect  = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:${versions.viewBindingDelegate}"
