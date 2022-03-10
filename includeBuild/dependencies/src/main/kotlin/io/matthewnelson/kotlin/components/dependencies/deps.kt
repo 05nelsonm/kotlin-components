@@ -51,9 +51,15 @@ object versions {
     }
 
     object components {
-        const val buildConfig               = "2.0.0"
+        const val buildConfig               = "3.0.0"
         const val coroutines                = "1.1.0"
         const val encoding                  = "1.1.0"
+
+        object kmptor {
+            const val binary                = "0.4.6.10"
+            const val kmptor                = "0.1.0-alpha4"
+        }
+
         const val request                   = "3.0.1"
     }
 
@@ -94,6 +100,10 @@ object versions {
     object sql {
         const val cipher                    = "4.5.1"
         const val requery                   = "3.36.0"
+    }
+
+    object toxicity {
+        const val rsaApiKeyValidator        = "1.0.0"
     }
 
     const val viewBindingDelegate           = "1.5.6"
@@ -187,6 +197,33 @@ object deps {
             const val base16                = "$group:encoding-base16:${versions.components.encoding}"
             const val base32                = "$group:encoding-base32:${versions.components.encoding}"
             const val base64                = "$group:encoding-base64:${versions.components.encoding}"
+        }
+
+        object kmptor {
+            object binary {
+                const val geoip             = "$group:kmp-tor-binary-geoip:${versions.components.kmptor.binary}"
+                const val extract           = "$group:kmp-tor-binary-extract:${versions.components.kmptor.binary}"
+
+                const val android           = "$group:kmp-tor-binary-android:${versions.components.kmptor.binary}"
+                const val linuxx64          = "$group:kmp-tor-binary-linuxx64:${versions.components.kmptor.binary}"
+                const val linuxx86          = "$group:kmp-tor-binary-linuxx86:${versions.components.kmptor.binary}"
+                const val macosx64          = "$group:kmp-tor-binary-macosx64:${versions.components.kmptor.binary}"
+                const val mingwx64          = "$group:kmp-tor-binary-mingwx64:${versions.components.kmptor.binary}"
+                const val mingwx86          = "$group:kmp-tor-binary-mingwx86:${versions.components.kmptor.binary}"
+            }
+
+            const val kmptor                = "$group:kmp-tor:${versions.components.kmptor.binary}+${versions.components.kmptor.kmptor}"
+            const val common                = "$group:kmp-tor-common:${versions.components.kmptor.kmptor}"
+
+            object controller {
+                const val controller        = "$group:kmp-tor-controller:${versions.components.kmptor.kmptor}"
+                const val common            = "$group:kmp-tor-controller-common:${versions.components.kmptor.kmptor}"
+            }
+
+            object manager {
+                const val manager           = "$group:kmp-tor-manager:${versions.components.kmptor.kmptor}"
+                const val common            = "$group:kmp-tor-manager-common:${versions.components.kmptor.kmptor}"
+            }
         }
 
         object request {
@@ -318,6 +355,10 @@ object deps {
                 const val coroutines        = "com.squareup.sqldelight:coroutines-extensions:${versions.square.sqlDelight}"
             }
         }
+    }
+
+    object toxicity {
+        const val rsaApiKeyValidator        = "io.toxicity:rsa-api-key-validator:${versions.toxicity.rsaApiKeyValidator}"
     }
 
     const val viewBindingDelegateNoReflect  = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:${versions.viewBindingDelegate}"
