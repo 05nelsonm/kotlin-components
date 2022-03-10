@@ -40,7 +40,7 @@ object versions {
         const val lifecycle                 = "2.4.1"
         const val navigation                = "2.4.1"
         const val media                     = "1.5.0"
-        const val paging3                   = "3.1.0"
+        const val paging3                   = "3.1.1"
         const val recyclerView              = "1.2.1"
         const val securityCrypto            = "1.1.0-alpha03"
     }
