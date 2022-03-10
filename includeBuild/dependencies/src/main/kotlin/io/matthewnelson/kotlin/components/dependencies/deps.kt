@@ -37,11 +37,6 @@ object versions {
         const val constraintLayout          = "2.1.3"
         const val core                      = "1.7.0"
         const val exifInterface             = "1.3.3"
-
-        object hilt {
-            const val lifecycle             = "1.0.0-alpha03"
-        }
-
         const val lifecycle                 = "2.4.1"
         const val navigation                = "2.4.1"
         const val media                     = "1.5.0"
@@ -166,7 +161,6 @@ object deps {
 
         object lifecycle {
             const val commonJava8           = "androidx.lifecycle:lifecycle-common-java8:${versions.androidx.lifecycle}"
-            const val hiltViewmodel         = "androidx.hilt:hilt-lifecycle-viewmodel:${versions.androidx.hilt.lifecycle}"
             const val processLifecycleOwner = "androidx.lifecycle:lifecycle-process:${versions.androidx.lifecycle}"
             const val runtime               = "androidx.lifecycle:lifecycle-runtime-ktx:${versions.androidx.lifecycle}"
             const val service               = "androidx.lifecycle:lifecycle-service:${versions.androidx.lifecycle}"

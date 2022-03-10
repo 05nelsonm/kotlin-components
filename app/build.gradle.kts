@@ -67,7 +67,6 @@ dependencies {
     implementation(deps.androidx.core)
     implementation(deps.androidx.exifInterface)
     implementation(deps.androidx.lifecycle.commonJava8)
-    implementation(deps.androidx.lifecycle.hiltViewmodel)
     implementation(deps.androidx.lifecycle.processLifecycleOwner)
     implementation(deps.androidx.lifecycle.runtime)
     implementation(deps.androidx.lifecycle.service)
