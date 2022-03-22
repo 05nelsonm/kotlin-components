@@ -52,7 +52,7 @@ object versions {
 
         object kmptor {
             const val binary                = "0.4.6.10"
-            const val kmptor                = "0.1.0-alpha4"
+            const val kmptor                = "0.1.0-beta1"
         }
 
         const val request                   = "3.0.1"
@@ -98,7 +98,7 @@ object versions {
     }
 
     object toxicity {
-        const val rsaApiKeyValidator        = "1.0.0"
+        const val rsaApiKeyValidator        = "2.0.0"
     }
 
     const val viewBindingDelegate           = "1.5.6"
