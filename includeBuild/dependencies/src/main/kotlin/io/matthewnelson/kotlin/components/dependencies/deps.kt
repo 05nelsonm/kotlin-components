@@ -52,7 +52,7 @@ object versions {
 
         object kmptor {
             const val binary                = "0.4.6.10"
-            const val kmptor                = "0.1.0-beta1"
+            const val kmptor                = "0.1.0-beta2"
         }
 
         const val request                   = "3.0.1"
