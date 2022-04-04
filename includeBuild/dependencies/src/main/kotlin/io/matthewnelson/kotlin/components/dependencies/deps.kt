@@ -61,6 +61,7 @@ object versions {
     object kotlin {
         const val atomicfu                  = "0.17.1"
         const val kotlin                    = "1.6.10"
+        const val ktor                      = "1.6.8"
         const val coroutines                = "1.6.0"
     }
 
@@ -310,6 +311,20 @@ object deps {
             }
         }
 
+        object ktor {
+            object client {
+                const val core              = "io.ktor:ktor-client-core:${versions.kotlin.ktor}"
+                const val cio               = "io.ktor:ktor-client-cio:${versions.kotlin.ktor}"
+            }
+
+            object server {
+                const val core              = "io.ktor:ktor-server-core:${versions.kotlin.ktor}"
+                const val netty             = "io.ktor:ktor-server-netty:${versions.kotlin.ktor}"
+            }
+
+            const val websockets            = "io.ktor:ktor-websockets:${versions.kotlin.ktor}"
+        }
+
         const val reflect                   = "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin.kotlin}"
 
         object stdLib {
@@ -329,6 +344,7 @@ object deps {
         object okhttp {
             const val logging               = "com.squareup.okhttp3:logging-interceptor:${versions.square.okhttp}"
             const val okhttp                = "com.squareup.okhttp3:okhttp:${versions.square.okhttp}"
+            const val tls                   = "com.squareup.okhttp3:okhttp-tls:${versions.square.okhttp}"
         }
 
         object okio {
