@@ -32,17 +32,17 @@ object versions {
     object androidx {
         const val annotation                = "1.3.0"
         const val appCompat                 = "1.4.1"
-        const val camera                    = "1.1.0-beta02"
-        const val cameraExt                 = "1.1.0-beta02"
+        const val camera                    = "1.1.0-beta03"
+        const val cameraExt                 = "1.1.0-beta03"
         const val constraintLayout          = "2.1.3"
         const val core                      = "1.7.0"
         const val exifInterface             = "1.3.3"
         const val lifecycle                 = "2.4.1"
-        const val navigation                = "2.4.1"
-        const val media                     = "1.5.0"
+        const val navigation                = "2.4.2"
+        const val media                     = "1.6.0"
         const val paging3                   = "3.1.1"
         const val recyclerView              = "1.2.1"
-        const val securityCrypto            = "1.1.0-alpha03"
+        const val securityCrypto            = "1.0.0"
     }
 
     object components {
@@ -52,17 +52,17 @@ object versions {
 
         object kmptor {
             const val binary                = "0.4.6.10"
-            const val kmptor                = "0.1.0-beta2"
+            const val kmptor                = "0.1.0"
         }
 
         const val request                   = "3.0.1"
     }
 
     object kotlin {
-        const val atomicfu                  = "0.17.1"
-        const val kotlin                    = "1.6.10"
-        const val ktor                      = "1.6.8"
-        const val coroutines                = "1.6.0"
+        const val atomicfu                  = "0.17.2"
+        const val kotlin                    = "1.6.21"
+        const val ktor                      = "2.0.1"
+        const val coroutines                = "1.6.1"
     }
 
     object google {
@@ -86,8 +86,8 @@ object versions {
     object square {
         const val exhaustive                = "0.2.0"
         const val okhttp                    = "4.9.3"
-        const val okio                      = "3.0.0"
-        const val leakCanary                = "2.8.1"
+        const val okio                      = "3.1.0"
+        const val leakCanary                = "2.9.1"
         const val moshi                     = "1.13.0"
         const val sqlDelight                = "1.5.3"
         const val turbine                   = "0.7.0"
@@ -105,7 +105,7 @@ object versions {
     const val viewBindingDelegate           = "1.5.6"
 
     object gradle {
-        const val android                   = "7.1.2"
+        const val android                   = "7.1.3"
         const val atomicfu                  = versions.kotlin.atomicfu
         const val exhaustive                = versions.square.exhaustive
         const val dokka                     = versions.kotlin.kotlin
@@ -136,7 +136,7 @@ object versions {
             const val coroutines            = versions.kotlin.coroutines
         }
 
-        const val robolectric               = "4.7.3"
+        const val robolectric               = "4.8"
         const val turbine                   = versions.square.turbine
     }
 
