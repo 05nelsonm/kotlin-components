@@ -25,6 +25,10 @@ import org.gradle.plugins.signing.SigningExtension
 inline val Project.kmpPublishRootProjectConfiguration: KmpPublishRootProjectConfiguration?
     get() = KmpPublishRootProjectConfiguration.configuration
 
+@Suppress("unused")
+inline val KmpPublishRootProjectConfiguration.isSnapshotVersion: Boolean
+    get() = versionName.endsWith("-SNAPSHOT")
+
 @Suppress("MemberVisibilityCanBePrivate", "unused", "CanBeParameter")
 class KmpPublishRootProjectConfiguration internal constructor(
     rootProject: Project,

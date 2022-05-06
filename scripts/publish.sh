@@ -9,10 +9,7 @@ function help() {
   echo ""
   echo "            --host                        Builds and publishes gradle project for specified platform"
   echo ""
-  echo "                       linux  --non-jvm   If --non-jvm flag present, will build and publish only the"
-  echo "                                          Js, Linux, and Mingw targets. If no flag present, will"
-  echo "                                          publish everything (ie. publishAllPublicationsToMavenCentralRepository)"
-  echo ""
+  echo "                       linux"
   echo "                       darwin"
   echo "                       mingw"
   echo ""
@@ -29,7 +26,7 @@ function help() {
 function checkGradlewExists() {
   if [ ! -f "$WORK_DIR/gradlew" ]; then
     echo ""
-    echo "gradlew file not found"
+    echo "    SCRIPT: gradlew file not found"
     echo ""
     exit 1
   fi
@@ -38,7 +35,7 @@ function checkGradlewExists() {
 function checkKotlinComponentsProject() {
   if [ ! -d "$WORK_DIR/kotlin-components" ]; then
     echo ""
-    echo "current working directory must be a subproject of kotlin-components"
+    echo "    SCRIPT: Current working directory must be a subproject of kotlin-components"
     echo ""
     exit 1
   fi
@@ -47,7 +44,7 @@ function checkKotlinComponentsProject() {
 function checkCheckPublicationProjectExists() {
   if [ ! -f "$WORK_DIR/tools/check-publication/build.gradle.kts" ]; then
     echo ""
-    echo "project :tools:check-publication does not exist"
+    echo "    SCRIPT: Project :tools:check-publication does not exist"
     echo ""
     exit 1
   fi
@@ -55,10 +52,15 @@ function checkCheckPublicationProjectExists() {
 
 function clean() {
   echo ""
-  echo "    SCRIPT ./gradlew clean -DKMP_TARGETS_ALL"
+  echo "    SCRIPT: ./gradlew clean -DKMP_TARGETS_ALL"
   echo ""
 
-  ./gradlew clean -DKMP_TARGETS_ALL
+  if ! ./gradlew clean -DKMP_TARGETS_ALL; then
+    echo ""
+    echo "    SCRIPT: Clean failure. Exiting"
+    echo ""
+    exit 1
+  fi
 }
 
 function sync() {
@@ -122,29 +124,8 @@ case $1 in
     case $2 in
 
       "linux")
-        case $3 in
-            "--non-jvm")
-              # JVM is needed here so JS build won't throw compilation errors
-              TARGETS="-PKMP_TARGETS=JVM,JS,LINUX_ARM32HFP,LINUX_MIPS32,LINUX_MIPSEL32,LINUX_X64,MINGW_X64,MINGW_X86"
-              sync "$TARGETS"
-              PUBLISH_TASKS=$(getPublishTasks "$TARGETS" '-e publishJs -e publishLinux -e publishMingw')
-
-              if [ "$PUBLISH_TASKS" != "" ]; then
-                build "$TARGETS"
-                publish "$PUBLISH_TASKS" "$TARGETS"
-              else
-                echo ""
-                echo "    SCRIPT: No non-jvm publication tasks available"
-                echo ""
-                exit 1
-              fi
-              ;;
-
-            *)
-              build "-DKMP_TARGETS_ALL"
-              publish "publishAllPublicationsToMavenCentralRepository" "-DKMP_TARGETS_ALL"
-              ;;
-        esac
+        build "-DKMP_TARGETS_ALL"
+        publish "publishAllPublicationsToMavenCentralRepository" "-DKMP_TARGETS_ALL"
         ;;
 
       "darwin")
