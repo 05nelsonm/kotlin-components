@@ -19,8 +19,8 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.kotlin.dsl.getByType
 
-inline fun Project.propertyExt(crossinline block: ExtraPropertiesExtension.() -> Unit) {
-    block.invoke(extensions.getByType())
+inline fun <T: Any?> Project.propertyExt(crossinline block: ExtraPropertiesExtension.() -> T): T {
+    return block.invoke(extensions.getByType())
 }
 
 @Suppress("NOTHING_TO_INLINE")
