@@ -7,12 +7,14 @@ function help() {
   echo ""
   echo "publish.sh <command> <option>"
   echo ""
-  echo "            --host                 builds and publishes gradle project for specified platform"
+  echo "            --host                    Builds and publishes gradle project for specified platform"
   echo "                       linux"
   echo "                       darwin"
   echo "                       mingw"
   echo ""
-  echo "            --check-publication    verifies MavenCentral publications are good"
+  echo "            --check-publication       Verifies MavenCentral publications are good"
+  echo ""
+  echo "            --publish-android         Publishes only the android source set"
   echo ""
 }
 
@@ -44,7 +46,7 @@ function checkCheckPublicationProjectExists() {
 }
 
 function clean() {
-  ./gradlew clean
+  ./gradlew clean -DKMP_TARGETS_ALL
 }
 
 function sync() {
@@ -116,6 +118,14 @@ case $1 in
     checkCheckPublicationProjectExists
     clean
     ./gradlew :tools:check-publication:build --refresh-dependencies -PCHECK_PUBLICATION
+    ;;
+
+  "--publish-android")
+    checkGradlewExists
+    checkKotlinComponentsProject
+    clean
+    build "-PKMP_TARGETS=ANDROID,JVM"
+    publish "publishAndroidReleasePublicationToMavenCentralRepository" "-PKMP_TARGETS=ANDROID,JVM"
     ;;
 
   *)
