@@ -62,6 +62,8 @@ function clean() {
 }
 
 function sync() {
+  # $1 = KMP_TARGETS
+
   echo ""
   echo "    SCRIPT: ./gradlew prepareKotlinBuildScriptModel $1"
   echo ""
@@ -75,6 +77,8 @@ function sync() {
 }
 
 function build() {
+  # $1 = KMP_TARGETS
+
   echo ""
   echo "    SCRIPT: ./gradlew build --no-daemon --no-parallel $1"
   echo ""
@@ -88,13 +92,19 @@ function build() {
 }
 
 function getPublishTasks() {
-  ./gradlew tasks |
+  # $1 = KMP_TARGETS
+  # $2 = grep filter
+
+  ./gradlew tasks $1 |
   grep "ToMavenCentralRepository" |
   cut -d ' ' -f 1 |
-  grep $1
+  grep $2
 }
 
 function publish() {
+  # $1 = publish tasks
+  # $2 = KMP_TARGETS
+
   echo ""
   echo "    SCRIPT: ./gradlew $1 --no-daemon --no-parallel $2"
   echo ""
@@ -117,11 +127,11 @@ case $1 in
               # JVM is needed here so JS build won't throw compilation errors
               TARGETS="-PKMP_TARGETS=JVM,JS,LINUX_ARM32HFP,LINUX_MIPS32,LINUX_MIPSEL32,LINUX_X64,MINGW_X64,MINGW_X86"
               sync "$TARGETS"
-              PUBLISH_TASKS=$(getPublishTasks '-e publishJs -e publishLinux -e publishMingw')
+              PUBLISH_TASKS=$(getPublishTasks "$TARGETS" '-e publishJs -e publishLinux -e publishMingw')
 
               if [ "$PUBLISH_TASKS" != "" ]; then
                 build "$TARGETS"
-                publish "$PUBLISH_TASKS"
+                publish "$PUBLISH_TASKS" "$TARGETS"
               else
                 echo "No non-jvm publication tasks available"
                 exit 1
@@ -136,22 +146,32 @@ case $1 in
         ;;
 
       "darwin")
-        sync
-        PUBLISH_TASKS=$(getPublishTasks '-e Ios -e Macos -e Tvos -e Watchos')
-        build
-        publish "$PUBLISH_TASKS"
+        TARGETS="-PKMP_TARGETS=IOS_ALL,IOS_ARM32,IOS_ARM64,IOS_X64,MACOS_ARM64,MACOS_X64,TVOS_ALL,TVOS_ARM64,TVOS_X64,WATCHOS_ALL,WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_X64,WATCHOS_X86,IOS_SIMULATOR_ARM64,TVOS_SIMULATOR_ARM64,WATCHOS_SIMULATOR_ARM64"
+        sync "$TARGETS"
+        PUBLISH_TASKS=$(getPublishTasks "$TARGETS" '-e Ios -e Macos -e Tvos -e Watchos')
+
+        if [ "$PUBLISH_TASKS" != "" ]; then
+          build "$TARGETS"
+          publish "$PUBLISH_TASKS" "$TARGETS"
+        else
+          echo ""
+          echo "    SCRIPT: No darwin publication tasks available"
+          echo ""
+          exit 1
+        fi
         ;;
 
       "mingw")
-        sync
-        PUBLISH_TASKS=$(getPublishTasks '-e Mingw')
-        build
+        TARGETS="-PKMP_TARGETS=MINGW_X64,MINGW_X86"
+        sync "$TARGETS"
+        PUBLISH_TASKS=$(getPublishTasks "$TARGETS" '-e Mingw')
+        build "$TARGETS"
 
         echo ""
         echo "Windows hates bash..."
         echo "paste the following into powershell"
         echo ""
-        echo "./gradlew $PUBLISH_TASKS --no-parallel --no-daemon"
+        echo "./gradlew $PUBLISH_TASKS --no-parallel --no-daemon $TARGETS"
         echo ""
         sleep 15
         ;;
