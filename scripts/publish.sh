@@ -16,6 +16,8 @@ function help() {
   echo ""
   echo "            --publish-android         Publishes only the android source set"
   echo ""
+  echo "            --publish-jvm             Publishes only the jvm source set"
+  echo ""
 }
 
 function checkGradlewExists() {
@@ -126,6 +128,14 @@ case $1 in
     clean
     build "-PKMP_TARGETS=ANDROID,JVM"
     publish "publishAndroidReleasePublicationToMavenCentralRepository" "-PKMP_TARGETS=ANDROID,JVM"
+    ;;
+
+  "--publish-jvm")
+    checkGradlewExists
+    checkKotlinComponentsProject
+    clean
+    build "-PKMP_TARGETS=JVM"
+    publish "publishJvmPublicationToMavenCentralRepository" "-PKMP_TARGETS=JVM"
     ;;
 
   *)
