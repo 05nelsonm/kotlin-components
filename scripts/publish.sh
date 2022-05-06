@@ -5,20 +5,24 @@ WORK_DIR=$(pwd)
 function help() {
   echo "publish.sh help"
   echo ""
-  echo "publish.sh <command> <option>"
+  echo "publish.sh <command> <option> <flag>"
   echo ""
-  echo "            --host                    Builds and publishes gradle project for specified platform"
-  echo "                       linux"
+  echo "            --host                        Builds and publishes gradle project for specified platform"
+  echo ""
+  echo "                       linux  --non-jvm   If --non-jvm flag present, will build and publish only the"
+  echo "                                          Js, Linux, and Mingw targets. If no flag present, will"
+  echo "                                          publish everything (ie. publishAllPublicationsToMavenCentralRepository)"
+  echo ""
   echo "                       darwin"
   echo "                       mingw"
   echo ""
-  echo "            --check-publication       Verifies MavenCentral publications are good"
+  echo "            --check-publication           Verifies MavenCentral publications are good"
   echo ""
-  echo "            --publish-android         Publishes only the android source set"
+  echo "            --publish-android             Publishes only the android source set"
   echo ""
-  echo "            --publish-jvm             Publishes only the jvm source set"
+  echo "            --publish-jvm                 Publishes only the jvm source set"
   echo ""
-  echo "            --publish-multiplatform   Publishes the multiplatform sources"
+  echo "            --publish-multiplatform       Publishes the multiplatform sources"
   echo ""
 }
 
@@ -82,8 +86,27 @@ case $1 in
     case $2 in
 
       "linux")
-        build "-DKMP_TARGETS_ALL"
-        publish "publishAllPublicationsToMavenCentralRepository" "-DKMP_TARGETS_ALL"
+        case $3 in
+            "--non-jvm")
+              # JVM is needed here so JS build won't throw compilation errors
+              TARGETS="-PKMP_TARGETS=JVM,JS,LINUX_ARM32HFP,LINUX_MIPS32,LINUX_MIPSEL32,LINUX_X64,MINGW_X64,MINGW_X86"
+              sync "$TARGETS"
+              PUBLISH_TASKS=$(getPublishTasks '-e publishJs -e publishLinux -e publishMingw')
+
+              if [ "$PUBLISH_TASKS" != "" ]; then
+                build "$TARGETS"
+                publish "$PUBLISH_TASKS"
+              else
+                echo "No non-jvm publication tasks available"
+                exit 1
+              fi
+              ;;
+
+            *)
+              build "-DKMP_TARGETS_ALL"
+              publish "publishAllPublicationsToMavenCentralRepository" "-DKMP_TARGETS_ALL"
+              ;;
+        esac
         ;;
 
       "darwin")
