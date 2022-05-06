@@ -18,6 +18,8 @@ function help() {
   echo ""
   echo "            --publish-jvm             Publishes only the jvm source set"
   echo ""
+  echo "            --publish-multiplatform   Publishes the multiplatform sources"
+  echo ""
 }
 
 function checkGradlewExists() {
@@ -136,6 +138,14 @@ case $1 in
     clean
     build "-PKMP_TARGETS=JVM"
     publish "publishJvmPublicationToMavenCentralRepository" "-PKMP_TARGETS=JVM"
+    ;;
+
+  "--publish-multiplatform")
+    checkGradlewExists
+    checkKotlinComponentsProject
+    clean
+    build "-DKMP_TARGETS_ALL"
+    publish "publishKotlinMultiplatformPublicationToMavenCentralRepository" "-DKMP_TARGETS_ALL"
     ;;
 
   *)
