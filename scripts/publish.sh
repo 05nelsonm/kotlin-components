@@ -54,15 +54,37 @@ function checkCheckPublicationProjectExists() {
 }
 
 function clean() {
+  echo ""
+  echo "    SCRIPT ./gradlew clean -DKMP_TARGETS_ALL"
+  echo ""
+
   ./gradlew clean -DKMP_TARGETS_ALL
 }
 
 function sync() {
-  ./gradlew prepareKotlinBuildScriptModel $1
+  echo ""
+  echo "    SCRIPT: ./gradlew prepareKotlinBuildScriptModel $1"
+  echo ""
+
+  if ! ./gradlew prepareKotlinBuildScriptModel $1; then
+    echo ""
+    echo "    SCRIPT: Sync failure. Exiting"
+    echo ""
+    exit 1
+  fi
 }
 
 function build() {
-  ./gradlew build --no-daemon --no-parallel $1
+  echo ""
+  echo "    SCRIPT: ./gradlew build --no-daemon --no-parallel $1"
+  echo ""
+
+  if ! ./gradlew build --no-daemon --no-parallel $1; then
+    echo ""
+    echo "    SCRIPT: Build failure. Exiting."
+    echo ""
+    exit 1
+  fi
 }
 
 function getPublishTasks() {
@@ -73,7 +95,11 @@ function getPublishTasks() {
 }
 
 function publish() {
-  ./gradlew $1 --no-parallel --no-daemon $2
+  echo ""
+  echo "    SCRIPT: ./gradlew $1 --no-daemon --no-parallel $2"
+  echo ""
+
+  ./gradlew $1 --no-daemon --no-parallel $2
 }
 
 case $1 in
