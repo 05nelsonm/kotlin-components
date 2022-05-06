@@ -114,7 +114,7 @@ object versions {
         const val kotlin                    = versions.kotlin.kotlin
         const val hilt                      = versions.google.hilt
         const val intellij                  = "0.4.26"
-        const val mavenPublish              = "0.19.0"
+        const val mavenPublish              = "0.18.0"
         const val navigation                = versions.androidx.navigation
         const val sqlDelight                = versions.square.sqlDelight
     }
