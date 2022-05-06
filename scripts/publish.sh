@@ -133,7 +133,9 @@ case $1 in
                 build "$TARGETS"
                 publish "$PUBLISH_TASKS" "$TARGETS"
               else
-                echo "No non-jvm publication tasks available"
+                echo ""
+                echo "    SCRIPT: No non-jvm publication tasks available"
+                echo ""
                 exit 1
               fi
               ;;
@@ -148,7 +150,7 @@ case $1 in
       "darwin")
         TARGETS="-PKMP_TARGETS=IOS_ALL,IOS_ARM32,IOS_ARM64,IOS_X64,MACOS_ARM64,MACOS_X64,TVOS_ALL,TVOS_ARM64,TVOS_X64,WATCHOS_ALL,WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_X64,WATCHOS_X86,IOS_SIMULATOR_ARM64,TVOS_SIMULATOR_ARM64,WATCHOS_SIMULATOR_ARM64"
         sync "$TARGETS"
-        PUBLISH_TASKS=$(getPublishTasks "$TARGETS" '-e Ios -e Macos -e Tvos -e Watchos')
+        PUBLISH_TASKS=$(getPublishTasks "$TARGETS" '-e publishIos -e publishMacos -e publishTvos -e publishWatchos')
 
         if [ "$PUBLISH_TASKS" != "" ]; then
           build "$TARGETS"
