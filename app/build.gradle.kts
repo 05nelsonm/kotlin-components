@@ -20,7 +20,7 @@ android {
     buildFeatures.viewBinding = true
     defaultConfig {
         applicationId  = "io.matthewnelson.components"
-        minSdk = versions.android.sdkMin21
+        minSdk = versions.android.sdkMin23
         targetSdk = versions.android.sdkTarget
         versionCode = 1
         versionName = "1.0"
