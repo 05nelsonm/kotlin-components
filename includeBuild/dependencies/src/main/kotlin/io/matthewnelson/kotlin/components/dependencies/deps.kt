@@ -68,9 +68,9 @@ object versions {
     object google {
         const val hilt                      = "2.41"
         const val guava                     = "31.1"
-        const val material                  = "1.5.0"
+        const val material                  = "1.6.0"
         const val mlKitBarcodeScanning      = "17.0.2"
-        const val zxing                     = "3.4.1"
+        const val zxing                     = "3.5.0"
     }
 
     const val insetter                      = "0.6.0"
@@ -90,7 +90,7 @@ object versions {
         const val leakCanary                = "2.9.1"
         const val moshi                     = "1.13.0"
         const val sqlDelight                = "1.5.3"
-        const val turbine                   = "0.7.0"
+        const val turbine                   = "0.8.0"
     }
 
     object sql {
@@ -136,7 +136,7 @@ object versions {
             const val coroutines            = versions.kotlin.coroutines
         }
 
-        const val robolectric               = "4.8"
+        const val robolectric               = "4.8.1"
         const val turbine                   = versions.square.turbine
     }
 
