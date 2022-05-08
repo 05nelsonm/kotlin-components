@@ -46,16 +46,16 @@ object versions {
     }
 
     object components {
-        const val buildConfig               = "3.0.0"
-        const val coroutines                = "1.1.0"
-        const val encoding                  = "1.1.0"
+        const val buildConfig               = "3.0.1"
+        const val coroutines                = "1.1.1"
+        const val encoding                  = "1.1.1"
 
         object kmptor {
             const val binary                = "0.4.6.10"
             const val kmptor                = "0.1.1"
         }
 
-        const val request                   = "3.0.1"
+        const val request                   = "3.0.2"
     }
 
     object kotlin {
