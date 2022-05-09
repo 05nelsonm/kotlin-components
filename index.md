@@ -29,7 +29,7 @@ A git repository for managing dependencies and build tools across multiple Kotli
 | LinuxMipsel32         |                               | ✔️                             |                               |                               | ✔️                             |
 | LinuxX64              |                               | ✔️                             | ✔️                             | ✔️                             | ✔️                             |
 | MingwX64              |                               | ✔️                             | ✔️                             | ✔️                             | ✔️                             |
-| MingwX86              |                               |                               | ✔️                             |                               | ✔️                             |
+| MingwX86              |                               | ✔️                             | ✔️                             |                               | ✔️                             |
 
 ### Donate
 
