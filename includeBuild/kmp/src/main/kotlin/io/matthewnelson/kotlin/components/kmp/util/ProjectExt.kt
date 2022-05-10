@@ -22,9 +22,9 @@ import org.gradle.kotlin.dsl.maven
 import org.gradle.kotlin.dsl.repositories
 
 @JvmOverloads
-@Suppress("NOTHING_TO_INLINE", "unused")
+@Suppress("unused")
 @Throws(ExtraPropertiesExtension.UnknownPropertyException::class)
-inline fun Project.includeStagingRepoIfTrue(
+fun Project.includeStagingRepoIfTrue(
     include: Boolean,
     sonatypeHost: SonatypeHost = SonatypeHost.DEFAULT,
 ): Boolean {
@@ -45,8 +45,8 @@ inline fun Project.includeStagingRepoIfTrue(
 }
 
 @JvmOverloads
-@Suppress("NOTHING_TO_INLINE", "unused")
-inline fun Project.includeSnapshotsRepoIfTrue(
+@Suppress("unused")
+fun Project.includeSnapshotsRepoIfTrue(
     include: Boolean,
     sonatypeHost: SonatypeHost = SonatypeHost.DEFAULT,
 ): Boolean {
@@ -60,7 +60,7 @@ inline fun Project.includeSnapshotsRepoIfTrue(
 }
 
 /* Why the value is marked internal is beyond me... */
-inline val SonatypeHost.rootUrl: String get() {
+val SonatypeHost.rootUrl: String get() {
     return when (this) {
         SonatypeHost.DEFAULT -> "https://oss.sonatype.org"
         SonatypeHost.S01 -> "https://s01.oss.sonatype.org"

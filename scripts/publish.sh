@@ -166,14 +166,14 @@ case $1 in
     esac
     ;;
 
-  # Running on each platform for the given version requires that
-  # publications on all platforms be published first.
+  # Requires that publications for all platforms be published first, otherwise will fail
+  # Can be run from a single platform as KMP_TARGETS_ALL is enabled.
   "--check-publication")
     checkGradlewExists
     checkKotlinComponentsProject
     checkCheckPublicationProjectExists
     clean
-    ./gradlew :tools:check-publication:build --refresh-dependencies -PCHECK_PUBLICATION
+    ./gradlew :tools:check-publication:build --refresh-dependencies -PCHECK_PUBLICATION -DKMP_TARGETS_ALL
     ;;
 
   "--publish-android")

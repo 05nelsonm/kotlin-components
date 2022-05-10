@@ -21,11 +21,9 @@ import com.android.build.api.dsl.AndroidSourceSet
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import com.android.build.gradle.BaseExtension
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_JS_COMMON_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_JS_COMMON_TEST
 import io.matthewnelson.kotlin.components.kmp.util.kotlin
-import io.matthewnelson.kotlin.components.kmp.util.sourceSetJvmJsCommonMain
-import io.matthewnelson.kotlin.components.kmp.util.sourceSetJvmJsCommonTest
+import io.matthewnelson.kotlin.components.kmp.util.sourceSetJvmJsMain
+import io.matthewnelson.kotlin.components.kmp.util.sourceSetJvmJsTest
 import org.gradle.api.JavaVersion
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
@@ -56,8 +54,8 @@ sealed class KmpTarget<T: KotlinTarget> {
         val COMMON_MAIN get() = KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME
         val COMMON_TEST get() = KotlinSourceSet.COMMON_TEST_SOURCE_SET_NAME
 
-        val JVM_COMMON_MAIN get() = Jvm.JVM_COMMON_MAIN
-        val JVM_COMMON_TEST get() = Jvm.JVM_COMMON_TEST
+        val JVM_ANDROID_MAIN get() = Jvm.JVM_ANDROID_MAIN
+        val JVM_ANDROID_TEST get() = Jvm.JVM_ANDROID_TEST
 
         val JVM_MAIN get() = Jvm.Jvm.SOURCE_SET_MAIN_NAME
         val JVM_TEST get() = Jvm.Jvm.SOURCE_SET_TEST_NAME
@@ -71,20 +69,20 @@ sealed class KmpTarget<T: KotlinTarget> {
         val JS_MAIN get() = NonJvm.JS.SOURCE_SET_MAIN_NAME
         val JS_TEST get() = NonJvm.JS.SOURCE_SET_TEST_NAME
 
-        const val JVM_JS_COMMON_MAIN = "jvmJsCommon$MAIN"
-        const val JVM_JS_COMMON_TEST = "jvmJsCommon$TEST"
+        const val JVM_JS_MAIN = "jvmJs$MAIN"
+        const val JVM_JS_TEST = "jvmJs$TEST"
 
-        val NATIVE_COMMON_MAIN get() = NonJvm.Native.NATIVE_COMMON_MAIN
-        val NATIVE_COMMON_TEST get() = NonJvm.Native.NATIVE_COMMON_TEST
+        val NATIVE_MAIN get() = NonJvm.Native.NATIVE_MAIN
+        val NATIVE_TEST get() = NonJvm.Native.NATIVE_TEST
 
-        val UNIX_COMMON_MAIN get() = NonJvm.Native.Unix.UNIX_COMMON_MAIN
-        val UNIX_COMMON_TEST get() = NonJvm.Native.Unix.UNIX_COMMON_TEST
+        val UNIX_MAIN get() = NonJvm.Native.Unix.UNIX_MAIN
+        val UNIX_TEST get() = NonJvm.Native.Unix.UNIX_TEST
 
-        val DARWIN_COMMON_MAIN get() = NonJvm.Native.Unix.Darwin.DARWIN_COMMON_MAIN
-        val DARWIN_COMMON_TEST get() = NonJvm.Native.Unix.Darwin.DARWIN_COMMON_TEST
+        val DARWIN_MAIN get() = NonJvm.Native.Unix.Darwin.DARWIN_MAIN
+        val DARWIN_TEST get() = NonJvm.Native.Unix.Darwin.DARWIN_TEST
 
-        val IOS_MAIN get() = NonJvm.Native.Unix.Darwin.Ios.All.SOURCE_SET_MAIN_NAME
-        val IOS_TEST get() = NonJvm.Native.Unix.Darwin.Ios.All.SOURCE_SET_TEST_NAME
+        val IOS_MAIN get() = NonJvm.Native.Unix.Darwin.Ios.IOS_MAIN
+        val IOS_TEST get() = NonJvm.Native.Unix.Darwin.Ios.IOS_TEST
         val IOS_ARM32_MAIN get() = NonJvm.Native.Unix.Darwin.Ios.Arm32.SOURCE_SET_MAIN_NAME
         val IOS_ARM32_TEST get() = NonJvm.Native.Unix.Darwin.Ios.Arm32.SOURCE_SET_TEST_NAME
         val IOS_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Ios.Arm64.SOURCE_SET_MAIN_NAME
@@ -94,15 +92,15 @@ sealed class KmpTarget<T: KotlinTarget> {
         val IOS_SIMULATOR_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Ios.SimulatorArm64.SOURCE_SET_MAIN_NAME
         val IOS_SIMULATOR_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Ios.SimulatorArm64.SOURCE_SET_TEST_NAME
 
-        val MACOS_COMMON_MAIN get() = NonJvm.Native.Unix.Darwin.Macos.MACOS_COMMON_MAIN
-        val MACOS_COMMON_TEST get() = NonJvm.Native.Unix.Darwin.Macos.MACOS_COMMON_TEST
+        val MACOS_MAIN get() = NonJvm.Native.Unix.Darwin.Macos.MACOS_MAIN
+        val MACOS_TEST get() = NonJvm.Native.Unix.Darwin.Macos.MACOS_TEST
         val MACOS_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Macos.Arm64.SOURCE_SET_MAIN_NAME
         val MACOS_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Macos.Arm64.SOURCE_SET_TEST_NAME
         val MACOS_X64_MAIN get() = NonJvm.Native.Unix.Darwin.Macos.X64.SOURCE_SET_MAIN_NAME
         val MACOS_X64_TEST get() = NonJvm.Native.Unix.Darwin.Macos.X64.SOURCE_SET_TEST_NAME
 
-        val TVOS_MAIN get() = NonJvm.Native.Unix.Darwin.Tvos.All.SOURCE_SET_MAIN_NAME
-        val TVOS_TEST get() = NonJvm.Native.Unix.Darwin.Tvos.All.SOURCE_SET_TEST_NAME
+        val TVOS_MAIN get() = NonJvm.Native.Unix.Darwin.Tvos.TVOS_MAIN
+        val TVOS_TEST get() = NonJvm.Native.Unix.Darwin.Tvos.TVOS_TEST
         val TVOS_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Tvos.Arm64.SOURCE_SET_MAIN_NAME
         val TVOS_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Tvos.Arm64.SOURCE_SET_TEST_NAME
         val TVOS_X64_MAIN get() = NonJvm.Native.Unix.Darwin.Tvos.X64.SOURCE_SET_MAIN_NAME
@@ -110,8 +108,8 @@ sealed class KmpTarget<T: KotlinTarget> {
         val TVOS_SIMULATOR_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Tvos.SimulatorArm64.SOURCE_SET_MAIN_NAME
         val TVOS_SIMULATOR_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Tvos.SimulatorArm64.SOURCE_SET_TEST_NAME
 
-        val WATCHOS_MAIN get() = NonJvm.Native.Unix.Darwin.Watchos.All.SOURCE_SET_MAIN_NAME
-        val WATCHOS_TEST get() = NonJvm.Native.Unix.Darwin.Watchos.All.SOURCE_SET_TEST_NAME
+        val WATCHOS_MAIN get() = NonJvm.Native.Unix.Darwin.Watchos.WATCHOS_MAIN
+        val WATCHOS_TEST get() = NonJvm.Native.Unix.Darwin.Watchos.WATCHOS_TEST
         val WATCHOS_ARM32_MAIN get() = NonJvm.Native.Unix.Darwin.Watchos.Arm32.SOURCE_SET_MAIN_NAME
         val WATCHOS_ARM32_TEST get() = NonJvm.Native.Unix.Darwin.Watchos.Arm32.SOURCE_SET_TEST_NAME
         val WATCHOS_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Watchos.Arm64.SOURCE_SET_MAIN_NAME
@@ -123,8 +121,8 @@ sealed class KmpTarget<T: KotlinTarget> {
         val WATCHOS_SIMULATOR_ARM64_MAIN get() = NonJvm.Native.Unix.Darwin.Watchos.SimulatorArm64.SOURCE_SET_MAIN_NAME
         val WATCHOS_SIMULATOR_ARM64_TEST get() = NonJvm.Native.Unix.Darwin.Watchos.SimulatorArm64.SOURCE_SET_TEST_NAME
 
-        val LINUX_COMMON_MAIN get() = NonJvm.Native.Unix.Linux.LINUX_COMMON_MAIN
-        val LINUX_COMMON_TEST get() = NonJvm.Native.Unix.Linux.LINUX_COMMON_TEST
+        val LINUX_MAIN get() = NonJvm.Native.Unix.Linux.LINUX_MAIN
+        val LINUX_TEST get() = NonJvm.Native.Unix.Linux.LINUX_TEST
         val LINUX_ARM32HFP_MAIN get() = NonJvm.Native.Unix.Linux.Arm32Hfp.SOURCE_SET_MAIN_NAME
         val LINUX_ARM32HFP_TEST get() = NonJvm.Native.Unix.Linux.Arm32Hfp.SOURCE_SET_TEST_NAME
         val LINUX_MIPS32_MAIN get() = NonJvm.Native.Unix.Linux.Mips32.SOURCE_SET_MAIN_NAME
@@ -134,8 +132,8 @@ sealed class KmpTarget<T: KotlinTarget> {
         val LINUX_X64_MAIN get() = NonJvm.Native.Unix.Linux.X64.SOURCE_SET_MAIN_NAME
         val LINUX_X64_TEST get() = NonJvm.Native.Unix.Linux.X64.SOURCE_SET_TEST_NAME
 
-        val MINGW_COMMON_MAIN get() = NonJvm.Native.Mingw.MINGW_COMMON_MAIN
-        val MINGW_COMMON_TEST get() = NonJvm.Native.Mingw.MINGW_COMMON_TEST
+        val MINGW_MAIN get() = NonJvm.Native.Mingw.MINGW_MAIN
+        val MINGW_TEST get() = NonJvm.Native.Mingw.MINGW_TEST
         val MINGW_X64_MAIN get() = NonJvm.Native.Mingw.X64.SOURCE_SET_MAIN_NAME
         val MINGW_X64_TEST get() = NonJvm.Native.Mingw.X64.SOURCE_SET_TEST_NAME
         val MINGW_X86_MAIN get() = NonJvm.Native.Mingw.X86.SOURCE_SET_MAIN_NAME
@@ -182,18 +180,18 @@ sealed class KmpTarget<T: KotlinTarget> {
     sealed class Jvm<T: KotlinTarget>: KmpTarget<T>() {
 
         companion object {
-            const val JVM_COMMON_MAIN = "jvmCommon$MAIN"
-            const val JVM_COMMON_TEST = "jvmCommon$TEST"
+            const val JVM_ANDROID_MAIN = "jvmAndroid$MAIN"
+            const val JVM_ANDROID_TEST = "jvmAndroid$TEST"
         }
 
         protected fun setupJvmSourceSets(project: Project) {
             project.kotlin {
                 sourceSets {
                     maybeCreate(sourceSetMainName).apply mainSourceSet@ {
-                        dependsOn(getByName(JVM_COMMON_MAIN))
+                        dependsOn(getByName(JVM_ANDROID_MAIN))
 
                         if (this@Jvm !is Android) {
-                            sourceSetJvmJsCommonMain?.let { ss ->
+                            sourceSetJvmJsMain?.let { ss ->
                                 dependsOn(ss)
                             }
                         }
@@ -201,7 +199,7 @@ sealed class KmpTarget<T: KotlinTarget> {
                         mainSourceSet?.invoke(this@mainSourceSet)
                     }
                     maybeCreate(sourceSetTestName).apply testSourceSet@ {
-                        dependsOn(getByName(JVM_COMMON_TEST))
+                        dependsOn(getByName(JVM_ANDROID_TEST))
 
                         if (this@Jvm is Android) {
                             dependsOn(getByName("androidAndroidTestRelease"))
@@ -209,7 +207,7 @@ sealed class KmpTarget<T: KotlinTarget> {
                             dependsOn(getByName("androidTestFixturesDebug"))
                             dependsOn(getByName("androidTestFixturesRelease"))
                         } else {
-                            sourceSetJvmJsCommonTest?.let { ss ->
+                            sourceSetJvmJsTest?.let { ss ->
                                 dependsOn(ss)
                             }
                         }
@@ -467,7 +465,8 @@ sealed class KmpTarget<T: KotlinTarget> {
                         sourceSets {
                             maybeCreate(sourceSetMainName).apply mainSourceSet@ {
                                 dependsOn(getByName(NON_JVM_MAIN))
-                                sourceSetJvmJsCommonMain?.let { ss ->
+
+                                sourceSetJvmJsMain?.let { ss ->
                                     dependsOn(ss)
                                 }
 
@@ -475,7 +474,7 @@ sealed class KmpTarget<T: KotlinTarget> {
                             }
                             maybeCreate(sourceSetTestName).apply testSourceSet@ {
                                 dependsOn(getByName(NON_JVM_TEST))
-                                sourceSetJvmJsCommonTest?.let { ss ->
+                                sourceSetJvmJsTest?.let { ss ->
                                     dependsOn(ss)
                                 }
 
@@ -490,41 +489,59 @@ sealed class KmpTarget<T: KotlinTarget> {
         sealed class Native<T: KotlinTarget>: NonJvm<T>() {
 
             companion object {
-                const val NATIVE_COMMON_MAIN = "nativeCommon$MAIN"
-                const val NATIVE_COMMON_TEST = "nativeCommon$TEST"
+                const val NATIVE_MAIN = "native$MAIN"
+                const val NATIVE_TEST = "native$TEST"
             }
 
             sealed class Unix<T: KotlinTarget>: Native<T>() {
 
                 companion object {
-                    const val UNIX_COMMON_MAIN = "unixCommon$MAIN"
-                    const val UNIX_COMMON_TEST = "unixCommon$TEST"
+                    const val UNIX_MAIN = "unix$MAIN"
+                    const val UNIX_TEST = "unix$TEST"
                 }
 
                 sealed class Darwin<T: KotlinTarget>: Unix<T>() {
 
                     companion object {
-                        const val DARWIN_COMMON_MAIN = "darwinCommon$MAIN"
-                        const val DARWIN_COMMON_TEST = "darwinCommon$TEST"
+                        const val DARWIN_MAIN = "darwin$MAIN"
+                        const val DARWIN_TEST = "darwin$TEST"
                     }
 
                     protected fun setupDarwinSourceSets(project: Project) {
                         project.kotlin {
                             sourceSets {
                                 maybeCreate(sourceSetMainName).apply sourceSetMain@ {
-                                    if (this@Darwin is Macos) {
-                                        dependsOn(getByName(Macos.MACOS_COMMON_MAIN))
-                                    } else {
-                                        dependsOn(getByName(DARWIN_COMMON_MAIN))
+                                    when (this@Darwin) {
+                                        is Ios -> {
+                                            dependsOn(getByName(Ios.IOS_MAIN))
+                                        }
+                                        is Macos -> {
+                                            dependsOn(getByName(Macos.MACOS_MAIN))
+                                        }
+                                        is Tvos -> {
+                                            dependsOn(getByName(Tvos.TVOS_MAIN))
+                                        }
+                                        is Watchos -> {
+                                            dependsOn(getByName(Watchos.WATCHOS_MAIN))
+                                        }
                                     }
 
                                     mainSourceSet?.invoke(this@sourceSetMain)
                                 }
                                 maybeCreate(sourceSetTestName).apply sourceSetTest@ {
-                                    if (this@Darwin is Macos) {
-                                        dependsOn(getByName(Macos.MACOS_COMMON_TEST))
-                                    } else {
-                                        dependsOn(getByName(DARWIN_COMMON_TEST))
+                                    when (this@Darwin) {
+                                        is Ios -> {
+                                            dependsOn(getByName(Ios.IOS_TEST))
+                                        }
+                                        is Macos -> {
+                                            dependsOn(getByName(Macos.MACOS_TEST))
+                                        }
+                                        is Tvos -> {
+                                            dependsOn(getByName(Tvos.TVOS_TEST))
+                                        }
+                                        is Watchos -> {
+                                            dependsOn(getByName(Watchos.WATCHOS_TEST))
+                                        }
                                     }
 
                                     testSourceSet?.invoke(this@sourceSetTest)
@@ -535,56 +552,9 @@ sealed class KmpTarget<T: KotlinTarget> {
 
                     sealed class Ios<T: KotlinNativeTarget> : Darwin<T>() {
 
-                        /**
-                         * To enable the [SimulatorArm64] target, set [enableSimulator] value.
-                         * It will create a new instance of [SimulatorArm64] and utilize your
-                         * already declared [mainSourceSet] and [testSourceSet] values.
-                         *
-                         * If you need something different for the Main and Test sourceSets as
-                         * they pertain to the SimulatorArm64 functionality, simply leave
-                         * [enableSimulator] null, and pass the additional [KmpTarget] in the
-                         * [Set] during configuration.
-                         * */
-                        class All(
-                            override val pluginIds: Set<String>? = null,
-                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
-                            val enableSimulator: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
-                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ): Ios<KotlinNativeTarget>() {
-
-                            companion object {
-                                val DEFAULT = All()
-
-                                const val TARGET_NAME: String = "ios"
-                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
-                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
-                                const val ENV_PROPERTY_VALUE: String = "IOS_ALL"
-                            }
-
-                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
-                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
-                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
-
-                            override fun setupMultiplatform(project: Project) {
-                                applyPlugins(project)
-                                project.kotlin {
-                                    ios(TARGET_NAME) target@ {
-                                        target?.invoke(this@target)
-                                    }
-
-                                    setupDarwinSourceSets(project)
-                                }
-
-                                if (enableSimulator != null) {
-                                    SimulatorArm64(
-                                        pluginIds = null,
-                                        target = enableSimulator,
-                                        mainSourceSet = mainSourceSet,
-                                        testSourceSet = testSourceSet
-                                    ).setupMultiplatform(project)
-                                }
-                            }
+                        companion object {
+                            const val IOS_MAIN = "ios$MAIN"
+                            const val IOS_TEST = "ios$TEST"
                         }
 
                         class Arm32(
@@ -720,8 +690,8 @@ sealed class KmpTarget<T: KotlinTarget> {
                     sealed class Macos : Darwin<KotlinNativeTargetWithHostTests>() {
 
                         companion object {
-                            const val MACOS_COMMON_MAIN = "macosCommon$MAIN"
-                            const val MACOS_COMMON_TEST = "macosCommon$TEST"
+                            const val MACOS_MAIN = "macos$MAIN"
+                            const val MACOS_TEST = "macos$TEST"
                         }
 
                         class Arm64(
@@ -792,56 +762,9 @@ sealed class KmpTarget<T: KotlinTarget> {
 
                     sealed class Tvos<T: KotlinNativeTarget> : Darwin<T>() {
 
-                        /**
-                         * To enable the [SimulatorArm64] target, set [enableSimulator] value.
-                         * It will create a new instance of [SimulatorArm64] and utilize your
-                         * already declared [mainSourceSet] and [testSourceSet] values.
-                         *
-                         * If you need something different for the Main and Test sourceSets as
-                         * they pertain to the SimulatorArm64 functionality, simply leave
-                         * [enableSimulator] null, and pass the additional [KmpTarget] in the
-                         * [Set] during configuration.
-                         * */
-                        class All(
-                            override val pluginIds: Set<String>? = null,
-                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
-                            val enableSimulator: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
-                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : Tvos<KotlinNativeTarget>() {
-
-                            companion object {
-                                val DEFAULT = All()
-
-                                const val TARGET_NAME: String = "tvos"
-                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
-                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
-                                const val ENV_PROPERTY_VALUE: String = "TVOS_ALL"
-                            }
-
-                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
-                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
-                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
-
-                            override fun setupMultiplatform(project: Project) {
-                                applyPlugins(project)
-                                project.kotlin {
-                                    tvos(TARGET_NAME) target@ {
-                                        target?.invoke(this@target)
-                                    }
-
-                                    setupDarwinSourceSets(project)
-                                }
-
-                                if (enableSimulator != null) {
-                                    SimulatorArm64(
-                                        pluginIds = null,
-                                        target = enableSimulator,
-                                        mainSourceSet = mainSourceSet,
-                                        testSourceSet = testSourceSet
-                                    ).setupMultiplatform(project)
-                                }
-                            }
+                        companion object {
+                            const val TVOS_MAIN = "tvos$MAIN"
+                            const val TVOS_TEST = "tvos$TEST"
                         }
 
                         class Arm64(
@@ -944,56 +867,9 @@ sealed class KmpTarget<T: KotlinTarget> {
 
                     sealed class Watchos<T: KotlinNativeTarget> : Darwin<T>() {
 
-                        /**
-                         * To enable the [SimulatorArm64] target, set [enableSimulator] value.
-                         * It will create a new instance of [SimulatorArm64] and utilize your
-                         * already declared [mainSourceSet] and [testSourceSet] values.
-                         *
-                         * If you need something different for the Main and Test sourceSets as
-                         * they pertain to the SimulatorArm64 functionality, simply leave
-                         * [enableSimulator] null, and pass the additional [KmpTarget] in the
-                         * [Set] during configuration.
-                         * */
-                        class All(
-                            override val pluginIds: Set<String>? = null,
-                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
-                            val enableSimulator: (KotlinNativeTargetWithSimulatorTests.() -> Unit)? = null,
-                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-                        ) : Watchos<KotlinNativeTarget>() {
-
-                            companion object {
-                                val DEFAULT = All()
-
-                                const val TARGET_NAME: String = "watchos"
-                                const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
-                                const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
-                                const val ENV_PROPERTY_VALUE: String = "WATCHOS_ALL"
-                            }
-
-                            override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
-                            override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
-                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
-
-                            override fun setupMultiplatform(project: Project) {
-                                applyPlugins(project)
-                                project.kotlin {
-                                    watchos(TARGET_NAME) target@ {
-                                        target?.invoke(this@target)
-                                    }
-
-                                    setupDarwinSourceSets(project)
-                                }
-
-                                if (enableSimulator != null) {
-                                    SimulatorArm64(
-                                        pluginIds = null,
-                                        target = enableSimulator,
-                                        mainSourceSet = mainSourceSet,
-                                        testSourceSet = testSourceSet
-                                    ).setupMultiplatform(project)
-                                }
-                            }
+                        companion object {
+                            const val WATCHOS_MAIN = "watchos$MAIN"
+                            const val WATCHOS_TEST = "watchos$TEST"
                         }
 
                         class Arm32(
@@ -1147,7 +1023,7 @@ sealed class KmpTarget<T: KotlinTarget> {
                             override fun setupMultiplatform(project: Project) {
                                 applyPlugins(project)
                                 project.kotlin {
-                                    iosSimulatorArm64(TARGET_NAME) target@ {
+                                    watchosSimulatorArm64(TARGET_NAME) target@ {
                                         target?.invoke(this@target)
                                     }
 
@@ -1162,20 +1038,20 @@ sealed class KmpTarget<T: KotlinTarget> {
                 sealed class Linux : Unix<KotlinNativeTarget>() {
 
                     companion object {
-                        const val LINUX_COMMON_MAIN = "linuxCommon$MAIN"
-                        const val LINUX_COMMON_TEST = "linuxCommon$TEST"
+                        const val LINUX_MAIN = "linux$MAIN"
+                        const val LINUX_TEST = "linux$TEST"
                     }
 
                     protected fun setupLinuxSourceSets(project: Project) {
                         project.kotlin {
                             sourceSets {
                                 maybeCreate(sourceSetMainName).apply sourceSetMain@ {
-                                    dependsOn(getByName(LINUX_COMMON_MAIN))
+                                    dependsOn(getByName(LINUX_MAIN))
 
                                     mainSourceSet?.invoke(this@sourceSetMain)
                                 }
                                 maybeCreate(sourceSetTestName).apply sourceSetTest@ {
-                                    dependsOn(getByName(LINUX_COMMON_TEST))
+                                    dependsOn(getByName(LINUX_TEST))
 
                                     testSourceSet?.invoke(this@sourceSetTest)
                                 }
@@ -1318,20 +1194,20 @@ sealed class KmpTarget<T: KotlinTarget> {
             sealed class Mingw<T: KotlinNativeTarget> : Native<T>() {
 
                 companion object {
-                    const val MINGW_COMMON_MAIN = "mingwCommon$MAIN"
-                    const val MINGW_COMMON_TEST = "mingwCommon$TEST"
+                    const val MINGW_MAIN = "mingw$MAIN"
+                    const val MINGW_TEST = "mingw$TEST"
                 }
 
                 protected fun setupMingwSourceSets(project: Project) {
                     project.kotlin {
                         sourceSets {
                             maybeCreate(sourceSetMainName).apply sourceSetMain@ {
-                                dependsOn(getByName(MINGW_COMMON_MAIN))
+                                dependsOn(getByName(MINGW_MAIN))
 
                                 mainSourceSet?.invoke(this@sourceSetMain)
                             }
                             maybeCreate(sourceSetTestName).apply sourceSetTest@ {
-                                dependsOn(getByName(MINGW_COMMON_TEST))
+                                dependsOn(getByName(MINGW_TEST))
 
                                 testSourceSet?.invoke(this@sourceSetTest)
                             }

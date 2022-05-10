@@ -17,24 +17,30 @@ package io.matthewnelson.kotlin.components.kmp
 
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.COMMON_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.COMMON_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.Jvm.Companion.JVM_COMMON_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.Jvm.Companion.JVM_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.Jvm.Companion.JVM_ANDROID_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.Jvm.Companion.JVM_ANDROID_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Companion.NON_JVM_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Companion.NON_JVM_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Companion.NATIVE_COMMON_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Companion.NATIVE_COMMON_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Mingw.Companion.MINGW_COMMON_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Mingw.Companion.MINGW_COMMON_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Companion.UNIX_COMMON_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Companion.UNIX_COMMON_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Companion.DARWIN_COMMON_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Companion.DARWIN_COMMON_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_COMMON_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_JS_COMMON_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_JS_COMMON_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.MACOS_COMMON_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.MACOS_COMMON_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Companion.NATIVE_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Companion.NATIVE_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Mingw.Companion.MINGW_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Mingw.Companion.MINGW_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Companion.UNIX_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Companion.UNIX_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Companion.DARWIN_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Companion.DARWIN_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.IOS_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.IOS_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_JS_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_JS_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.MACOS_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.MACOS_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.TVOS_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.TVOS_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.WATCHOS_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.WATCHOS_TEST
 import io.matthewnelson.kotlin.components.kmp.util.*
 import io.matthewnelson.kotlin.components.kmp.util.EnvProperty
 import org.gradle.api.Project
@@ -59,7 +65,6 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
             KmpTarget.NonJvm.JS.ENV_PROPERTY_VALUE,
 
             // darwin
-            KmpTarget.NonJvm.Native.Unix.Darwin.Ios.All.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Ios.Arm32.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Ios.Arm64.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Ios.X64.ENV_PROPERTY_VALUE,
@@ -68,12 +73,10 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
             KmpTarget.NonJvm.Native.Unix.Darwin.Macos.X64.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Macos.Arm64.ENV_PROPERTY_VALUE,
 
-            KmpTarget.NonJvm.Native.Unix.Darwin.Tvos.All.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Tvos.Arm64.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Tvos.X64.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Tvos.SimulatorArm64.ENV_PROPERTY_VALUE,
 
-            KmpTarget.NonJvm.Native.Unix.Darwin.Watchos.All.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Watchos.Arm32.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Watchos.Arm64.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Watchos.X64.ENV_PROPERTY_VALUE,
@@ -185,29 +188,29 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                 }
 
                 if (jvmTargets.isNotEmpty()) {
-                    maybeCreate(JVM_COMMON_MAIN).apply {
+                    maybeCreate(JVM_ANDROID_MAIN).apply {
                         dependsOn(getByName(COMMON_MAIN))
                     }
-                    maybeCreate(JVM_COMMON_TEST).apply {
+                    maybeCreate(JVM_ANDROID_TEST).apply {
                         dependsOn(getByName(COMMON_TEST))
                     }
                 }
 
                 val jvmTarget = jvmTargets.filterIsInstance<KmpTarget.Jvm.Jvm>()
-                val jsTargets = enabledTargets.filterIsInstance<KmpTarget.NonJvm.JS>()
+                val jsTarget = enabledTargets.filterIsInstance<KmpTarget.NonJvm.JS>()
 
-                if (jvmTarget.isNotEmpty() || jsTargets.isNotEmpty()) {
-                    maybeCreate(JVM_JS_COMMON_MAIN).apply {
+                if (jvmTarget.isNotEmpty() || jsTarget.isNotEmpty()) {
+                    maybeCreate(JVM_JS_MAIN).apply {
                         dependsOn(getByName(COMMON_MAIN))
                     }
-                    maybeCreate(JVM_JS_COMMON_TEST).apply {
+                    maybeCreate(JVM_JS_TEST).apply {
                         dependsOn(getByName(COMMON_TEST))
                     }
                 }
 
                 val nativeTargets = enabledTargets.filterIsInstance<KmpTarget.NonJvm.Native<*>>()
 
-                if (jsTargets.isNotEmpty() || nativeTargets.isNotEmpty()) {
+                if (jsTarget.isNotEmpty() || nativeTargets.isNotEmpty()) {
                     maybeCreate(NON_JVM_MAIN).apply {
                         dependsOn(getByName(COMMON_MAIN))
                     }
@@ -217,78 +220,128 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                 }
 
                 if (nativeTargets.isNotEmpty()) {
-                    maybeCreate(NATIVE_COMMON_MAIN).apply {
+                    maybeCreate(NATIVE_MAIN).apply {
                         dependsOn(getByName(NON_JVM_MAIN))
                     }
-                    maybeCreate(NATIVE_COMMON_TEST).apply {
+                    maybeCreate(NATIVE_TEST).apply {
                         dependsOn(getByName(NON_JVM_TEST))
                     }
 
                     val unixTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix<*>>()
                     if (unixTargets.isNotEmpty()) {
-                        maybeCreate(UNIX_COMMON_MAIN).apply {
+                        maybeCreate(UNIX_MAIN).apply {
                             dependsOn(getByName(NON_JVM_MAIN))
-                            dependsOn(getByName(NATIVE_COMMON_MAIN))
+                            dependsOn(getByName(NATIVE_MAIN))
                         }
-                        maybeCreate(UNIX_COMMON_TEST).apply {
+                        maybeCreate(UNIX_TEST).apply {
                             dependsOn(getByName(NON_JVM_TEST))
-                            dependsOn(getByName(NATIVE_COMMON_TEST))
+                            dependsOn(getByName(NATIVE_TEST))
                         }
 
                         val darwinTargets = unixTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Darwin<*>>()
                         if (darwinTargets.isNotEmpty()) {
-                            maybeCreate(DARWIN_COMMON_MAIN).apply {
+                            maybeCreate(DARWIN_MAIN).apply {
                                 dependsOn(getByName(NON_JVM_MAIN))
-                                dependsOn(getByName(NATIVE_COMMON_MAIN))
-                                dependsOn(getByName(UNIX_COMMON_MAIN))
+                                dependsOn(getByName(NATIVE_MAIN))
+                                dependsOn(getByName(UNIX_MAIN))
                             }
-                            maybeCreate(DARWIN_COMMON_TEST).apply {
+                            maybeCreate(DARWIN_TEST).apply {
                                 dependsOn(getByName(NON_JVM_TEST))
-                                dependsOn(getByName(NATIVE_COMMON_TEST))
-                                dependsOn(getByName(UNIX_COMMON_TEST))
+                                dependsOn(getByName(NATIVE_TEST))
+                                dependsOn(getByName(UNIX_TEST))
                             }
 
                             val macosTargets = darwinTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Darwin.Macos>()
                             if (macosTargets.isNotEmpty()) {
-                                maybeCreate(MACOS_COMMON_MAIN).apply {
+                                maybeCreate(MACOS_MAIN).apply {
                                     dependsOn(getByName(NON_JVM_MAIN))
-                                    dependsOn(getByName(NATIVE_COMMON_MAIN))
-                                    dependsOn(getByName(UNIX_COMMON_MAIN))
-                                    dependsOn(getByName(DARWIN_COMMON_MAIN))
+                                    dependsOn(getByName(NATIVE_MAIN))
+                                    dependsOn(getByName(UNIX_MAIN))
+                                    dependsOn(getByName(DARWIN_MAIN))
                                 }
-                                maybeCreate(MACOS_COMMON_TEST).apply {
+                                maybeCreate(MACOS_TEST).apply {
                                     dependsOn(getByName(NON_JVM_TEST))
-                                    dependsOn(getByName(NATIVE_COMMON_TEST))
-                                    dependsOn(getByName(UNIX_COMMON_TEST))
-                                    dependsOn(getByName(DARWIN_COMMON_TEST))
+                                    dependsOn(getByName(NATIVE_TEST))
+                                    dependsOn(getByName(UNIX_TEST))
+                                    dependsOn(getByName(DARWIN_TEST))
+                                }
+                            }
+
+                            val iosTargets = darwinTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Darwin.Ios<*>>()
+                            if (iosTargets.isNotEmpty()) {
+                                maybeCreate(IOS_MAIN).apply {
+                                    dependsOn(getByName(NON_JVM_MAIN))
+                                    dependsOn(getByName(NATIVE_MAIN))
+                                    dependsOn(getByName(UNIX_MAIN))
+                                    dependsOn(getByName(DARWIN_MAIN))
+                                }
+
+                                maybeCreate(IOS_TEST).apply {
+                                    dependsOn(getByName(NON_JVM_TEST))
+                                    dependsOn(getByName(NATIVE_TEST))
+                                    dependsOn(getByName(UNIX_TEST))
+                                    dependsOn(getByName(DARWIN_TEST))
+                                }
+                            }
+
+                            val tvosTargets = darwinTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Darwin.Tvos<*>>()
+                            if (tvosTargets.isNotEmpty()) {
+                                maybeCreate(TVOS_MAIN).apply {
+                                    dependsOn(getByName(NON_JVM_MAIN))
+                                    dependsOn(getByName(NATIVE_MAIN))
+                                    dependsOn(getByName(UNIX_MAIN))
+                                    dependsOn(getByName(DARWIN_MAIN))
+                                }
+                                maybeCreate(TVOS_TEST).apply {
+                                    dependsOn(getByName(NON_JVM_TEST))
+                                    dependsOn(getByName(NATIVE_TEST))
+                                    dependsOn(getByName(UNIX_TEST))
+                                    dependsOn(getByName(DARWIN_TEST))
+                                }
+                            }
+
+                            val watchosTargets = darwinTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Darwin.Watchos<*>>()
+                            if (watchosTargets.isNotEmpty()) {
+                                maybeCreate(WATCHOS_MAIN).apply {
+                                    dependsOn(getByName(NON_JVM_MAIN))
+                                    dependsOn(getByName(NATIVE_MAIN))
+                                    dependsOn(getByName(UNIX_MAIN))
+                                    dependsOn(getByName(DARWIN_MAIN))
+                                }
+
+                                maybeCreate(WATCHOS_TEST).apply {
+                                    dependsOn(getByName(NON_JVM_TEST))
+                                    dependsOn(getByName(NATIVE_TEST))
+                                    dependsOn(getByName(UNIX_TEST))
+                                    dependsOn(getByName(DARWIN_TEST))
                                 }
                             }
                         }
 
                         val linuxTargets = unixTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Linux>()
                         if (linuxTargets.isNotEmpty()) {
-                            maybeCreate(LINUX_COMMON_MAIN).apply {
+                            maybeCreate(LINUX_MAIN).apply {
                                 dependsOn(getByName(NON_JVM_MAIN))
-                                dependsOn(getByName(NATIVE_COMMON_MAIN))
-                                dependsOn(getByName(UNIX_COMMON_MAIN))
+                                dependsOn(getByName(NATIVE_MAIN))
+                                dependsOn(getByName(UNIX_MAIN))
                             }
-                            maybeCreate(LINUX_COMMON_TEST).apply {
+                            maybeCreate(LINUX_TEST).apply {
                                 dependsOn(getByName(NON_JVM_TEST))
-                                dependsOn(getByName(NATIVE_COMMON_TEST))
-                                dependsOn(getByName(UNIX_COMMON_TEST))
+                                dependsOn(getByName(NATIVE_TEST))
+                                dependsOn(getByName(UNIX_TEST))
                             }
                         }
                     }
 
                     val mingwTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Mingw<*>>()
                     if (mingwTargets.isNotEmpty()) {
-                        maybeCreate(MINGW_COMMON_MAIN).apply {
+                        maybeCreate(MINGW_MAIN).apply {
                             dependsOn(getByName(NON_JVM_MAIN))
-                            dependsOn(getByName(NATIVE_COMMON_MAIN))
+                            dependsOn(getByName(NATIVE_MAIN))
                         }
-                        maybeCreate(MINGW_COMMON_TEST).apply {
+                        maybeCreate(MINGW_TEST).apply {
                             dependsOn(getByName(NON_JVM_TEST))
-                            dependsOn(getByName(NATIVE_COMMON_TEST))
+                            dependsOn(getByName(NATIVE_TEST))
                         }
                     }
                 }

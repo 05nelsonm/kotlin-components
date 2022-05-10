@@ -19,12 +19,12 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.kotlin.dsl.getByType
 
-inline fun <T: Any?> Project.propertyExt(crossinline block: ExtraPropertiesExtension.() -> T): T {
+fun <T: Any?> Project.propertyExt(block: ExtraPropertiesExtension.() -> T): T {
     return block.invoke(extensions.getByType())
 }
 
-@Suppress("NOTHING_TO_INLINE")
-internal inline fun ExtraPropertiesExtension.setPropertyIfDifferent(propertyName: String, value: Any) {
+@JvmSynthetic
+internal fun ExtraPropertiesExtension.setPropertyIfDifferent(propertyName: String, value: Any) {
     if (!has(propertyName)) {
         set(propertyName, value)
     } else if (get(propertyName)?.toString() != value.toString()) {
