@@ -20,8 +20,8 @@ import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDepen
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 
-@Suppress("NOTHING_TO_INLINE", "unused")
-inline fun KotlinDependencyHandler.kapt(project: Project, dependencyNotation: String) {
+@Suppress("unused")
+fun KotlinDependencyHandler.kapt(project: Project, dependencyNotation: String) {
     implementation(dependencyNotation)
     val splits = dependencyNotation.split(":")
     project.configurations["kapt"].dependencies.add(

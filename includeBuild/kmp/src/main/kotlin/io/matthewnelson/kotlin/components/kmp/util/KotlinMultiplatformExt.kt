@@ -24,498 +24,497 @@ import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
-@Suppress("NOTHING_TO_INLINE")
-inline fun Project.kotlin(action: Action<KotlinMultiplatformExtension>) {
+fun Project.kotlin(action: Action<KotlinMultiplatformExtension>) {
     extensions.configure(KotlinMultiplatformExtension::class, action)
 }
 
-inline fun KotlinMultiplatformExtension.sourceSetCommonMain(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetCommonMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetCommonMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetCommonMain: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetCommonMain: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.COMMON_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetCommonTest(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetCommonTest(action: KotlinSourceSet.() -> Unit) {
     sourceSetCommonTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetCommonTest: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetCommonTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.COMMON_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetJvmCommonMain(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetJvmCommonMain?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetJvmAndroidMain(action: KotlinSourceSet.() -> Unit) {
+    sourceSetJvmAndroidMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetJvmCommonMain: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.JVM_COMMON_MAIN)
+val KotlinMultiplatformExtension.sourceSetJvmAndroidMain: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.JVM_ANDROID_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetJvmCommonTest(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetJvmCommonTest?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetJvmAndroidTest(action: KotlinSourceSet.() -> Unit) {
+    sourceSetJvmAndroidTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetJvmCommonTest: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.JVM_COMMON_TEST)
+val KotlinMultiplatformExtension.sourceSetJvmAndroidTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.JVM_ANDROID_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetJvmMain(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetJvmMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetJvmMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetJvmMain: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetJvmMain: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.JVM_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetJvmTest(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetJvmTest(action: KotlinSourceSet.() -> Unit) {
     sourceSetJvmTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetJvmTest: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetJvmTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.JVM_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetJvmJsCommonMain(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetJvmJsMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetJvmMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetJvmJsCommonMain: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.JVM_JS_COMMON_MAIN)
+val KotlinMultiplatformExtension.sourceSetJvmJsMain: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.JVM_JS_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetJvmJsCommonTest(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetJvmJsTest(action: KotlinSourceSet.() -> Unit) {
     sourceSetJvmTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetJvmJsCommonTest: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.JVM_JS_COMMON_TEST)
+val KotlinMultiplatformExtension.sourceSetJvmJsTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.JVM_JS_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetAndroidMain(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetAndroidMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetAndroidMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetAndroidMain: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetAndroidMain: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetAndroidTest(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetAndroidTest(action: KotlinSourceSet.() -> Unit) {
     sourceSetAndroidTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetAndroidTest: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetAndroidTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetNonJvmMain(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetNonJvmMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetNonJvmMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetNonJvmMain: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetNonJvmMain: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.NON_JVM_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetNonJvmTest(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetNonJvmTest(action: KotlinSourceSet.() -> Unit) {
     sourceSetNonJvmTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetNonJvmTest: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetNonJvmTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.NON_JVM_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetJsMain(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetJsMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetJsMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetJsMain: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetJsMain: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.JS_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetJsTest(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetJsTest(action: KotlinSourceSet.() -> Unit) {
     sourceSetJsTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetJsTest: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetJsTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.JS_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetNativeCommonMain(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetNativeCommonMain?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetNativeMain(action: KotlinSourceSet.() -> Unit) {
+    sourceSetNativeMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetNativeCommonMain: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.NATIVE_COMMON_MAIN)
+val KotlinMultiplatformExtension.sourceSetNativeMain: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.NATIVE_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetNativeCommonTest(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetNativeCommonTest?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetNativeTest(action: KotlinSourceSet.() -> Unit) {
+    sourceSetNativeTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetNativeCommonTest: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.NATIVE_COMMON_TEST)
+val KotlinMultiplatformExtension.sourceSetNativeTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.NATIVE_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetUnixCommonMain(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetUnixCommonMain?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetUnixMain(action: KotlinSourceSet.() -> Unit) {
+    sourceSetUnixMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetUnixCommonMain: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.UNIX_COMMON_MAIN)
+val KotlinMultiplatformExtension.sourceSetUnixMain: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.UNIX_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetUnixCommonTest(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetUnixCommonTest?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetUnixTest(action: KotlinSourceSet.() -> Unit) {
+    sourceSetUnixTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetUnixCommonTest: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.UNIX_COMMON_TEST)
+val KotlinMultiplatformExtension.sourceSetUnixTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.UNIX_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetDarwinCommonMain(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetDarwinCommonMain?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetDarwinMain(action: KotlinSourceSet.() -> Unit) {
+    sourceSetDarwinMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetDarwinCommonMain: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.DARWIN_COMMON_MAIN)
+val KotlinMultiplatformExtension.sourceSetDarwinMain: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.DARWIN_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetDarwinCommonTest(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetDarwinCommonTest?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetDarwinTest(action: KotlinSourceSet.() -> Unit) {
+    sourceSetDarwinTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetDarwinCommonTest: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.DARWIN_COMMON_TEST)
+val KotlinMultiplatformExtension.sourceSetDarwinTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.DARWIN_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetIosMain(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetIosMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetIosMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetIosMain: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetIosMain: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.IOS_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetIosTest(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetIosTest(action: KotlinSourceSet.() -> Unit) {
     sourceSetIosTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetIosTest: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetIosTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.IOS_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetIosArm32Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetIosArm32Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetIosArm32Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetIosArm32Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetIosArm32Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.IOS_ARM32_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetIosArm32Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetIosArm32Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetIosArm32Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetIosArm32Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetIosArm32Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.IOS_ARM32_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetIosArm64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetIosArm64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetIosArm64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetIosArm64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetIosArm64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.IOS_ARM64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetIosArm64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetIosArm64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetIosArm64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetIosArm64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetIosArm64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.IOS_ARM64_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetIosX64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetIosX64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetIosX64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetIosX64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetIosX64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.IOS_X64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetIosX64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetIosX64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetIosX64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetIosX64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetIosX64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.IOS_X64_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetIosSimulatorArm64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetIosSimulatorArm64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetIosSimulatorArm64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetIosSimulatorArm64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetIosSimulatorArm64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.IOS_SIMULATOR_ARM64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetIosSimulatorArm64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetIosSimulatorArm64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetIosSimulatorArm64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetIosSimulatorArm64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetIosSimulatorArm64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.IOS_SIMULATOR_ARM64_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetMacosArm64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetMacosArm64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetMacosArm64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetMacosArm64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetMacosArm64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.MACOS_ARM64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetMacosCommonMain(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetMacosCommonMain?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetMacosMain(action: KotlinSourceSet.() -> Unit) {
+    sourceSetMacosMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetMacosCommonMain: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.MACOS_COMMON_MAIN)
+val KotlinMultiplatformExtension.sourceSetMacosMain: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.MACOS_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetMacosCommonTest(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetMacosCommonTest?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetMacosTest(action: KotlinSourceSet.() -> Unit) {
+    sourceSetMacosTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetMacosCommonTest: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.MACOS_COMMON_TEST)
+val KotlinMultiplatformExtension.sourceSetMacosTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.MACOS_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetMacosArm64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetMacosArm64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetMacosArm64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetMacosArm64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetMacosArm64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.MACOS_ARM64_TEST)
 
 
-inline fun KotlinMultiplatformExtension.sourceSetMacosX64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetMacosX64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetMacosX64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetMacosX64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetMacosX64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.MACOS_X64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetMacosX64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetMacosX64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetMacosX64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetMacosX64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetMacosX64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.MACOS_X64_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetTvosMain(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetTvosMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetTvosMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetTvosMain: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetTvosMain: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.TVOS_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetTvosTest(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetTvosTest(action: KotlinSourceSet.() -> Unit) {
     sourceSetTvosTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetTvosTest: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetTvosTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.TVOS_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetTvosArm64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetTvosArm64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetTvosArm64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetTvosArm64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetTvosArm64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.TVOS_ARM64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetTvosArm64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetTvosArm64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetTvosArm64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetTvosArm64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetTvosArm64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.TVOS_ARM64_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetTvosX64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetTvosX64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetTvosX64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetTvosX64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetTvosX64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.TVOS_X64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetTvosX64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetTvosX64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetTvosX64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetTvosX64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetTvosX64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.TVOS_X64_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetTvosSimulatorArm64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetTvosSimulatorArm64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetTvosSimulatorArm64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetTvosSimulatorArm64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetTvosSimulatorArm64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.TVOS_SIMULATOR_ARM64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetTvosSimulatorArm64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetTvosSimulatorArm64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetTvosSimulatorArm64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetTvosSimulatorArm64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetTvosSimulatorArm64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.TVOS_SIMULATOR_ARM64_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetWatchosMain(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetWatchosMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetWatchosMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetWatchosMain: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetWatchosMain: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetWatchosTest(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetWatchosTest(action: KotlinSourceSet.() -> Unit) {
     sourceSetWatchosTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetWatchosTest: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetWatchosTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetWatchosArm32Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetWatchosArm32Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetWatchosArm32Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetWatchosArm32Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetWatchosArm32Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_ARM32_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetWatchosArm32Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetWatchosArm32Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetWatchosArm32Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetWatchosArm32Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetWatchosArm32Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_ARM32_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetWatchosArm64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetWatchosArm64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetWatchosArm64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetWatchosArm64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetWatchosArm64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_ARM64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetWatchosArm64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetWatchosArm64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetWatchosArm64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetWatchosArm64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetWatchosArm64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_ARM64_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetWatchosX64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetWatchosX64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetWatchosX64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetWatchosX64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetWatchosX64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_X64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetWatchosX64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetWatchosX64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetWatchosX64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetWatchosX64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetWatchosX64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_X64_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetWatchosSimulatorArm64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetWatchosSimulatorArm64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetWatchosSimulatorArm64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetWatchosSimulatorArm64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetWatchosSimulatorArm64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_SIMULATOR_ARM64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetWatchosSimulatorArm64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetWatchosSimulatorArm64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetWatchosSimulatorArm64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetWatchosSimulatorArm64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetWatchosSimulatorArm64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_SIMULATOR_ARM64_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetLinuxCommonMain(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetLinuxCommonMain?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetLinuxMain(action: KotlinSourceSet.() -> Unit) {
+    sourceSetLinuxMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetLinuxCommonMain: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_COMMON_MAIN)
+val KotlinMultiplatformExtension.sourceSetLinuxMain: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetLinuxCommonTest(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetLinuxCommonTest?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetLinuxTest(action: KotlinSourceSet.() -> Unit) {
+    sourceSetLinuxTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetLinuxCommonTest: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_COMMON_TEST)
+val KotlinMultiplatformExtension.sourceSetLinuxTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetLinuxArm32HfpMain(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetLinuxArm32HfpMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetLinuxArm32HfpMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetLinuxArm32HfpMain: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetLinuxArm32HfpMain: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_ARM32HFP_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetLinuxArm32HfpTest(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetLinuxArm32HfpTest(action: KotlinSourceSet.() -> Unit) {
     sourceSetLinuxArm32HfpTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetLinuxArm32HfpTest: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetLinuxArm32HfpTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_ARM32HFP_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetLinuxMips32Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetLinuxMips32Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetLinuxMips32Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetLinuxMips32Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetLinuxMips32Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_MIPS32_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetLinuxMips32Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetLinuxMips32Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetLinuxMips32Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetLinuxMips32Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetLinuxMips32Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_MIPS32_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetLinuxMipsel32Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetLinuxMipsel32Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetLinuxMipsel32Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetLinuxMipsel32Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetLinuxMipsel32Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_MIPSEL32_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetLinuxMipsel32Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetLinuxMipsel32Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetLinuxMipsel32Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetLinuxMipsel32Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetLinuxMipsel32Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_MIPSEL32_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetLinuxX64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetLinuxX64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetLinuxX64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetLinuxX64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetLinuxX64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_X64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetLinuxX64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetLinuxX64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetLinuxX64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetLinuxX64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetLinuxX64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_X64_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetMingwCommonMain(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetMingwCommonMain?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetMingwMain(action: KotlinSourceSet.() -> Unit) {
+    sourceSetMingwMain?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetMingwCommonMain: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.MINGW_COMMON_MAIN)
+val KotlinMultiplatformExtension.sourceSetMingwMain: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.MINGW_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetMingwCommonTest(crossinline action: KotlinSourceSet.() -> Unit) {
-    sourceSetMingwCommonTest?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetMingwTest(action: KotlinSourceSet.() -> Unit) {
+    sourceSetMingwTest?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetMingwCommonTest: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.MINGW_COMMON_TEST)
+val KotlinMultiplatformExtension.sourceSetMingwTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.MINGW_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetMingwX64Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetMingwX64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetMingwX64Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetMingwX64Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetMingwX64Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.MINGW_X64_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetMingwX64Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetMingwX64Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetMingwX64Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetMingwX64Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetMingwX64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.MINGW_X64_TEST)
 
-inline fun KotlinMultiplatformExtension.sourceSetMingwX86Main(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetMingwX86Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetMingwX86Main?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetMingwX86Main: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetMingwX86Main: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.MINGW_X86_MAIN)
 
-inline fun KotlinMultiplatformExtension.sourceSetMingwX86Test(crossinline action: KotlinSourceSet.() -> Unit) {
+fun KotlinMultiplatformExtension.sourceSetMingwX86Test(action: KotlinSourceSet.() -> Unit) {
     sourceSetMingwX86Test?.let { action.invoke(it) }
 }
 
-inline val KotlinMultiplatformExtension.sourceSetMingwX86Test: KotlinSourceSet?
+val KotlinMultiplatformExtension.sourceSetMingwX86Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.MINGW_X86_TEST)

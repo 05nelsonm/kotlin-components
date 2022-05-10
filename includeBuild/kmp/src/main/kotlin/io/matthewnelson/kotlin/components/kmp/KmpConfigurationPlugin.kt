@@ -51,9 +51,9 @@ import org.gradle.kotlin.dsl.create
  *                 minSdk = 16,
  *                 targetSdk = 30,
  *
- *                 // Optional argument to provide path to manifest
- *                 // if it is not locasted in `src/main`
- *                 manifestPath = "src/androidMain/AndroidManifest.xml",
+ *                 androidMainSourceSet = {
+ *                     manifest.srcFile("$projectDir/src/androidMain/androidManifest.xml")
+ *                 }
  *
  *                 // Optional argument to apply platform specific plugins
  *                 // for when the target is enabled
@@ -113,43 +113,36 @@ import org.gradle.kotlin.dsl.create
  *                 implementation(kotlin("test-common"))
  *                 implementation(kotlin("test-annotations-common"))
  *             }
+ *         },
+ *
+ *         // If no source sets are available b/c they are all turned off via
+ *         // cmd line arguments, lambda won't be invoked.
+ *         //
+ *         // For example, 2 modules in a project, 1 with all targets enabled, another
+ *         // with only Jvm. If '-PKMP_TARGETS=IOS_ARM64' is passed, the `kotlin` lambda
+ *         // for the Jvm only module won't be invoked.
+ *         kotlin = {
+ *
+ *             // Use extension functions that will provide the common source sets
+ *             // for you if they are enabled via KMP_TARGETS passed via cmd line.
+ *             // If they are not, the lambdas won't be invoked.
+ *             sourceSetIosMain {
+ *                 dependencies {
+ *                     ...
+ *                 }
+ *             }
+ *             sourceSetTvosMain {
+ *                 dependencies {
+ *                     ...
+ *                 }
+ *             }
+ *             sourceSetLinuxMain {
+ *                 dependencies {
+ *                     ...
+ *                 }
+ *             }
  *         }
  *     )
- * }
- * ```
- *
- * Alternatively, import the [io.matthewnelson.kotlin.components.kmp.util.kotlin] extension function
- * and configure things further after the `kmpConfiguration` block.
- *
- * ```
- * import io.matthewnelson.kotlin.components.kmp.KmpTarget
- * import io.matthewnelson.kotlin.components.kmp.kotlin
- *
- * plugins {
- *     id("kmp-configuration")
- * }
- *
- * kmpConfiguration {
- *    ...
- * }
- *
- * kotlin {
- *     sourceSets {
- *         getByName(KmpTarget.SetNames.COMMON_MAIN) {
- *             dependencies {
- *                 implementation(project(":my-other-project-module"))
- *             }
- *         }
- *         getByName(KmpTarget.SetNames.MACOS_X64_MAIN) {
- *             dependencies {
- *                 implementation(project(":my-other-macos-only-project"))
- *             }
- *         }
- *     }
- *
- *     targets.getByName(KmpTarget.NonJvm.JS.TARGET_NAME) {
- *         ...
- *     }
  * }
  * ```
  *
@@ -168,49 +161,52 @@ import org.gradle.kotlin.dsl.create
  *   JVM,
  *   JS,
  *   LINUX_ARM32HFP,LINUX_MIPS32,LINUX_MIPSEL32,LINUX_X64,
- *   IOS_ALL,IOS_ARM32,IOS_ARM64,IOS_X64,IOS_SIMULATOR_ARM64,
+ *   IOS_ARM32,IOS_ARM64,IOS_X64,IOS_SIMULATOR_ARM64,
  *   MACOS_ARM64,MACOS_X64,
- *   TVOS_ALL,TVOS_ARM64,TVOS_X64,TVOS_SIMULATOR_ARM64,
- *   WATCHOS_ALL,WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_X64,WATCHOS_X86,WATCHOS_SIMULATOR_ARM64,
+ *   TVOS_ARM64,TVOS_X64,TVOS_SIMULATOR_ARM64,
+ *   WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_X64,WATCHOS_X86,WATCHOS_SIMULATOR_ARM64,
  *   MINGW_X64,MINGW_X86,
  *
  * Depending on the [KmpTarget]s passed, as well as what is enabled (as mentioned above),
  * the structure of source sets will be as depicted below (diagram shamelessly stolen from
- * Jesse Wilson: https://github.com/square/okio/blob/master/okio/build.gradle.kts).
+ * Jesse Wilson: https://github.com/square/okio/blob/23872fe548a472c593a0516ae048db465322b2e1/okio/build.gradle.kts#L23).
  *
- * common --------------------------,
- *   |-- jvmCommon                  |
- *   |      |-- jvm --------,       |
- *   |      '-- android     |-- jvmJsCommon
- *   '-- nonJvm             |
- *          |-- js ---------'
- *          '-- nativeCommon
- *                  |-- unixCommon
- *                  |       |-- darwinCommon
- *                  |       |        |-- iosArm32
- *                  |       |        |-- iosArm64
- *                  |       |        |-- iosX64
- *                  |       |        |-- iosSimulatorArm64
- *                  |       |        |-- macosCommon
- *                  |       |        |       |-- macosArm64
- *                  |       |        |       '-- macosX64
- *                  |       |        |-- tvosArm64
- *                  |       |        |-- tvosX64
- *                  |       |        |-- tvosSimulatorArm64
- *                  |       |        |-- watchosArm32
- *                  |       |        |-- watchosArm64
- *                  |       |        |-- watchosX64
- *                  |       |        '-- watchosSimulatorArm64
- *                  |       '-- linuxCommon
- *                  |                |-- linuxArm32Hfp
- *                  |                |-- linuxMips32
- *                  |                |-- linuxMipsel32
- *                  |                '-- linuxX64
- *                  '-- mingwCommon
- *                          |-- mingwX64
- *                          '-- mingwX86
+ * common -------------------------,
+ *   |-- jvmAndroid                |
+ *   |     |-- jvm ----------,     |
+ *   |     '-- android       |-- jvmJs
+ *   '-- nonJvm              |
+ *         |-- js -----------'
+ *         '-- native
+ *               |-- unix
+ *               |     |-- darwin
+ *               |     |     |-- ios
+ *               |     |     |     |-- iosArm32
+ *               |     |     |     |-- iosArm64
+ *               |     |     |     |-- iosX64
+ *               |     |     |     '-- iosSimulatorArm64
+ *               |     |     |-- macos
+ *               |     |     |     |-- macosArm64
+ *               |     |     |     '-- macosX64
+ *               |     |     |-- tvos
+ *               |     |     |     |-- tvosArm64
+ *               |     |     |     |-- tvosX64
+ *               |     |     |     '-- tvosSimulatorArm64
+ *               |     |     '-- watchos
+ *               |     |           |-- watchosArm32
+ *               |     |           |-- watchosArm64
+ *               |     |           |-- watchosX64
+ *               |     |           '-- watchosSimulatorArm64
+ *               |     '-- linux
+ *               |           |-- linuxArm32Hfp
+ *               |           |-- linuxMips32
+ *               |           |-- linuxMipsel32
+ *               |           '-- linuxX64
+ *               '-- mingw
+ *                     |-- mingwX64
+ *                     '-- mingwX86
  *
- * Shout out to Arkivanov for his work on Reaktive, Decompose and MVIKotlin which heavily influenced this
+ * * Shout out to Arkivanov for his work on Reaktive, Decompose and MVIKotlin which heavily influenced this
  *  - https://github.com/badoo/Reaktive
  *  - https://github.com/arkivanov/Decompose
  *  - https://github.com/arkivanov/MVIKotlin
