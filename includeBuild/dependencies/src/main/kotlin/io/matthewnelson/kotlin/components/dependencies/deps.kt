@@ -46,16 +46,16 @@ object versions {
     }
 
     object components {
-        const val buildConfig               = "3.0.1"
-        const val coroutines                = "1.1.1"
-        const val encoding                  = "1.1.1"
+        const val buildConfig               = "3.0.2"
+        const val coroutines                = "1.1.2"
+        const val encoding                  = "1.1.2"
 
         object kmptor {
             const val binary                = "0.4.7.7"
             const val kmptor                = "0.1.2"
         }
 
-        const val request                   = "3.0.2"
+        const val request                   = "3.0.3"
     }
 
     object kotlin {
@@ -99,7 +99,7 @@ object versions {
     }
 
     object toxicity {
-        const val rsaApiKeyValidator        = "2.0.1"
+        const val rsaApiKeyValidator        = "2.0.2"
     }
 
     const val viewBindingDelegate           = "1.5.6"
