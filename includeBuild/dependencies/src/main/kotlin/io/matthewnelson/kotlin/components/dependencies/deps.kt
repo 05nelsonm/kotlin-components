@@ -60,9 +60,10 @@ object versions {
 
     object kotlin {
         const val atomicfu                  = "0.17.2"
+        const val coroutines                = "1.6.1"
         const val kotlin                    = "1.6.21"
         const val ktor                      = "2.0.1"
-        const val coroutines                = "1.6.1"
+        const val time                      = "0.3.2"
     }
 
     object google {
@@ -332,6 +333,8 @@ object deps {
             const val jdk8                  = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin.kotlin}"
             const val js                    = "org.jetbrains.kotlin:kotlin-stdlib-js:${versions.kotlin.kotlin}"
         }
+
+        const val time                      = "org.jetbrains.kotlinx:kotlinx-datetime:${versions.kotlin.time}"
     }
 
     object sql {
