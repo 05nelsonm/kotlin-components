@@ -31,11 +31,11 @@ object versions {
 
     object androidx {
         const val annotation                = "1.3.0"
-        const val appCompat                 = "1.4.1"
+        const val appCompat                 = "1.4.2"
         const val camera                    = "1.1.0-beta03"
         const val cameraExt                 = "1.1.0-beta03"
-        const val constraintLayout          = "2.1.3"
-        const val core                      = "1.7.0"
+        const val constraintLayout          = "2.1.4"
+        const val core                      = "1.8.0"
         const val exifInterface             = "1.3.3"
         const val lifecycle                 = "2.4.1"
         const val navigation                = "2.4.2"
@@ -59,17 +59,17 @@ object versions {
     }
 
     object kotlin {
-        const val atomicfu                  = "0.17.2"
-        const val coroutines                = "1.6.1"
+        const val atomicfu                  = "0.17.3"
+        const val coroutines                = "1.6.2"
         const val kotlin                    = "1.6.21"
-        const val ktor                      = "2.0.1"
+        const val ktor                      = "2.0.2"
         const val time                      = "0.3.2"
     }
 
     object google {
-        const val hilt                      = "2.41"
+        const val hilt                      = "2.42"
         const val guava                     = "31.1"
-        const val material                  = "1.6.0"
+        const val material                  = "1.6.1"
         const val mlKitBarcodeScanning      = "17.0.2"
         const val zxing                     = "3.5.0"
     }
@@ -77,7 +77,7 @@ object versions {
     const val insetter                      = "0.6.0"
 
     object instacart {
-        const val coil                      = "1.4.0"
+        const val coil                      = "2.1.0"
     }
 
     object javax {
@@ -106,7 +106,7 @@ object versions {
     const val viewBindingDelegate           = "1.5.6"
 
     object gradle {
-        const val android                   = "7.1.3"
+        const val android                   = "7.2.1"
         const val atomicfu                  = versions.kotlin.atomicfu
         const val exhaustive                = versions.square.exhaustive
         const val dokka                     = versions.kotlin.kotlin
