@@ -100,7 +100,7 @@ object versions {
     }
 
     object toxicity {
-        const val rsaApiKeyValidator        = "2.0.2"
+        const val rsaApiKeyValidator        = "2.0.3"
     }
 
     const val viewBindingDelegate           = "1.5.6"
