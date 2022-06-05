@@ -20,13 +20,13 @@ package io.matthewnelson.kotlin.components.dependencies
 object versions {
 
     object android {
-        const val buildTools                = "31.0.0"
-        const val sdkCompile                = 31
+        const val buildTools                = "32.0.0"
+        const val sdkCompile                = 32
         const val sdkMin16                  = 16
         const val sdkMin21                  = 21
         const val sdkMin23                  = 23
         const val sdkMin26                  = 26
-        const val sdkTarget                 = 31
+        const val sdkTarget                 = 32
     }
 
     object androidx {
