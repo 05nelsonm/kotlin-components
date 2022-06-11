@@ -2,11 +2,6 @@
 
 ### Linux
 
-- Set `VersionName` variable
-```
-export VersionName=<VersionName>
-```
-
 - Create a release branch
 ```
 git checkout master
@@ -15,7 +10,7 @@ cd kotlin-components
 git checkout master
 git pull
 cd ..
-git checkout -b release_$VersionName
+git checkout -b release_<VersionName>
 ```
 
 - Update `versionName` (remove `-SNAPSHOT`) and `versionCode` in root project's `build.gradle.kts` file
@@ -37,8 +32,8 @@ kmpPublish {
 - Commit Changes
 ```
 git add --all
-git commit -S -m "Prepare $VersionName release"
-git tag -s $VersionName -m "Release v$VersionName"
+git commit -S -m "Prepare <VersionName> release"
+git tag -s $VersionName -m "Release v<VersionName>"
 ```
 
 - Make sure you have valid credentials in `~/.gradle/gradle.properties`
@@ -68,65 +63,9 @@ gpg --card-status
 
 - Push to repo
 ```
-git push origin $VersionName
-git push -u origin release_$VersionName
+git push origin <VersionName>
+git push -u origin release_<VersionName>
 ```
-
-### Windows
-
-- Spin up VM of Windows 10
-
-- Open Git Bash and navigate to project
-
-- Pull latest code from release branch
-```
-git checkout master
-git pull --recurse-submodule
-cd kotlin-components
-git checkout master
-git pull
-cd ..
-git checkout release_<VersionName>
-git pull
-```
-
-- Make sure you have valid credentials in `~/.gradle/gradle.properties`
-```
-mavenCentralUsername=MyUserName
-mavenCentralPassword=MyPassword
-```
-
-- Make sure `KMP_TARGETS` is set in `~/.gradle/gradle.properties`
-```
-KMP_TARGETS=ANDROID,MINGW_X64,MINGW_X86
-```
-
-- Make sure you have GPG gradle config setup in `~/.gradle/gradle.properties` for signing
-```
-signing.gnupg.executable=gpg
-signing.gnupg.useLegacyGpg=true
-signing.gnupg.homeDir=/path/to/.gnupg/
-signing.gnupg.optionsFile=/path/to/.gnupg/gpg.conf
-signing.gnupg.keyName=0x61471B8AB3890961
-```
-
-- Enable USB pass through of the YubiKey to Windows VM to allow for signing
-
-- Open powershell
-
-- Make sure GPG is picking up YubiKey to sign releases
-```
-gpg --card-status
-```
-
-- Run publishing script
-```
-./kotlin-components/scripts/publish.sh --host mingw
-```
-
-- Paste output into powershell and run it (because Windows doesn't like Bash + GPG and I'm too lazy to fix)
-
-- Disable USB pass through
 
 ### Macos
 
@@ -157,11 +96,6 @@ mavenCentralUsername=MyUserName
 mavenCentralPassword=MyPassword
 ```
 
-- Make sure `KMP_TARGETS` is set in `~/.gradle/gradle.properties`
-```
-KMP_TARGETS=ANDROID,IOS_ALL,IOS_ARM32,IOS_ARM64,IOS_X64,IOS_SIMULATOR_ARM64,MACOS_ARM64,MACOS_X64,TVOS_ALL,TVOS_ARM64,TVOS_X64,TVOS_SIMULATOR_ARM64,WATCHOS_ALL,WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_X64,WATCHOS_X86,WATCHOS_SIMULATOR_ARM64
-```
-
 - Make sure you have GPG gradle config setup in `~/.gradle/gradle.properties` for signing
 ```
 signing.gnupg.executable=gpg
@@ -189,19 +123,6 @@ signing.gnupg.keyName=0x61471B8AB3890961
 ./kotlin-components/scripts/publish.sh --check-publication
 ```
 
-### Windows
-- Check Publication
-```
-./kotlin-components/scripts/publish.sh --check-publication
-```
-
-### Macos
-- Check Publication
-```
-./kotlin-components/scripts/publish.sh --check-publication
-```
-
-### Linux
 - **Release** publications from Sonatype OSS Nexus StagingRepositories manager
 
 - Merge release branch to `master`
@@ -239,7 +160,7 @@ git push
 git branch -D release_$VersionName
 ```
 
-### Windows & Macos
+### Macos
 
 - Checkout master
 ```
