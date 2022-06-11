@@ -125,6 +125,8 @@ sealed class KmpTarget<T: KotlinTarget> {
         val LINUX_TEST get() = NonJvm.Native.Unix.Linux.LINUX_TEST
         val LINUX_ARM32HFP_MAIN get() = NonJvm.Native.Unix.Linux.Arm32Hfp.SOURCE_SET_MAIN_NAME
         val LINUX_ARM32HFP_TEST get() = NonJvm.Native.Unix.Linux.Arm32Hfp.SOURCE_SET_TEST_NAME
+        val LINUX_ARM64_MAIN get() = NonJvm.Native.Unix.Linux.Arm64.SOURCE_SET_MAIN_NAME
+        val LINUX_ARM64_TEST get() = NonJvm.Native.Unix.Linux.Arm64.SOURCE_SET_TEST_NAME
         val LINUX_MIPS32_MAIN get() = NonJvm.Native.Unix.Linux.Mips32.SOURCE_SET_MAIN_NAME
         val LINUX_MIPS32_TEST get() = NonJvm.Native.Unix.Linux.Mips32.SOURCE_SET_TEST_NAME
         val LINUX_MIPSEL32_MAIN get() = NonJvm.Native.Unix.Linux.Mipsel32.SOURCE_SET_MAIN_NAME
@@ -1089,6 +1091,39 @@ sealed class KmpTarget<T: KotlinTarget> {
                                 setupLinuxSourceSets(project)
                             }
                         }
+                    }
+
+                    class Arm64(
+                        override val pluginIds: Set<String>? = null,
+                        override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                        override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                        override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
+                    ): Linux() {
+
+                        companion object {
+                            val DEFAULT = Arm64()
+
+                            const val TARGET_NAME: String = "linuxArm64"
+                            const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                            const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                            const val ENV_PROPERTY_VALUE: String = "LINUX_ARM64"
+                        }
+
+                        override val sourceSetMainName: String get() = Mips32.SOURCE_SET_MAIN_NAME
+                        override val sourceSetTestName: String get() = Mips32.SOURCE_SET_TEST_NAME
+                        override val envPropertyValue: String get() = Mips32.ENV_PROPERTY_VALUE
+
+                        override fun setupMultiplatform(project: Project) {
+                            applyPlugins(project)
+                            project.kotlin {
+                                linuxArm64(TARGET_NAME) target@ {
+                                    target?.invoke(this@target)
+                                }
+
+                                setupLinuxSourceSets(project)
+                            }
+                        }
+
                     }
 
                     class Mips32(

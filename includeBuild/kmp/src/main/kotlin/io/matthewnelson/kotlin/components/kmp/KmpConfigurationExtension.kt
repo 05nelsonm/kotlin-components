@@ -85,6 +85,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
             // linux
             KmpTarget.NonJvm.Native.Unix.Linux.Arm32Hfp.ENV_PROPERTY_VALUE,
+            KmpTarget.NonJvm.Native.Unix.Linux.Arm64.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Linux.Mips32.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Linux.Mipsel32.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Linux.X64.ENV_PROPERTY_VALUE,
