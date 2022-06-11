@@ -435,6 +435,20 @@ fun KotlinMultiplatformExtension.sourceSetLinuxArm32HfpTest(action: KotlinSource
 val KotlinMultiplatformExtension.sourceSetLinuxArm32HfpTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_ARM32HFP_TEST)
 
+fun KotlinMultiplatformExtension.sourceSetLinuxArm64Main(action: KotlinSourceSet.() -> Unit) {
+    sourceSetLinuxArm64Main?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetLinuxArm64Main: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_ARM64_MAIN)
+
+fun KotlinMultiplatformExtension.sourceSetLinuxArm64Test(action: KotlinSourceSet.() -> Unit) {
+    sourceSetLinuxArm64Test?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetLinuxArm64Test: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_ARM64_TEST)
+
 fun KotlinMultiplatformExtension.sourceSetLinuxMips32Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetLinuxMips32Main?.let { action.invoke(it) }
 }
