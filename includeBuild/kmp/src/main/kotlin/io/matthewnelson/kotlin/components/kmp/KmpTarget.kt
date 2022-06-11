@@ -257,11 +257,10 @@ sealed class KmpTarget<T: KotlinTarget> {
             }
         }
 
-        @Suppress("UnstableApiUsage")
+//        @Suppress("UnstableApiUsage")
         class Android(
             val compileSdk: Int,
             val minSdk: Int,
-            val androidMainSourceSet: (AndroidSourceSet.() -> Unit)? = null,
             override val pluginIds: Set<String>? = null,
             val buildTools: String? = null,
             val targetSdk: Int? = null,
@@ -290,35 +289,6 @@ sealed class KmpTarget<T: KotlinTarget> {
                 require(compileSdk >= minSdk) { "ANDROID.compileSdk must be greater than ANDROID.minSdk" }
             }
 
-            constructor(
-                compileSdk: Int,
-                minSdk: Int,
-                pluginIds: Set<String>? = null,
-                buildTools: String? = null,
-                targetSdk: Int? = null,
-                compileSourceOption: JavaVersion = JavaVersion.VERSION_11,
-                compileTargetOption: JavaVersion = compileSourceOption,
-                kotlinJvmTarget: JavaVersion = JavaVersion.VERSION_11,
-                androidConfig: (BaseExtension.() -> Unit)? = null,
-                target: (KotlinAndroidTarget.() -> Unit)? = null,
-                mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-                testSourceSet: (KotlinSourceSet.() -> Unit)? = null
-            ): this(
-                compileSdk,
-                minSdk,
-                null,
-                pluginIds,
-                buildTools,
-                targetSdk,
-                compileSourceOption,
-                compileTargetOption,
-                kotlinJvmTarget,
-                androidConfig,
-                target,
-                mainSourceSet,
-                testSourceSet
-            )
-
             override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
             override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
             override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
@@ -342,10 +312,9 @@ sealed class KmpTarget<T: KotlinTarget> {
                     compileSdkVersion(this@Android.compileSdk)
                     this@Android.buildTools?.let { buildToolsVersion = it }
 
-                    this@Android.androidMainSourceSet?.let { callback ->
-                        sourceSets.getByName("main") {
-                            callback.invoke(this)
-                        }
+                    sourceSets.getByName("main") {
+                        manifest.srcFile("${project.projectDir}/src/$sourceSetMainName/AndroidManifest.xml")
+                        res.setSrcDirs(listOf("${project.projectDir}/src/$sourceSetMainName/res"))
                     }
 
                     defaultConfig {
