@@ -7,9 +7,9 @@ import io.matthewnelson.kotlin.components.dependencies.versions
 plugins {
     id("app.cash.exhaustive")
     id("com.android.application")
-//    id("dagger.hilt.android.plugin")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    id("org.jetbrains.kotlin.kapt")
+    id("dagger.hilt.android.plugin")
     id("dependencies")
 }
 
@@ -98,7 +98,7 @@ dependencies {
     implementation(deps.insetter)
 
     implementation(deps.google.hilt)
-//    kapt(depsKapt.google.hilt)
+    kapt(depsKapt.google.hilt)
     implementation(deps.google.guava.jre)
     implementation(deps.google.material)
     implementation(deps.google.mlKitBarcodeScanning)
@@ -124,7 +124,7 @@ dependencies {
     implementation(deps.square.okhttp.logging)
     implementation(deps.square.okio.okio)
     implementation(deps.square.moshi)
-//    kapt(depsKapt.square.moshi)
+    kapt(depsKapt.square.moshi)
     implementation(deps.square.sqlDelight.android)
     implementation(deps.square.sqlDelight.jvm)
     implementation(deps.square.sqlDelight.runtime)

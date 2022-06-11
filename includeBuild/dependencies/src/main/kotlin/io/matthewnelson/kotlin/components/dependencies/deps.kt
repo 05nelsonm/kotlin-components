@@ -89,7 +89,11 @@ object versions {
         const val okhttp                    = "4.9.3"
         const val okio                      = "3.1.0"
         const val leakCanary                = "2.9.1"
-        const val moshi                     = "1.12.0"
+
+        // NOTE: Remove jettifier ignore declration from project's
+        //  gradle.properties when upgrading either version, or AGP to 7.2.0+
+        const val moshi                     = "1.13.0"
+
         const val sqlDelight                = "1.5.3"
         const val turbine                   = "0.8.0"
     }
@@ -106,7 +110,10 @@ object versions {
     const val viewBindingDelegate           = "1.5.6"
 
     object gradle {
+        // NOTE: Remove jettifier ignore declration from project's
+        //  gradle.properties when upgrading either version, or AGP to 7.2.0+
         const val android                   = "7.0.4"
+
         const val atomicfu                  = versions.kotlin.atomicfu
         const val exhaustive                = versions.square.exhaustive
         const val dokka                     = versions.kotlin.kotlin
