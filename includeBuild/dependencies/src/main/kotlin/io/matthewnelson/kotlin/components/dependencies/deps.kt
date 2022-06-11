@@ -20,13 +20,13 @@ package io.matthewnelson.kotlin.components.dependencies
 object versions {
 
     object android {
-        const val buildTools                = "32.0.0"
-        const val sdkCompile                = 32
+        const val buildTools                = "31.0.0"
+        const val sdkCompile                = 31
         const val sdkMin16                  = 16
         const val sdkMin21                  = 21
         const val sdkMin23                  = 23
         const val sdkMin26                  = 26
-        const val sdkTarget                 = 32
+        const val sdkTarget                 = 31
     }
 
     object androidx {
@@ -89,7 +89,7 @@ object versions {
         const val okhttp                    = "4.9.3"
         const val okio                      = "3.1.0"
         const val leakCanary                = "2.9.1"
-        const val moshi                     = "1.13.0"
+        const val moshi                     = "1.12.0"
         const val sqlDelight                = "1.5.3"
         const val turbine                   = "0.8.0"
     }
@@ -106,7 +106,7 @@ object versions {
     const val viewBindingDelegate           = "1.5.6"
 
     object gradle {
-        const val android                   = "7.2.1"
+        const val android                   = "7.0.4"
         const val atomicfu                  = versions.kotlin.atomicfu
         const val exhaustive                = versions.square.exhaustive
         const val dokka                     = versions.kotlin.kotlin
