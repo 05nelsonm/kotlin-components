@@ -160,7 +160,7 @@ import org.gradle.kotlin.dsl.create
  *   ANDROID,
  *   JVM,
  *   JS,
- *   LINUX_ARM32HFP,LINUX_MIPS32,LINUX_MIPSEL32,LINUX_X64,
+ *   LINUX_ARM32HFP,LINUX_ARM64,LINUX_MIPS32,LINUX_MIPSEL32,LINUX_X64,
  *   IOS_ARM32,IOS_ARM64,IOS_X64,IOS_SIMULATOR_ARM64,
  *   MACOS_ARM64,MACOS_X64,
  *   TVOS_ARM64,TVOS_X64,TVOS_SIMULATOR_ARM64,
@@ -199,6 +199,7 @@ import org.gradle.kotlin.dsl.create
  *               |     |           '-- watchosSimulatorArm64
  *               |     '-- linux
  *               |           |-- linuxArm32Hfp
+ *               |           |-- linuxArm64
  *               |           |-- linuxMips32
  *               |           |-- linuxMipsel32
  *               |           '-- linuxX64
