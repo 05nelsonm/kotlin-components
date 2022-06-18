@@ -67,6 +67,7 @@ object versions {
         const val coroutines                = "1.6.2"
         const val kotlin                    = "1.6.21"
         const val ktor                      = "2.0.2"
+        const val serialization             = "1.3.3"
         const val time                      = "0.3.2"
     }
 
@@ -127,6 +128,7 @@ object versions {
         const val intellij                  = "0.4.26"
         const val mavenPublish              = "0.18.0"
         const val navigation                = versions.androidx.navigation
+        const val serialization             = versions.kotlin.kotlin
         const val sqlDelight                = versions.square.sqlDelight
     }
 
@@ -355,6 +357,10 @@ object deps {
 
         const val reflect                   = "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin.kotlin}"
 
+        object serialization {
+            const val json                  = "org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.kotlin.serialization}"
+        }
+
         object stdLib {
             const val common                = "org.jetbrains.kotlin:kotlin-stdlib-common:${versions.kotlin.kotlin}"
             const val jdk8                  = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin.kotlin}"
@@ -479,7 +485,7 @@ object plugins {
         const val atomicfu                  = "org.jetbrains.kotlinx:atomicfu-gradle-plugin:${versions.gradle.atomicfu}"
         const val dokka                     = "org.jetbrains.dokka:dokka-gradle-plugin:${versions.gradle.dokka}"
         const val gradle                    = "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.gradle.kotlin}"
-        const val serialization             = "org.jetbrains.kotlin:kotlin-serialization:${versions.gradle.kotlin}"
+        const val serialization             = "org.jetbrains.kotlin:kotlin-serialization:${versions.gradle.serialization}"
     }
 
     const val mavenPublish                  = "com.vanniktech:gradle-maven-publish-plugin:${versions.gradle.mavenPublish}"
