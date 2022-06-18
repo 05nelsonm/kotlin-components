@@ -30,7 +30,7 @@ object versions {
     }
 
     object androidx {
-        const val annotation                = "1.3.0"
+        const val annotation                = "1.4.0"
         const val appCompat                 = "1.4.2"
         const val camera                    = "1.1.0-beta03"
         const val cameraExt                 = "1.1.0-beta03"
@@ -58,11 +58,16 @@ object versions {
         const val request                   = "3.0.3"
     }
 
+    object kodein {
+        const val di                        = "7.12.0"
+    }
+
     object kotlin {
         const val atomicfu                  = "0.17.3"
         const val coroutines                = "1.6.2"
         const val kotlin                    = "1.6.21"
         const val ktor                      = "2.0.2"
+        const val serialization             = "1.3.3"
         const val time                      = "0.3.2"
     }
 
@@ -86,7 +91,7 @@ object versions {
 
     object square {
         const val exhaustive                = "0.2.0"
-        const val okhttp                    = "4.9.3"
+        const val okhttp                    = "4.10.0"
         const val okio                      = "3.1.0"
         const val leakCanary                = "2.9.1"
 
@@ -123,6 +128,7 @@ object versions {
         const val intellij                  = "0.4.26"
         const val mavenPublish              = "0.18.0"
         const val navigation                = versions.androidx.navigation
+        const val serialization             = versions.kotlin.kotlin
         const val sqlDelight                = versions.square.sqlDelight
     }
 
@@ -269,6 +275,22 @@ object deps {
         const val inject                    = "javax.inject:javax.inject:${versions.javax.inject}"
     }
 
+    object kodein {
+        const val di                        = "org.kodein.di:kodein-di:${versions.kodein.di}"
+
+        object framework {
+            object android {
+                const val core              = "org.kodein.di:kodein-di-framework-android-core:${versions.kodein.di}"
+                const val x                 = "org.kodein.di:kodein-di-framework-android-x:${versions.kodein.di}"
+                const val viewModel         = "org.kodein.di:kodein-di-framework-android-x-viewmodel:${versions.kodein.di}"
+                const val savedState        = "org.kodein.di:kodein-di-framework-android-x-viewmodel-savedstate:${versions.kodein.di}"
+            }
+
+            const val compose               = "org.kodein.di:kodein-di-framework-compose:${versions.kodein.di}"
+            const val ktorServer            = "org.kodein.di:kodein-di-framework-ktor-server-jvm:${versions.kodein.di}"
+        }
+    }
+
     object kotlin {
         object atomicfu {
             const val atomicfu              = "org.jetbrains.kotlinx:atomicfu:${versions.kotlin.atomicfu}"
@@ -334,6 +356,10 @@ object deps {
         }
 
         const val reflect                   = "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin.kotlin}"
+
+        object serialization {
+            const val json                  = "org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.kotlin.serialization}"
+        }
 
         object stdLib {
             const val common                = "org.jetbrains.kotlin:kotlin-stdlib-common:${versions.kotlin.kotlin}"
@@ -459,7 +485,7 @@ object plugins {
         const val atomicfu                  = "org.jetbrains.kotlinx:atomicfu-gradle-plugin:${versions.gradle.atomicfu}"
         const val dokka                     = "org.jetbrains.dokka:dokka-gradle-plugin:${versions.gradle.dokka}"
         const val gradle                    = "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.gradle.kotlin}"
-        const val serialization             = "org.jetbrains.kotlin:kotlin-serialization:${versions.gradle.kotlin}"
+        const val serialization             = "org.jetbrains.kotlin:kotlin-serialization:${versions.gradle.serialization}"
     }
 
     const val mavenPublish                  = "com.vanniktech:gradle-maven-publish-plugin:${versions.gradle.mavenPublish}"

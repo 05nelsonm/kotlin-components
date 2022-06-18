@@ -11,6 +11,7 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("dagger.hilt.android.plugin")
     id("dependencies")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -112,10 +113,15 @@ dependencies {
 
     implementation(deps.javax.inject)
 
+    implementation(deps.kodein.di)
+
     implementation(deps.kotlin.atomicfu.atomicfu)
     implementation(deps.kotlin.coroutines.android)
     implementation(deps.kotlin.coroutines.core.core)
+    implementation(deps.kotlin.ktor.client.core)
     implementation(deps.kotlin.reflect)
+    implementation(deps.kotlin.serialization.json)
+    implementation(deps.kotlin.time)
 
     implementation(deps.sql.cipher)
     implementation(deps.sql.requery)
