@@ -58,6 +58,10 @@ object versions {
         const val request                   = "3.0.3"
     }
 
+    object kodein {
+        const val di                        = "7.12.0"
+    }
+
     object kotlin {
         const val atomicfu                  = "0.17.3"
         const val coroutines                = "1.6.2"
@@ -267,6 +271,22 @@ object deps {
 
     object javax {
         const val inject                    = "javax.inject:javax.inject:${versions.javax.inject}"
+    }
+
+    object kodein {
+        const val di                        = "org.kodein.di:kodein-di:${versions.kodein.di}"
+
+        object framework {
+            object android {
+                const val core              = "org.kodein.di:kodein-di-framework-android-core:${versions.kodein.di}"
+                const val x                 = "org.kodein.di:kodein-di-framework-android-x:${versions.kodein.di}"
+                const val viewModel         = "org.kodein.di:kodein-di-framework-android-x-viewmodel:${versions.kodein.di}"
+                const val savedState        = "org.kodein.di:kodein-di-framework-android-x-viewmodel-savedstate:${versions.kodein.di}"
+            }
+
+            const val compose               = "org.kodein.di:kodein-di-framework-compose:${versions.kodein.di}"
+            const val ktorServer            = "org.kodein.di:kodein-di-framework-ktor-server-jvm:${versions.kodein.di}"
+        }
     }
 
     object kotlin {
