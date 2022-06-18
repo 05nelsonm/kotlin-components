@@ -86,7 +86,7 @@ object versions {
 
     object square {
         const val exhaustive                = "0.2.0"
-        const val okhttp                    = "4.9.3"
+        const val okhttp                    = "4.10.0"
         const val okio                      = "3.1.0"
         const val leakCanary                = "2.9.1"
 
