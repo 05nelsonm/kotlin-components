@@ -24,12 +24,12 @@ dependencies {
 }
 
 gradlePlugin {
-    plugins.register("kmp-configuration") {
-        id = "kmp-configuration"
+    plugins.register(pluginId.kmp.configuration) {
+        id = pluginId.kmp.configuration
         implementationClass = "io.matthewnelson.kotlin.components.kmp.KmpConfigurationPlugin"
     }
-    plugins.register("kmp-publish") {
-        id = "kmp-publish"
+    plugins.register(pluginId.kmp.publish) {
+        id = pluginId.kmp.publish
         implementationClass = "io.matthewnelson.kotlin.components.kmp.publish.KmpPublishPlugin"
     }
 }
