@@ -30,7 +30,7 @@ object versions {
     }
 
     object androidx {
-        const val annotation                = "1.3.0"
+        const val annotation                = "1.4.0"
         const val appCompat                 = "1.4.2"
         const val camera                    = "1.1.0-beta03"
         const val cameraExt                 = "1.1.0-beta03"
