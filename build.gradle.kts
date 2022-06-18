@@ -41,7 +41,7 @@ task<Delete>("clean") {
 }
 
 // Gradle Versions: https://github.com/ben-manes/gradle-versions-plugin
-plugins.apply("com.github.ben-manes.versions")
+plugins.apply(pluginId.gradleVersions)
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }

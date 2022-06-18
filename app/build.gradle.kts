@@ -5,13 +5,13 @@ import io.matthewnelson.kotlin.components.dependencies.depsTest
 import io.matthewnelson.kotlin.components.dependencies.versions
 
 plugins {
-    id("app.cash.exhaustive")
-    id("com.android.application")
-    kotlin("android")
-    id("org.jetbrains.kotlin.kapt")
-    id("dagger.hilt.android.plugin")
-    id("dependencies")
-    kotlin("plugin.serialization")
+    id(pluginId.square.exhaustive)
+    id(pluginId.android.application)
+    id(pluginId.kotlin.android)
+    id(pluginId.kotlin.kapt)
+    id(pluginId.google.hilt)
+    id(pluginId.dependencies)
+    id(pluginId.kotlin.serialization)
 }
 
 android {
