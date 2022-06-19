@@ -113,6 +113,8 @@ dependencies {
 
     implementation(deps.javax.inject)
 
+    implementation(deps.jnrUnixSocket)
+
     implementation(deps.kodein.di)
 
     implementation(deps.kotlin.atomicfu.atomicfu)
