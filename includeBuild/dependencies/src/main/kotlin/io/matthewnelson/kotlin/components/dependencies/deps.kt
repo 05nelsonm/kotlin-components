@@ -89,6 +89,8 @@ object versions {
         const val inject                    = "1"
     }
 
+    const val jnrUnixSocket                 = "0.38.17"
+
     object square {
         const val exhaustive                = "0.2.0"
         const val okhttp                    = "4.10.0"
@@ -274,6 +276,8 @@ object deps {
     object javax {
         const val inject                    = "javax.inject:javax.inject:${versions.javax.inject}"
     }
+
+    const val jnrUnixSocket                 = "com.github.jnr:jnr-unixsocket:${versions.jnrUnixSocket}"
 
     object kodein {
         const val di                        = "org.kodein.di:kodein-di:${versions.kodein.di}"
