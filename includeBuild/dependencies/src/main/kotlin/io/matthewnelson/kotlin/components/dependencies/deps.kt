@@ -23,6 +23,7 @@ object versions {
         const val buildTools                = "31.0.0"
         const val sdkCompile                = 31
         const val sdkMin16                  = 16
+        const val sdkMin19                  = 19
         const val sdkMin21                  = 21
         const val sdkMin23                  = 23
         const val sdkMin26                  = 26
