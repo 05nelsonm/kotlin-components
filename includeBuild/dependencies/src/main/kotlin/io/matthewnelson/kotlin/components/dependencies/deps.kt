@@ -65,7 +65,7 @@ object versions {
 
     object kotlin {
         const val atomicfu                  = "0.17.3"
-        const val coroutines                = "1.6.2"
+        const val coroutines                = "1.6.3"
         const val kotlin                    = "1.6.21"
         const val ktor                      = "2.0.2"
         const val serialization             = "1.3.3"
