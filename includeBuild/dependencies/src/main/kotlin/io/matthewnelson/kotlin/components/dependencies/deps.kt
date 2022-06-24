@@ -47,16 +47,16 @@ object versions {
     }
 
     object components {
-        const val buildConfig               = "3.0.2"
-        const val coroutines                = "1.1.2"
-        const val encoding                  = "1.1.2"
+        const val buildConfig               = "3.0.3"
+        const val coroutines                = "1.1.3"
+        const val encoding                  = "1.1.3"
 
         object kmptor {
-            const val binary                = "0.4.7.7"
-            const val kmptor                = "0.2.0"
+            const val binary                = "0.4.7.8"
+            const val kmptor                = "1.0.0"
         }
 
-        const val request                   = "3.0.3"
+        const val request                   = "3.0.4"
     }
 
     object kodein {
@@ -112,7 +112,7 @@ object versions {
     }
 
     object toxicity {
-        const val rsaApiKeyValidator        = "2.0.3"
+        const val rsaApiKeyValidator        = "2.0.4"
     }
 
     const val viewBindingDelegate           = "1.5.6"
