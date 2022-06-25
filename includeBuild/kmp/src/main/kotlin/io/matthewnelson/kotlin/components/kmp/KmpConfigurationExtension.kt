@@ -44,6 +44,7 @@ import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.WATCHOS_TEST
 import io.matthewnelson.kotlin.components.kmp.util.*
 import io.matthewnelson.kotlin.components.kmp.util.EnvProperty
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.getting
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
@@ -181,26 +182,23 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
                 val jvmTargets = enabledTargets.filterIsInstance<KmpTarget.Jvm<*>>()
 
-                getByName(COMMON_MAIN) sourceSetMain@ {
+                val commonMain = getByName(COMMON_MAIN) {
                     if (jvmTargets.isEmpty()) {
                         dependencies {
                             // https://youtrack.jetbrains.com/issue/KT-40333
                             implementation(kotlin("stdlib-common"))
                         }
                     }
-                    commonMainSourceSet?.invoke(this@sourceSetMain)
                 }
 
-                getByName(COMMON_TEST) sourceSetTest@ {
-                    commonTestSourceSet?.invoke(this@sourceSetTest)
-                }
+                val commonTest = getByName(COMMON_TEST)
 
                 if (jvmTargets.isNotEmpty()) {
                     maybeCreate(JVM_ANDROID_MAIN).apply {
-                        dependsOn(getByName(COMMON_MAIN))
+                        dependsOn(commonMain)
                     }
                     maybeCreate(JVM_ANDROID_TEST).apply {
-                        dependsOn(getByName(COMMON_TEST))
+                        dependsOn(commonTest)
                     }
                 }
 
@@ -209,10 +207,10 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
                 if (jvmTarget.isNotEmpty() || jsTarget.isNotEmpty()) {
                     maybeCreate(JVM_JS_MAIN).apply {
-                        dependsOn(getByName(COMMON_MAIN))
+                        dependsOn(commonMain)
                     }
                     maybeCreate(JVM_JS_TEST).apply {
-                        dependsOn(getByName(COMMON_TEST))
+                        dependsOn(commonTest)
                     }
                 }
 
@@ -220,10 +218,10 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
                 if (jsTarget.isNotEmpty() || nativeTargets.isNotEmpty()) {
                     maybeCreate(NON_JVM_MAIN).apply {
-                        dependsOn(getByName(COMMON_MAIN))
+                        dependsOn(commonMain)
                     }
                     maybeCreate(NON_JVM_TEST).apply {
-                        dependsOn(getByName(COMMON_TEST))
+                        dependsOn(commonTest)
                     }
                 }
 
@@ -353,6 +351,9 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                         }
                     }
                 }
+
+                commonMainSourceSet?.invoke(commonMain)
+                commonTestSourceSet?.invoke(commonTest)
             }
         }
     }
