@@ -100,6 +100,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
     fun setupMultiplatform(
         targets: Set<KmpTarget<*>>,
         commonPluginIds: Set<String>? = null,
+        commonPluginIdsPostConfiguration: Set<String>? = null,
         commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
         commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
         kotlin: (KotlinMultiplatformExtension.() -> Unit)? = null
@@ -150,6 +151,12 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         for (target in enabledTargets) {
             if (target !is KmpTarget.Jvm.Android) {
                 target.setupMultiplatform(project)
+            }
+        }
+
+        commonPluginIdsPostConfiguration?.let { ids ->
+            for (id in ids) {
+                project.plugins.apply(id)
             }
         }
 
