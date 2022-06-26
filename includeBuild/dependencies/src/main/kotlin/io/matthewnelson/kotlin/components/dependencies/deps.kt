@@ -232,6 +232,10 @@ object deps {
                 const val common            = "$group:kmp-tor-controller-common:${versions.components.kmptor.kmptor}"
             }
 
+            object extension {
+                const val unixSocket        = "$group:kmp-tor-ext-unix-socket:${versions.components.kmptor.kmptor}"
+            }
+
             object manager {
                 const val manager           = "$group:kmp-tor-manager:${versions.components.kmptor.kmptor}"
                 const val common            = "$group:kmp-tor-manager-common:${versions.components.kmptor.kmptor}"
