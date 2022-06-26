@@ -56,6 +56,11 @@ signing.gnupg.keyName=0x61471B8AB3890961
 gpg --card-status
 ```
 
+- Disable YubiKey touch for signing
+```
+ykman openpgp keys set-touch sig off
+```
+
 - Run publishing script
 ```
 ./kotlin-components/scripts/publish.sh --host linux
@@ -111,6 +116,11 @@ signing.gnupg.keyName=0x61471B8AB3890961
 ```
 
 ### Linux
+- Re-enable YubiKey touch for signing
+```
+ykman openpgp keys set-touch sig on
+```
+
 - Close publications (Don't release yet)
     - Login to Sonatype OSS Nexus: [oss.sonatype.org](https://oss.sonatype.org/#stagingRepositories)
     - Click on **Staging Repositories**
