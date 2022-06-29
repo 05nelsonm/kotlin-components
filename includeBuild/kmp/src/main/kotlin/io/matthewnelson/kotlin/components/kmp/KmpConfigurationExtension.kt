@@ -145,7 +145,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
             }
         }
 
-        setupMultiplatformCommon(project, enabledTargets, commonMainSourceSet, commonTestSourceSet)
+        val (commonMain, commonTest) = setupMultiplatformCommon(project, enabledTargets)
 
         android?.setupMultiplatform(project)
 
@@ -154,6 +154,9 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                 target.setupMultiplatform(project)
             }
         }
+
+        commonMainSourceSet?.invoke(commonMain)
+        commonTestSourceSet?.invoke(commonTest)
 
         commonPluginIdsPostConfiguration?.let { ids ->
             for (id in ids) {
@@ -174,15 +177,16 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
     private fun setupMultiplatformCommon(
         project: Project,
         enabledTargets: List<KmpTarget<*>>,
-        commonMainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
-        commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null
-    ) {
+    ): Pair<KotlinSourceSet, KotlinSourceSet> {
+        var commonMain: KotlinSourceSet? = null
+        var commonTest: KotlinSourceSet? = null
+
         project.kotlin {
             sourceSets {
 
                 val jvmTargets = enabledTargets.filterIsInstance<KmpTarget.Jvm<*>>()
 
-                val commonMain = getByName(COMMON_MAIN) {
+                commonMain = getByName(COMMON_MAIN) {
                     if (jvmTargets.isEmpty()) {
                         dependencies {
                             // https://youtrack.jetbrains.com/issue/KT-40333
@@ -191,14 +195,14 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                     }
                 }
 
-                val commonTest = getByName(COMMON_TEST)
+                commonTest = getByName(COMMON_TEST)
 
                 if (jvmTargets.isNotEmpty()) {
                     maybeCreate(JVM_ANDROID_MAIN).apply {
-                        dependsOn(commonMain)
+                        dependsOn(commonMain!!)
                     }
                     maybeCreate(JVM_ANDROID_TEST).apply {
-                        dependsOn(commonTest)
+                        dependsOn(commonTest!!)
                     }
                 }
 
@@ -207,10 +211,10 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
                 if (jvmTarget.isNotEmpty() || jsTarget.isNotEmpty()) {
                     maybeCreate(JVM_JS_MAIN).apply {
-                        dependsOn(commonMain)
+                        dependsOn(commonMain!!)
                     }
                     maybeCreate(JVM_JS_TEST).apply {
-                        dependsOn(commonTest)
+                        dependsOn(commonTest!!)
                     }
                 }
 
@@ -218,10 +222,10 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
                 if (jsTarget.isNotEmpty() || nativeTargets.isNotEmpty()) {
                     maybeCreate(NON_JVM_MAIN).apply {
-                        dependsOn(commonMain)
+                        dependsOn(commonMain!!)
                     }
                     maybeCreate(NON_JVM_TEST).apply {
-                        dependsOn(commonTest)
+                        dependsOn(commonTest!!)
                     }
                 }
 
@@ -351,11 +355,10 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                         }
                     }
                 }
-
-                commonMainSourceSet?.invoke(commonMain)
-                commonTestSourceSet?.invoke(commonTest)
             }
         }
+
+        return Pair(commonMain!!, commonTest!!)
     }
 
     private fun getEnabledEnvironmentTargets(project: Project): Set<String> {
