@@ -67,7 +67,7 @@ object versions {
         const val atomicfu                  = "0.17.3"
         const val coroutines                = "1.6.3"
         const val kotlin                    = "1.6.21"
-        const val ktor                      = "2.0.2"
+        const val ktor                      = "2.0.3"
         const val serialization             = "1.3.3"
         const val time                      = "0.3.2"
     }
@@ -95,7 +95,7 @@ object versions {
     object square {
         const val exhaustive                = "0.2.0"
         const val okhttp                    = "4.10.0"
-        const val okio                      = "3.1.0"
+        const val okio                      = "3.2.0"
         const val leakCanary                = "2.9.1"
 
         // NOTE: Remove jettifier ignore declration from project's
