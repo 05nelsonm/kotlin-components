@@ -220,6 +220,10 @@ import org.gradle.kotlin.dsl.create
 @Suppress("unused")
 class KmpConfigurationPlugin: Plugin<Project> {
     override fun apply(target: Project) {
-        target.extensions.create<KmpConfigurationExtension>("kmpConfiguration", target)
+        if (target.rootProject == target) {
+            target.extensions.create<KmpRootProjectConfigurationExtension>("kmpProjectConfiguration", target)
+        } else {
+            target.extensions.create<KmpConfigurationExtension>("kmpConfiguration", target)
+        }
     }
 }
