@@ -166,7 +166,12 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
         project.kotlin {
             sourceSets.all {
-                languageSettings.optIn("kotlin.RequiresOptIn")
+                languageSettings {
+                    optIn("kotlin.RequiresOptIn")
+                    KmpRootProjectConfigurationExtension.optInArgs.forEach { arg ->
+                        optIn(arg)
+                    }
+                }
             }
             kotlin?.invoke(this)
         }
