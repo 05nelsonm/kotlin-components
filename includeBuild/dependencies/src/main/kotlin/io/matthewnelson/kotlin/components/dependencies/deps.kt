@@ -123,6 +123,7 @@ object versions {
         const val android                   = "7.0.4"
 
         const val atomicfu                  = versions.kotlin.atomicfu
+        const val binaryCompat              = "0.11.0"
         const val exhaustive                = versions.square.exhaustive
         const val dokka                     = versions.kotlin.kotlin
         const val gradleVersions            = "0.42.0"
