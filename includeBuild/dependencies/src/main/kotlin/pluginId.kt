@@ -37,6 +37,7 @@ object pluginId {
     object kotlin {
         const val android                   = "org.jetbrains.kotlin.android"
         const val atomicfu                  = "kotlinx-atomicfu"
+        const val binaryCompat              = "org.jetbrains.kotlinx.binary-compatibility-validator"
         const val dokka                     = "org.jetbrains.dokka"
         const val kapt                      = "org.jetbrains.kotlin.kapt"
         const val multiplatform             = "org.jetbrains.kotlin.multiplatform"

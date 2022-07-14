@@ -40,6 +40,12 @@ task<Delete>("clean") {
     delete(project.buildDir)
 }
 
+plugins {
+    val vBinaryCompat = io.matthewnelson.kotlin.components.dependencies.versions.gradle.binaryCompat
+
+    id(pluginId.kotlin.binaryCompat) version(vBinaryCompat) apply(false)
+}
+
 // Gradle Versions: https://github.com/ben-manes/gradle-versions-plugin
 plugins.apply(pluginId.gradleVersions)
 
