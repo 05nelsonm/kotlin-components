@@ -56,6 +56,7 @@ object versions {
             const val kmptor                = "1.1.0"
         }
 
+        const val parcelize                 = "0.1.0"
         const val request                   = "3.0.4"
     }
 
@@ -250,6 +251,8 @@ object deps {
                 const val common            = "$group:kmp-tor-manager-common:${versions.components.kmptor.kmptor}"
             }
         }
+
+        const val parcelize                 = "$group:parcelize${versions.components.parcelize}"
 
         object request {
             const val concept               = "$group:request-concept:${versions.components.request}"
