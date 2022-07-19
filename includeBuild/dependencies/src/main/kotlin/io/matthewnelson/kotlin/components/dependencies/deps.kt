@@ -68,7 +68,15 @@ object versions {
         const val coroutines                = "1.6.3"
         const val kotlin                    = "1.6.21"
         const val ktor                      = "2.0.3"
-        const val serialization             = "1.3.3"
+
+        object parcelize {
+            const val runtime               = kotlin
+        }
+
+        object serialization {
+            const val json                  = "1.3.3"
+        }
+
         const val time                      = "0.3.2"
     }
 
@@ -365,10 +373,14 @@ object deps {
             const val websockets            = "io.ktor:ktor-websockets:${versions.kotlin.ktor}"
         }
 
+        object parcelize {
+            const val runtime               = "org.jetbrains.kotlin:kotlin-parcelize-runtime:${versions.kotlin.parcelize.runtime}"
+        }
+
         const val reflect                   = "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin.kotlin}"
 
         object serialization {
-            const val json                  = "org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.kotlin.serialization}"
+            const val json                  = "org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.kotlin.serialization.json}"
         }
 
         object stdLib {
