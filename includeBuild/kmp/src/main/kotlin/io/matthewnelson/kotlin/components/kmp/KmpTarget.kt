@@ -526,6 +526,13 @@ sealed class KmpTarget<T: KotlinTarget> {
                         companion object {
                             const val IOS_MAIN = "ios$MAIN"
                             const val IOS_TEST = "ios$TEST"
+
+                            val ALL_DEFAULT: Set<Ios<*>> = setOf(
+                                Ios.Arm32.DEFAULT,
+                                Ios.Arm64.DEFAULT,
+                                Ios.X64.DEFAULT,
+                                Ios.SimulatorArm64.DEFAULT
+                            )
                         }
 
                         class Arm32(
@@ -663,6 +670,11 @@ sealed class KmpTarget<T: KotlinTarget> {
                         companion object {
                             const val MACOS_MAIN = "macos$MAIN"
                             const val MACOS_TEST = "macos$TEST"
+
+                            val ALL_DEFAULT: Set<Macos> = setOf(
+                                Macos.Arm64.DEFAULT,
+                                Macos.X64.DEFAULT
+                            )
                         }
 
                         class Arm64(
@@ -736,6 +748,12 @@ sealed class KmpTarget<T: KotlinTarget> {
                         companion object {
                             const val TVOS_MAIN = "tvos$MAIN"
                             const val TVOS_TEST = "tvos$TEST"
+
+                            val ALL_DEFAULT: Set<Tvos<*>> = setOf(
+                                Tvos.Arm64.DEFAULT,
+                                Tvos.X64.DEFAULT,
+                                Tvos.SimulatorArm64.DEFAULT
+                            )
                         }
 
                         class Arm64(
@@ -841,6 +859,14 @@ sealed class KmpTarget<T: KotlinTarget> {
                         companion object {
                             const val WATCHOS_MAIN = "watchos$MAIN"
                             const val WATCHOS_TEST = "watchos$TEST"
+
+                            val ALL_DEFAULT: Set<Watchos<*>> = setOf(
+                                Watchos.Arm32.DEFAULT,
+                                Watchos.Arm64.DEFAULT,
+                                Watchos.X64.DEFAULT,
+                                Watchos.X86.DEFAULT,
+                                Watchos.SimulatorArm64.DEFAULT
+                            )
                         }
 
                         class Arm32(
@@ -1011,6 +1037,14 @@ sealed class KmpTarget<T: KotlinTarget> {
                     companion object {
                         const val LINUX_MAIN = "linux$MAIN"
                         const val LINUX_TEST = "linux$TEST"
+
+                        val ALL_DEFAULT: Set<Linux> = setOf(
+                            Linux.Arm32Hfp.DEFAULT,
+                            Linux.Arm64.DEFAULT,
+                            Linux.Mips32.DEFAULT,
+                            Linux.Mipsel32.DEFAULT,
+                            Linux.X64.DEFAULT
+                        )
                     }
 
                     protected fun setupLinuxSourceSets(project: Project) {
@@ -1200,6 +1234,11 @@ sealed class KmpTarget<T: KotlinTarget> {
                 companion object {
                     const val MINGW_MAIN = "mingw$MAIN"
                     const val MINGW_TEST = "mingw$TEST"
+
+                    val ALL_DEFAULT: Set<Mingw<*>> = setOf(
+                        Mingw.X64.DEFAULT,
+                        Mingw.X86.DEFAULT
+                    )
                 }
 
                 protected fun setupMingwSourceSets(project: Project) {
