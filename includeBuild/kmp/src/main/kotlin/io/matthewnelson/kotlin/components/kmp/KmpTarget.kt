@@ -1078,9 +1078,9 @@ sealed class KmpTarget<T: KotlinTarget> {
                             const val ENV_PROPERTY_VALUE: String = "LINUX_ARM64"
                         }
 
-                        override val sourceSetMainName: String get() = Mips32.SOURCE_SET_MAIN_NAME
-                        override val sourceSetTestName: String get() = Mips32.SOURCE_SET_TEST_NAME
-                        override val envPropertyValue: String get() = Mips32.ENV_PROPERTY_VALUE
+                        override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                        override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                        override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
 
                         override fun setupMultiplatform(project: Project) {
                             applyPlugins(project)
