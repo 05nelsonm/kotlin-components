@@ -40,6 +40,7 @@ object pluginId {
         const val binaryCompat              = "org.jetbrains.kotlinx.binary-compatibility-validator"
         const val dokka                     = "org.jetbrains.dokka"
         const val kapt                      = "org.jetbrains.kotlin.kapt"
+        const val parcelize                 = "kotlin-parcelize"
         const val multiplatform             = "org.jetbrains.kotlin.multiplatform"
         const val serialization             = "org.jetbrains.kotlin.plugin.serialization"
     }
