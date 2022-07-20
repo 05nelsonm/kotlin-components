@@ -252,7 +252,7 @@ object deps {
             }
         }
 
-        const val parcelize                 = "$group:parcelize${versions.components.parcelize}"
+        const val parcelize                 = "$group:parcelize:${versions.components.parcelize}"
 
         object request {
             const val concept               = "$group:request-concept:${versions.components.request}"
