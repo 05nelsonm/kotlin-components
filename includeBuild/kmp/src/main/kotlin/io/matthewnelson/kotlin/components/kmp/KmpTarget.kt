@@ -527,7 +527,7 @@ sealed class KmpTarget<T: KotlinTarget> {
                             const val IOS_MAIN = "ios$MAIN"
                             const val IOS_TEST = "ios$TEST"
 
-                            val ALL_DEFAULT: Set<Ios<*>> = setOf(
+                            val ALL_DEFAULT: Set<Ios<*>> get() = setOf(
                                 Ios.Arm32.DEFAULT,
                                 Ios.Arm64.DEFAULT,
                                 Ios.X64.DEFAULT,
@@ -671,7 +671,7 @@ sealed class KmpTarget<T: KotlinTarget> {
                             const val MACOS_MAIN = "macos$MAIN"
                             const val MACOS_TEST = "macos$TEST"
 
-                            val ALL_DEFAULT: Set<Macos> = setOf(
+                            val ALL_DEFAULT: Set<Macos> get() = setOf(
                                 Macos.Arm64.DEFAULT,
                                 Macos.X64.DEFAULT
                             )
@@ -749,7 +749,7 @@ sealed class KmpTarget<T: KotlinTarget> {
                             const val TVOS_MAIN = "tvos$MAIN"
                             const val TVOS_TEST = "tvos$TEST"
 
-                            val ALL_DEFAULT: Set<Tvos<*>> = setOf(
+                            val ALL_DEFAULT: Set<Tvos<*>> get() = setOf(
                                 Tvos.Arm64.DEFAULT,
                                 Tvos.X64.DEFAULT,
                                 Tvos.SimulatorArm64.DEFAULT
@@ -860,7 +860,7 @@ sealed class KmpTarget<T: KotlinTarget> {
                             const val WATCHOS_MAIN = "watchos$MAIN"
                             const val WATCHOS_TEST = "watchos$TEST"
 
-                            val ALL_DEFAULT: Set<Watchos<*>> = setOf(
+                            val ALL_DEFAULT: Set<Watchos<*>> get() = setOf(
                                 Watchos.Arm32.DEFAULT,
                                 Watchos.Arm64.DEFAULT,
                                 Watchos.X64.DEFAULT,
@@ -1038,7 +1038,7 @@ sealed class KmpTarget<T: KotlinTarget> {
                         const val LINUX_MAIN = "linux$MAIN"
                         const val LINUX_TEST = "linux$TEST"
 
-                        val ALL_DEFAULT: Set<Linux> = setOf(
+                        val ALL_DEFAULT: Set<Linux> get() = setOf(
                             Linux.Arm32Hfp.DEFAULT,
                             Linux.Arm64.DEFAULT,
                             Linux.Mips32.DEFAULT,
@@ -1235,7 +1235,7 @@ sealed class KmpTarget<T: KotlinTarget> {
                     const val MINGW_MAIN = "mingw$MAIN"
                     const val MINGW_TEST = "mingw$TEST"
 
-                    val ALL_DEFAULT: Set<Mingw<*>> = setOf(
+                    val ALL_DEFAULT: Set<Mingw<*>> get() = setOf(
                         Mingw.X64.DEFAULT,
                         Mingw.X86.DEFAULT
                     )
