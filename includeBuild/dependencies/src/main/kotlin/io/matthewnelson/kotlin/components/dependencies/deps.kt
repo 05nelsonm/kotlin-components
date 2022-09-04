@@ -44,6 +44,7 @@ object versions {
         const val paging3                   = "3.1.1"
         const val recyclerView              = "1.2.1"
         const val securityCrypto            = "1.0.0"
+        const val sqlite                    = "2.0.1"
     }
 
     object components {
@@ -206,6 +207,7 @@ object deps {
         const val paging3                   = "androidx.paging:paging-runtime:${versions.androidx.paging3}"
         const val recyclerView              = "androidx.recyclerview:recyclerview:${versions.androidx.recyclerView}"
         const val securityCrypto            = "androidx.security:security-crypto:${versions.androidx.securityCrypto}"
+        const val sqlite                    = "androidx.sqlite:sqlite:${versions.androidx.sqlite}"
         const val viewBinding               = "androidx.databinding:viewbinding:${versions.gradle.android}"
     }
 
@@ -365,15 +367,17 @@ object deps {
         object ktor {
             object client {
                 const val core              = "io.ktor:ktor-client-core:${versions.kotlin.ktor}"
-                const val cio               = "io.ktor:ktor-client-cio:${versions.kotlin.ktor}"
+                const val logging           = "io.ktor:ktor-client-logging:${versions.kotlin.ktor}"
+                const val darwin            = "io.ktor:ktor-client-darwin:${versions.kotlin.ktor}"
+                const val okhttp            = "io.ktor:ktor-client-okhttp:${versions.kotlin.ktor}"
             }
+
+            const val serialization         = "io.ktor:ktor-serialization-kotlinx-json:${versions.kotlin.ktor}"
 
             object server {
-                const val core              = "io.ktor:ktor-server-core:${versions.kotlin.ktor}"
-                const val netty             = "io.ktor:ktor-server-netty:${versions.kotlin.ktor}"
+                const val cio               = "io.ktor:ktor-server-cio:${versions.kotlin.ktor}"
+                const val content           = "io.ktor:ktor-server-content-negotiation:${versions.kotlin.ktor}"
             }
-
-            const val websockets            = "io.ktor:ktor-websockets:${versions.kotlin.ktor}"
         }
 
         object parcelize {
@@ -397,7 +401,6 @@ object deps {
 
     object sql {
         const val cipher                    = "net.zetetic:android-database-sqlcipher:${versions.sql.cipher}"
-        const val requery                   = "com.github.requery:sqlite-android:${versions.sql.requery}"
     }
 
     object square {
@@ -473,6 +476,18 @@ object depsTest {
 
     object kotlin {
         const val coroutines                = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.test.kotlin.coroutines}"
+
+        object ktor {
+            object client {
+                const val cio               = "io.ktor:ktor-client-cio:${versions.kotlin.ktor}"
+            }
+
+            object server {
+                const val core              = "io.ktor:ktor-server-core:${versions.kotlin.ktor}"
+                const val testHost          = "io.ktor:ktor-server-test-host:${versions.kotlin.ktor}"
+                const val testSuites        = "io.ktor:ktor-server-test-suites:${versions.kotlin.ktor}"
+            }
+        }
     }
 
     const val robolectric                   = "org.robolectric:robolectric:${versions.test.robolectric}"
