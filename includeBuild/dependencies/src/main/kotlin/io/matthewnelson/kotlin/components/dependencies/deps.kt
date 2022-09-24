@@ -53,8 +53,8 @@ object versions {
         const val encoding                  = "1.1.3"
 
         object kmptor {
-            const val binary                = "0.4.7.8"
-            const val kmptor                = "1.3.0"
+            const val binary                = "0.4.7.10"
+            const val kmptor                = "1.3.1"
         }
 
         const val parcelize                 = "0.1.0"
