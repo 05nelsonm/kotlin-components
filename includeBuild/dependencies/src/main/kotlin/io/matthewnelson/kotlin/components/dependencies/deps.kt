@@ -141,6 +141,7 @@ object versions {
         const val hilt                      = versions.google.hilt
         const val intellij                  = "0.4.26"
         const val mavenPublish              = "0.18.0"
+        const val npmPublish                = "2.1.2"
         const val navigation                = versions.androidx.navigation
         const val serialization             = versions.kotlin.kotlin
         const val sqlDelight                = versions.square.sqlDelight
@@ -529,6 +530,9 @@ object plugins {
     }
 
     const val mavenPublish                  = "com.vanniktech:gradle-maven-publish-plugin:${versions.gradle.mavenPublish}"
+
+    //                   3.0.0+ change to >>>  dev.petuska:npm-publish-gradle-plugin
+    const val npmPublish                    = "dev.petuska:npm-publish:${versions.gradle.npmPublish}"
 
     object square {
         const val exhaustive                = "app.cash.exhaustive:exhaustive-gradle:${versions.gradle.exhaustive}"

@@ -7,13 +7,9 @@ plugins {
 }
 
 repositories {
+    mavenCentral()
     google()
     gradlePluginPortal()
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 dependencies {
@@ -21,6 +17,7 @@ dependencies {
     compileOnly(Plugins.kotlin.gradle)
     compileOnly(Plugins.kotlin.dokka)
     compileOnly(Plugins.mavenPublish)
+    compileOnly(Plugins.npmPublish)
 }
 
 gradlePlugin {

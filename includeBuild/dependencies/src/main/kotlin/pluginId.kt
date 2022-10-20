@@ -50,6 +50,8 @@ object pluginId {
         const val publish                   = "kmp-publish"
     }
 
+    const val npmPublish                    = "dev.petuska.npm.publish"
+
     object square {
         const val exhaustive                = "app.cash.exhaustive"
         const val sqlDelight                = "com.squareup.sqldelight"

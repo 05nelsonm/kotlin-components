@@ -21,6 +21,11 @@ function help() {
   echo ""
   echo "            --publish-multiplatform       Publishes the multiplatform sources"
   echo ""
+  echo "            --publish-npm                 Publishes npm packages to specified registry"
+  echo ""
+  echo "                       verdaccio"
+  echo "                       npmjs"
+  echo ""
 }
 
 function checkGradlewExists() {
@@ -101,6 +106,14 @@ function getPublishTasks() {
   grep "ToMavenCentralRepository" |
   cut -d ' ' -f 1 |
   grep $2
+}
+
+function getNpmPublishTasks() {
+  # $1 = Verdaccio or Npmjs
+
+  ./gradlew tasks |
+  grep "NpmPublicationTo$1" |
+  cut -d ' ' -f 1
 }
 
 function publish() {
@@ -198,6 +211,33 @@ case $1 in
     clean
     build "-DKMP_TARGETS_ALL"
     publish "publishKotlinMultiplatformPublicationToMavenCentralRepository" "-DKMP_TARGETS_ALL"
+    ;;
+
+  "--publish-npm")
+    checkGradlewExists
+    checkKotlinComponentsProject
+    clean
+    sync "-DKMP_TARGETS_ALL"
+
+    PUBLISH_TASKS=
+
+    case $2 in
+      "verdaccio")
+        PUBLISH_TASKS=$(getNpmPublishTasks "Verdaccio")
+        ;;
+
+      "npmjs")
+        PUBLISH_TASKS=$(getNpmPublishTasks "Npmjs")
+        ;;
+
+      *)
+        help
+        ;;
+    esac
+
+    if [ "$PUBLISH_TASKS" != "" ]; then
+      publish "$PUBLISH_TASKS" ""
+    fi
     ;;
 
   *)
