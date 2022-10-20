@@ -19,6 +19,7 @@ buildscript {
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.kotlin.gradle)
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.kotlin.serialization)
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.mavenPublish)
+        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.npmPublish)
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.square.exhaustive)
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.square.sqlDelight)
 
