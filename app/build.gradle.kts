@@ -126,7 +126,6 @@ dependencies {
     implementation(deps.kotlin.time)
 
     implementation(deps.sql.cipher)
-    implementation(deps.sql.requery)
 
     implementation(deps.square.okhttp.okhttp)
     implementation(deps.square.okhttp.logging)
