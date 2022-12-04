@@ -53,7 +53,7 @@ object versions {
         const val encoding                  = "1.1.3"
 
         object kmptor {
-            const val binary                = "0.4.7.10"
+            const val binary                = "4.7.10-1"
             const val kmptor                = "1.3.1"
         }
 
@@ -237,7 +237,7 @@ object deps {
                 const val mingwx86          = "$group:kmp-tor-binary-mingwx86:${versions.components.kmptor.binary}"
             }
 
-            const val kmptor                = "$group:kmp-tor:${versions.components.kmptor.binary}+${versions.components.kmptor.kmptor}"
+            const val kmptor                = "$group:kmp-tor:${versions.components.kmptor.binary}-${versions.components.kmptor.kmptor}"
             const val common                = "$group:kmp-tor-common:${versions.components.kmptor.kmptor}"
 
             object controller {
