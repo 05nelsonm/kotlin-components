@@ -21,6 +21,8 @@ function help() {
   echo ""
   echo "            --publish-multiplatform       Publishes the multiplatform sources"
   echo ""
+  echo "            --publish-multiplatform-android-jvm-js"
+  echo ""
   echo "            --publish-npm                 Publishes npm packages to specified registry"
   echo ""
   echo "                       verdaccio"
@@ -211,6 +213,14 @@ case $1 in
     clean
     build "-DKMP_TARGETS_ALL"
     publish "publishKotlinMultiplatformPublicationToMavenCentralRepository" "-DKMP_TARGETS_ALL"
+    ;;
+
+  "--publish-multiplatform-android-jvm-js")
+    checkGradlewExists
+    checkKotlinComponentsProject
+    clean
+    build "-DKMP_TARGETS_ALL"
+    publish "publishKotlinMultiplatformPublicationToMavenCentralRepository publishAndroidReleasePublicationToMavenCentralRepository publishJsPublicationToMavenCentralRepository publishJvmPublicationToMavenCentralRepository" "-DKMP_TARGETS_ALL"
     ;;
 
   "--publish-npm")
