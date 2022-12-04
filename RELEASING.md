@@ -5,11 +5,8 @@
 - Create a release branch
 ```
 git checkout master
-git pull --recurse-submodule
-cd kotlin-components
-git checkout master
 git pull
-cd ..
+git submodule update --init
 git checkout -b release_<VersionName>
 ```
 
@@ -74,8 +71,8 @@ git push -u origin release_<VersionName>
 
 ### Macos
 
-- Spin up VM of Macos BigSur and ensure USB pass through worked for the YubiKey
-    - Should ask for PIN to login
+- Spin up VM of macOS BigSur and ensure USB pass through worked for the YubiKey
+    - Should ask for PIN to log in
 
 - Sign a random `.txt` file (gpg tty for YubiKey PIN + gradle build don't mix)
 ```
@@ -83,16 +80,12 @@ cd ~/Documents
 gpg --sign --armor --detach hello.txt
 ```
 
-- Pull latest code from release branch
+- Pull the latest code from release branch
 ```
 git checkout master
-git pull --recurse-submodule
-cd kotlin-components
-git checkout master
 git pull
-cd ..
+git submodule update --init
 git checkout release_<VersionName>
-git pull
 ```
 
 - Make sure you have valid credentials in `~/.gradle/gradle.properties`
