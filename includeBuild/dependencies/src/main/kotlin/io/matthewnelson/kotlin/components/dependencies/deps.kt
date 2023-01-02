@@ -54,7 +54,7 @@ object versions {
 
         object kmptor {
             const val binary                = "4.7.12-0"
-            const val kmptor                = "1.3.1"
+            const val kmptor                = "1.3.2"
         }
 
         const val parcelize                 = "0.1.0"
