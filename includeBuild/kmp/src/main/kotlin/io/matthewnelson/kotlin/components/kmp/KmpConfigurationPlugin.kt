@@ -166,6 +166,7 @@ import org.gradle.kotlin.dsl.create
  *   TVOS_ARM64,TVOS_X64,TVOS_SIMULATOR_ARM64,
  *   WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_X64,WATCHOS_X86,WATCHOS_SIMULATOR_ARM64,
  *   MINGW_X64,MINGW_X86,
+ *   WASM_32,
  *
  * Depending on the [KmpTarget]s passed, as well as what is enabled (as mentioned above),
  * the structure of source sets will be as depicted below (diagram shamelessly stolen from
@@ -203,9 +204,11 @@ import org.gradle.kotlin.dsl.create
  *               |           |-- linuxMips32
  *               |           |-- linuxMipsel32
  *               |           '-- linuxX64
- *               '-- mingw
- *                     |-- mingwX64
- *                     '-- mingwX86
+ *               |-- mingw
+ *               |     |-- mingwX64
+ *               |     '-- mingwX86
+ *               '-- wasm
+ *                     '-- wasm32
  *
  * * Shout out to Arkivanov for his work on Reaktive, Decompose and MVIKotlin which heavily influenced this
  *  - https://github.com/badoo/Reaktive

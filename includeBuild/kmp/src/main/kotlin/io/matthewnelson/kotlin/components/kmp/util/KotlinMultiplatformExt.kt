@@ -532,3 +532,31 @@ fun KotlinMultiplatformExtension.sourceSetMingwX86Test(action: KotlinSourceSet.(
 
 val KotlinMultiplatformExtension.sourceSetMingwX86Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.MINGW_X86_TEST)
+
+fun KotlinMultiplatformExtension.sourceSetWasmMain(action: KotlinSourceSet.() -> Unit) {
+    sourceSetWasmMain?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetWasmMain: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.WASM_MAIN)
+
+fun KotlinMultiplatformExtension.sourceSetWasmTest(action: KotlinSourceSet.() -> Unit) {
+    sourceSetWasmTest?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetWasmTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.WASM_TEST)
+
+fun KotlinMultiplatformExtension.sourceSetWasm32Main(action: KotlinSourceSet.() -> Unit) {
+    sourceSetWasm32Main?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetWasm32Main: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.WASM_32_MAIN)
+
+fun KotlinMultiplatformExtension.sourceSetWasm32Test(action: KotlinSourceSet.() -> Unit) {
+    sourceSetWasm32Test?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetWasm32Test: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.WASM_32_TEST)

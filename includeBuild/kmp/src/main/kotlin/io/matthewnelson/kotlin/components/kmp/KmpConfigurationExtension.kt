@@ -39,12 +39,13 @@ import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.MACOS_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.MACOS_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.TVOS_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.TVOS_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.WASM_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.WASM_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.WATCHOS_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.WATCHOS_TEST
 import io.matthewnelson.kotlin.components.kmp.util.*
 import io.matthewnelson.kotlin.components.kmp.util.EnvProperty
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.getting
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
@@ -93,7 +94,10 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
             // mingw
             KmpTarget.NonJvm.Native.Mingw.X64.ENV_PROPERTY_VALUE,
-            KmpTarget.NonJvm.Native.Mingw.X86.ENV_PROPERTY_VALUE
+            KmpTarget.NonJvm.Native.Mingw.X86.ENV_PROPERTY_VALUE,
+
+            // wasm
+            KmpTarget.NonJvm.Native.Wasm._32.ENV_PROPERTY_VALUE
         )
     }
 
@@ -355,6 +359,18 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                             dependsOn(getByName(NATIVE_MAIN))
                         }
                         maybeCreate(MINGW_TEST).apply {
+                            dependsOn(getByName(NON_JVM_TEST))
+                            dependsOn(getByName(NATIVE_TEST))
+                        }
+                    }
+
+                    val wasmTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Wasm<*>>()
+                    if (wasmTargets.isNotEmpty()) {
+                        maybeCreate(WASM_MAIN).apply {
+                            dependsOn(getByName(NON_JVM_MAIN))
+                            dependsOn(getByName(NATIVE_MAIN))
+                        }
+                        maybeCreate(WASM_TEST).apply {
                             dependsOn(getByName(NON_JVM_TEST))
                             dependsOn(getByName(NATIVE_TEST))
                         }
