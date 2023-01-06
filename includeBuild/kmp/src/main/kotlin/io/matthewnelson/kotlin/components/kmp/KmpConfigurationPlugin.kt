@@ -157,7 +157,7 @@ import org.gradle.kotlin.dsl.create
  *
  * Full list of KMP_TARGETS property arguments:
  *
- *   ANDROID,
+ *   ANDROID,ANDROID_ARM32,ANDROID_ARM64,ANDROID_X64,ANDROID_X86,
  *   JVM,
  *   JS,
  *   LINUX_ARM32HFP,LINUX_ARM64,LINUX_MIPS32,LINUX_MIPSEL32,LINUX_X64,
@@ -179,6 +179,11 @@ import org.gradle.kotlin.dsl.create
  *   '-- nonJvm              |
  *         |-- js -----------'
  *         '-- native
+ *               |-- androidNative
+ *               |     |-- androidNativeArm32
+ *               |     |-- androidNativeArm64
+ *               |     |-- androidNativeX64
+ *               |     '-- androidNativeX86
  *               |-- unix
  *               |     |-- darwin
  *               |     |     |-- ios

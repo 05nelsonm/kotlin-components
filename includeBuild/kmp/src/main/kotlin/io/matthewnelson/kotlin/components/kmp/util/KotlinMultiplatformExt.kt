@@ -42,6 +42,7 @@ fun KotlinMultiplatformExtension.sourceSetCommonTest(action: KotlinSourceSet.() 
 val KotlinMultiplatformExtension.sourceSetCommonTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.COMMON_TEST)
 
+// Jvm/Android
 fun KotlinMultiplatformExtension.sourceSetJvmAndroidMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetJvmAndroidMain?.let { action.invoke(it) }
 }
@@ -56,6 +57,7 @@ fun KotlinMultiplatformExtension.sourceSetJvmAndroidTest(action: KotlinSourceSet
 val KotlinMultiplatformExtension.sourceSetJvmAndroidTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.JVM_ANDROID_TEST)
 
+// Jvm
 fun KotlinMultiplatformExtension.sourceSetJvmMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetJvmMain?.let { action.invoke(it) }
 }
@@ -70,6 +72,7 @@ fun KotlinMultiplatformExtension.sourceSetJvmTest(action: KotlinSourceSet.() -> 
 val KotlinMultiplatformExtension.sourceSetJvmTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.JVM_TEST)
 
+// Jvm/Js
 fun KotlinMultiplatformExtension.sourceSetJvmJsMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetJvmMain?.let { action.invoke(it) }
 }
@@ -84,6 +87,7 @@ fun KotlinMultiplatformExtension.sourceSetJvmJsTest(action: KotlinSourceSet.() -
 val KotlinMultiplatformExtension.sourceSetJvmJsTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.JVM_JS_TEST)
 
+// Android
 fun KotlinMultiplatformExtension.sourceSetAndroidMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetAndroidMain?.let { action.invoke(it) }
 }
@@ -98,6 +102,7 @@ fun KotlinMultiplatformExtension.sourceSetAndroidTest(action: KotlinSourceSet.()
 val KotlinMultiplatformExtension.sourceSetAndroidTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_TEST)
 
+// Non-Jvm
 fun KotlinMultiplatformExtension.sourceSetNonJvmMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetNonJvmMain?.let { action.invoke(it) }
 }
@@ -112,6 +117,7 @@ fun KotlinMultiplatformExtension.sourceSetNonJvmTest(action: KotlinSourceSet.() 
 val KotlinMultiplatformExtension.sourceSetNonJvmTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.NON_JVM_TEST)
 
+// JS
 fun KotlinMultiplatformExtension.sourceSetJsMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetJsMain?.let { action.invoke(it) }
 }
@@ -126,6 +132,7 @@ fun KotlinMultiplatformExtension.sourceSetJsTest(action: KotlinSourceSet.() -> U
 val KotlinMultiplatformExtension.sourceSetJsTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.JS_TEST)
 
+// Native
 fun KotlinMultiplatformExtension.sourceSetNativeMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetNativeMain?.let { action.invoke(it) }
 }
@@ -140,6 +147,7 @@ fun KotlinMultiplatformExtension.sourceSetNativeTest(action: KotlinSourceSet.() 
 val KotlinMultiplatformExtension.sourceSetNativeTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.NATIVE_TEST)
 
+// Unix
 fun KotlinMultiplatformExtension.sourceSetUnixMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetUnixMain?.let { action.invoke(it) }
 }
@@ -154,6 +162,7 @@ fun KotlinMultiplatformExtension.sourceSetUnixTest(action: KotlinSourceSet.() ->
 val KotlinMultiplatformExtension.sourceSetUnixTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.UNIX_TEST)
 
+// Darwin
 fun KotlinMultiplatformExtension.sourceSetDarwinMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetDarwinMain?.let { action.invoke(it) }
 }
@@ -168,6 +177,7 @@ fun KotlinMultiplatformExtension.sourceSetDarwinTest(action: KotlinSourceSet.() 
 val KotlinMultiplatformExtension.sourceSetDarwinTest: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.DARWIN_TEST)
 
+// Darwin [ iOS ]
 fun KotlinMultiplatformExtension.sourceSetIosMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetIosMain?.let { action.invoke(it) }
 }
@@ -238,6 +248,7 @@ fun KotlinMultiplatformExtension.sourceSetIosSimulatorArm64Test(action: KotlinSo
 val KotlinMultiplatformExtension.sourceSetIosSimulatorArm64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.IOS_SIMULATOR_ARM64_TEST)
 
+// Darwin [ macOS ]
 fun KotlinMultiplatformExtension.sourceSetMacosArm64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetMacosArm64Main?.let { action.invoke(it) }
 }
@@ -281,6 +292,7 @@ fun KotlinMultiplatformExtension.sourceSetMacosX64Test(action: KotlinSourceSet.(
 val KotlinMultiplatformExtension.sourceSetMacosX64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.MACOS_X64_TEST)
 
+// Darwin [ tvOS ]
 fun KotlinMultiplatformExtension.sourceSetTvosMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetTvosMain?.let { action.invoke(it) }
 }
@@ -337,6 +349,7 @@ fun KotlinMultiplatformExtension.sourceSetTvosSimulatorArm64Test(action: KotlinS
 val KotlinMultiplatformExtension.sourceSetTvosSimulatorArm64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.TVOS_SIMULATOR_ARM64_TEST)
 
+// Darwin [ watchOS ]
 fun KotlinMultiplatformExtension.sourceSetWatchosMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetWatchosMain?.let { action.invoke(it) }
 }
@@ -407,6 +420,7 @@ fun KotlinMultiplatformExtension.sourceSetWatchosSimulatorArm64Test(action: Kotl
 val KotlinMultiplatformExtension.sourceSetWatchosSimulatorArm64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_SIMULATOR_ARM64_TEST)
 
+// Linux
 fun KotlinMultiplatformExtension.sourceSetLinuxMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetLinuxMain?.let { action.invoke(it) }
 }
@@ -491,6 +505,7 @@ fun KotlinMultiplatformExtension.sourceSetLinuxX64Test(action: KotlinSourceSet.(
 val KotlinMultiplatformExtension.sourceSetLinuxX64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.LINUX_X64_TEST)
 
+// Mingw
 fun KotlinMultiplatformExtension.sourceSetMingwMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetMingwMain?.let { action.invoke(it) }
 }
@@ -533,6 +548,7 @@ fun KotlinMultiplatformExtension.sourceSetMingwX86Test(action: KotlinSourceSet.(
 val KotlinMultiplatformExtension.sourceSetMingwX86Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.MINGW_X86_TEST)
 
+// Wasm
 fun KotlinMultiplatformExtension.sourceSetWasmMain(action: KotlinSourceSet.() -> Unit) {
     sourceSetWasmMain?.let { action.invoke(it) }
 }
@@ -560,3 +576,74 @@ fun KotlinMultiplatformExtension.sourceSetWasm32Test(action: KotlinSourceSet.() 
 
 val KotlinMultiplatformExtension.sourceSetWasm32Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WASM_32_TEST)
+
+// Android Native
+fun KotlinMultiplatformExtension.sourceSetAndroidNativeMain(action: KotlinSourceSet.() -> Unit) {
+    sourceSetAndroidNativeMain?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetAndroidNativeMain: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_NATIVE_MAIN)
+
+fun KotlinMultiplatformExtension.sourceSetAndroidNativeTest(action: KotlinSourceSet.() -> Unit) {
+    sourceSetAndroidNativeTest?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetAndroidNativeTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_NATIVE_TEST)
+
+fun KotlinMultiplatformExtension.sourceSetAndroidNativeArm32Main(action: KotlinSourceSet.() -> Unit) {
+    sourceSetAndroidNativeArm32Main?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetAndroidNativeArm32Main: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_ARM32_MAIN)
+
+fun KotlinMultiplatformExtension.sourceSetAndroidNativeArm32Test(action: KotlinSourceSet.() -> Unit) {
+    sourceSetAndroidNativeArm32Test?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetAndroidNativeArm32Test: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_ARM32_TEST)
+
+fun KotlinMultiplatformExtension.sourceSetAndroidNativeArm64Main(action: KotlinSourceSet.() -> Unit) {
+    sourceSetAndroidNativeArm64Main?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetAndroidNativeArm64Main: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_ARM64_MAIN)
+
+fun KotlinMultiplatformExtension.sourceSetAndroidNativeArm64Test(action: KotlinSourceSet.() -> Unit) {
+    sourceSetAndroidNativeArm64Test?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetAndroidNativeArm64Test: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_ARM64_TEST)
+
+fun KotlinMultiplatformExtension.sourceSetAndroidNativeX64Main(action: KotlinSourceSet.() -> Unit) {
+    sourceSetAndroidNativeX64Main?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetAndroidNativeX64Main: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_X64_MAIN)
+
+fun KotlinMultiplatformExtension.sourceSetAndroidNativeX64Test(action: KotlinSourceSet.() -> Unit) {
+    sourceSetAndroidNativeX64Test?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetAndroidNativeX64Test: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_X64_TEST)
+
+fun KotlinMultiplatformExtension.sourceSetAndroidNativeX86Main(action: KotlinSourceSet.() -> Unit) {
+    sourceSetAndroidNativeX86Main?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetAndroidNativeX86Main: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_X86_MAIN)
+
+fun KotlinMultiplatformExtension.sourceSetAndroidNativeX86Test(action: KotlinSourceSet.() -> Unit) {
+    sourceSetAndroidNativeX86Test?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetAndroidNativeX86Test: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_X86_TEST)

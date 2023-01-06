@@ -31,6 +31,8 @@ import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwi
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Companion.DARWIN_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.ANDROID_NATIVE_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.ANDROID_NATIVE_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.IOS_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.IOS_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_JS_MAIN
@@ -59,9 +61,15 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
     companion object {
 
         internal val ALL_ENV_PROPERTY_TARGETS: Set<String> = setOf(
+            // android
+            KmpTarget.Jvm.Android.ENV_PROPERTY_VALUE,
+            KmpTarget.NonJvm.Native.Android.Arm32.ENV_PROPERTY_VALUE,
+            KmpTarget.NonJvm.Native.Android.Arm64.ENV_PROPERTY_VALUE,
+            KmpTarget.NonJvm.Native.Android.X64.ENV_PROPERTY_VALUE,
+            KmpTarget.NonJvm.Native.Android.X86.ENV_PROPERTY_VALUE,
+
             // jvm
             KmpTarget.Jvm.Jvm.ENV_PROPERTY_VALUE,
-            KmpTarget.Jvm.Android.ENV_PROPERTY_VALUE,
 
             // js
             KmpTarget.NonJvm.JS.ENV_PROPERTY_VALUE,
@@ -371,6 +379,18 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                             dependsOn(getByName(NATIVE_MAIN))
                         }
                         maybeCreate(WASM_TEST).apply {
+                            dependsOn(getByName(NON_JVM_TEST))
+                            dependsOn(getByName(NATIVE_TEST))
+                        }
+                    }
+
+                    val androidTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Android<*>>()
+                    if (androidTargets.isNotEmpty()) {
+                        maybeCreate(ANDROID_NATIVE_MAIN).apply {
+                            dependsOn(getByName(NON_JVM_MAIN))
+                            dependsOn(getByName(NATIVE_MAIN))
+                        }
+                        maybeCreate(ANDROID_NATIVE_TEST).apply {
                             dependsOn(getByName(NON_JVM_TEST))
                             dependsOn(getByName(NATIVE_TEST))
                         }
