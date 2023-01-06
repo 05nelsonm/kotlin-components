@@ -17,7 +17,6 @@
 
 package io.matthewnelson.kotlin.components.kmp
 
-import com.android.build.api.dsl.AndroidSourceSet
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import com.android.build.gradle.BaseExtension
@@ -141,6 +140,10 @@ sealed class KmpTarget<T: KotlinTarget> {
         val MINGW_X86_MAIN get() = NonJvm.Native.Mingw.X86.SOURCE_SET_MAIN_NAME
         val MINGW_X86_TEST get() = NonJvm.Native.Mingw.X86.SOURCE_SET_TEST_NAME
 
+        val WASM_MAIN get() = NonJvm.Native.Wasm.WASM_MAIN
+        val WASM_TEST get() = NonJvm.Native.Wasm.WASM_TEST
+        val WASM_32_MAIN get() = NonJvm.Native.Wasm._32.SOURCE_SET_MAIN_NAME
+        val WASM_32_TEST get() = NonJvm.Native.Wasm._32.SOURCE_SET_TEST_NAME
     }
 
     abstract val target: (T.() -> Unit)?
@@ -1322,6 +1325,67 @@ sealed class KmpTarget<T: KotlinTarget> {
                     }
                 }
 
+            }
+
+            sealed class Wasm<T: KotlinNativeTarget> : Native<T>() {
+
+                companion object {
+                    const val WASM_MAIN = "wasm$MAIN"
+                    const val WASM_TEST = "wasm$TEST"
+
+                    val ALL_DEFAULT: Set<Wasm<*>> get() = setOf(
+                        Wasm._32.DEFAULT
+                    )
+                }
+
+                protected fun setupWasmSourceSets(project: Project) {
+                    project.kotlin {
+                        sourceSets {
+                            maybeCreate(sourceSetMainName).apply sourceSetMain@ {
+                                dependsOn(getByName(WASM_MAIN))
+
+                                mainSourceSet?.invoke(this@sourceSetMain)
+                            }
+                            maybeCreate(sourceSetTestName).apply sourceSetTest@ {
+                                dependsOn(getByName(WASM_TEST))
+
+                                testSourceSet?.invoke(this@sourceSetTest)
+                            }
+                        }
+                    }
+                }
+
+                class _32(
+                    override val pluginIds: Set<String>? = null,
+                    override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                    override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                    override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                ) : Wasm<KotlinNativeTarget>() {
+
+                    companion object {
+                        val DEFAULT = _32()
+
+                        const val TARGET_NAME: String = "wasm32"
+                        const val SOURCE_SET_MAIN_NAME: String = "$TARGET_NAME$MAIN"
+                        const val SOURCE_SET_TEST_NAME: String = "$TARGET_NAME$TEST"
+                        const val ENV_PROPERTY_VALUE: String = "WASM_32"
+                    }
+
+                    override val sourceSetMainName: String get() = SOURCE_SET_MAIN_NAME
+                    override val sourceSetTestName: String get() = SOURCE_SET_TEST_NAME
+                    override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                    override fun setupMultiplatform(project: Project) {
+                        applyPlugins(project)
+                        project.kotlin {
+                            wasm32(TARGET_NAME) target@ {
+                                target?.invoke(this@target)
+                            }
+
+                            setupWasmSourceSets(project)
+                        }
+                    }
+                }
             }
         }
 
