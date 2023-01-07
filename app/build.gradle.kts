@@ -5,7 +5,6 @@ import io.matthewnelson.kotlin.components.dependencies.depsTest
 import io.matthewnelson.kotlin.components.dependencies.versions
 
 plugins {
-    id(pluginId.square.exhaustive)
     id(pluginId.android.application)
     id(pluginId.kotlin.android)
     id(pluginId.kotlin.kapt)
@@ -15,6 +14,7 @@ plugins {
 }
 
 android {
+    namespace = "io.matthewnelson.components"
     compileSdk = versions.android.sdkCompile
     buildToolsVersion = versions.android.buildTools
 
@@ -84,17 +84,10 @@ dependencies {
     implementation(deps.components.buildConfig)
     implementation(deps.components.coroutines)
     implementation(deps.components.encoding.base16)
-    implementation(deps.components.encoding.base32)
-    implementation(deps.components.encoding.base64)
     implementation(deps.components.kmptor.manager.manager)
     implementation(deps.components.kmptor.binary.android)
-    implementation(deps.components.kmptor.binary.geoip)
-    implementation(deps.components.kmptor.binary.extract)
+    implementation(deps.components.parcelize)
     implementation(deps.components.request.concept)
-    implementation(deps.components.request.feature)
-    implementation(deps.components.request.extensions.navigationAndroid)
-
-    implementation(deps.toxicity.rsaApiKeyValidator)
 
     implementation(deps.insetter)
 
@@ -106,10 +99,6 @@ dependencies {
     implementation(deps.google.zxing)
 
     implementation(deps.instacart.coil.base)
-    implementation(deps.instacart.coil.coil)
-    implementation(deps.instacart.coil.gif)
-    implementation(deps.instacart.coil.svg)
-    implementation(deps.instacart.coil.video)
 
     implementation(deps.javax.inject)
 
@@ -119,7 +108,6 @@ dependencies {
 
     implementation(deps.kotlin.atomicfu.atomicfu)
     implementation(deps.kotlin.coroutines.android)
-    implementation(deps.kotlin.coroutines.core.core)
     implementation(deps.kotlin.ktor.client.core)
     implementation(deps.kotlin.reflect)
     implementation(deps.kotlin.serialization.json)
@@ -128,15 +116,12 @@ dependencies {
     implementation(deps.sql.cipher)
 
     implementation(deps.square.okhttp.okhttp)
-    implementation(deps.square.okhttp.logging)
     implementation(deps.square.okio.okio)
     implementation(deps.square.moshi)
     kapt(depsKapt.square.moshi)
     implementation(deps.square.sqlDelight.android)
-    implementation(deps.square.sqlDelight.jvm)
-    implementation(deps.square.sqlDelight.runtime)
-    implementation(deps.square.sqlDelight.extensions.coroutines)
-    implementation(deps.square.sqlDelight.extensions.paging3)
+
+    implementation(deps.toxicity.rsaApiKeyValidator)
 
     implementation(deps.viewBindingDelegateNoReflect)
 

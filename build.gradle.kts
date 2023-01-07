@@ -20,7 +20,6 @@ buildscript {
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.kotlin.serialization)
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.mavenPublish)
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.npmPublish)
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.square.exhaustive)
         classpath(io.matthewnelson.kotlin.components.dependencies.plugins.square.sqlDelight)
 
         // NOTE: Do not place your application dependencies here; they belong

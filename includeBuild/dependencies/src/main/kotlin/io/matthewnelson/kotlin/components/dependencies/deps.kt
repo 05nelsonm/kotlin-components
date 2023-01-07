@@ -20,26 +20,27 @@ package io.matthewnelson.kotlin.components.dependencies
 object versions {
 
     object android {
-        const val buildTools                = "31.0.0"
-        const val sdkCompile                = 31
+        // https://developer.android.com/studio/releases/build-tools
+        const val buildTools                = "33.0.1"
+        const val sdkCompile                = 33
         const val sdkMin16                  = 16
         const val sdkMin19                  = 19
         const val sdkMin21                  = 21
         const val sdkMin23                  = 23
         const val sdkMin26                  = 26
-        const val sdkTarget                 = 31
+        const val sdkTarget                 = 33
     }
 
     object androidx {
-        const val annotation                = "1.4.0"
-        const val appCompat                 = "1.4.2"
-        const val camera                    = "1.1.0-beta03"
-        const val cameraExt                 = "1.1.0-beta03"
+        const val annotation                = "1.5.0"
+        const val appCompat                 = "1.5.1"
+        const val camera                    = "1.2.0"
+        const val cameraExt                 = "1.2.0"
         const val constraintLayout          = "2.1.4"
-        const val core                      = "1.8.0"
-        const val exifInterface             = "1.3.3"
-        const val lifecycle                 = "2.4.1"
-        const val navigation                = "2.4.2"
+        const val core                      = "1.9.0"
+        const val exifInterface             = "1.3.5"
+        const val lifecycle                 = "2.5.1"
+        const val navigation                = "2.5.3"
         const val media                     = "1.6.0"
         const val paging3                   = "3.1.1"
         const val recyclerView              = "1.2.1"
@@ -62,62 +63,61 @@ object versions {
     }
 
     object kodein {
-        const val di                        = "7.12.0"
+        const val di                        = "7.16.0"
     }
 
     object kotlin {
-        const val atomicfu                  = "0.17.3"
-        const val coroutines                = "1.6.3"
-        const val kotlin                    = "1.6.21"
-        const val ktor                      = "2.0.3"
+        const val atomicfu                  = "0.18.5"
+        const val coroutines                = "1.6.4"
+        const val kotlin                    = "1.7.20"
+        const val ktor                      = "2.2.2"
 
         object parcelize {
             const val runtime               = kotlin
         }
 
         object serialization {
-            const val json                  = "1.3.3"
+            const val json                  = "1.4.1"
         }
 
-        const val time                      = "0.3.2"
+        const val time                      = "0.4.0"
     }
 
     object google {
-        const val hilt                      = "2.42"
+        const val hilt                      = "2.44.2"
         const val guava                     = "31.1"
-        const val material                  = "1.6.1"
-        const val mlKitBarcodeScanning      = "17.0.2"
-        const val zxing                     = "3.5.0"
+        const val material                  = "1.7.0"
+        const val mlKitBarcodeScanning      = "17.0.3"
+        const val zxing                     = "3.5.1"
     }
 
     const val insetter                      = "0.6.0"
 
     object instacart {
-        const val coil                      = "2.1.0"
+        const val coil                      = "2.2.2"
     }
 
     object javax {
         const val inject                    = "1"
     }
 
-    const val jnrUnixSocket                 = "0.38.17"
+    const val jnrUnixSocket                 = "0.38.19"
 
     object square {
-        const val exhaustive                = "0.2.0"
         const val okhttp                    = "4.10.0"
         const val okio                      = "3.2.0"
-        const val leakCanary                = "2.9.1"
+        const val leakCanary                = "2.10"
 
         // NOTE: Remove jettifier ignore declration from project's
         //  gradle.properties when upgrading either version, or AGP to 7.2.0+
-        const val moshi                     = "1.13.0"
+        const val moshi                     = "1.14.0"
 
-        const val sqlDelight                = "1.5.3"
-        const val turbine                   = "0.8.0"
+        const val sqlDelight                = "1.5.4"
+        const val turbine                   = "0.12.1"
     }
 
     object sql {
-        const val cipher                    = "4.5.1"
+        const val cipher                    = "4.5.3"
         const val requery                   = "3.36.0"
     }
 
@@ -130,13 +130,12 @@ object versions {
     object gradle {
         // NOTE: Remove jettifier ignore declration from project's
         //  gradle.properties when upgrading either version, or AGP to 7.2.0+
-        const val android                   = "7.0.4"
+        const val android                   = "7.3.1"
 
         const val atomicfu                  = versions.kotlin.atomicfu
-        const val binaryCompat              = "0.11.0"
-        const val exhaustive                = versions.square.exhaustive
+        const val binaryCompat              = "0.12.1"
         const val dokka                     = versions.kotlin.kotlin
-        const val gradleVersions            = "0.42.0"
+        const val gradleVersions            = "0.44.0"
         const val kotlin                    = versions.kotlin.kotlin
         const val hilt                      = versions.google.hilt
         const val intellij                  = "0.4.26"
@@ -150,9 +149,9 @@ object versions {
     object test {
         object androidx {
             const val archCore              = "2.1.0"
-            const val core                  = "1.4.0"
-            const val espresso              = "3.4.0"
-            const val junit                 = "1.1.3"
+            const val core                  = "1.5.0"
+            const val espresso              = "3.5.1"
+            const val junit                 = "1.1.5"
         }
 
         object google {
@@ -165,7 +164,7 @@ object versions {
             const val coroutines            = versions.kotlin.coroutines
         }
 
-        const val robolectric               = "4.8.1"
+        const val robolectric               = "4.9.2"
         const val turbine                   = versions.square.turbine
     }
 
@@ -535,7 +534,6 @@ object plugins {
     const val npmPublish                    = "dev.petuska:npm-publish:${versions.gradle.npmPublish}"
 
     object square {
-        const val exhaustive                = "app.cash.exhaustive:exhaustive-gradle:${versions.gradle.exhaustive}"
         const val sqlDelight                = "com.squareup.sqldelight:gradle-plugin:${versions.gradle.sqlDelight}"
     }
 
