@@ -49,17 +49,17 @@ object versions {
     }
 
     object components {
-        const val buildConfig               = "3.0.3"
-        const val coroutines                = "1.1.3"
-        const val encoding                  = "1.1.3"
+        const val buildConfig               = "3.0.4"
+        const val coroutines                = "1.1.4"
+        const val encoding                  = "1.1.4"
 
         object kmptor {
-            const val binary                = "4.7.12-0"
+            const val binary                = "4.7.12-1"
             const val kmptor                = "1.3.2"
         }
 
-        const val parcelize                 = "0.1.0"
-        const val request                   = "3.0.4"
+        const val parcelize                 = "0.1.1"
+        const val request                   = "3.0.5"
     }
 
     object kodein {
