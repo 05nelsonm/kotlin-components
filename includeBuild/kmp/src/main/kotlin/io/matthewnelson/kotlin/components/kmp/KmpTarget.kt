@@ -219,9 +219,9 @@ sealed class KmpTarget<T: KotlinTarget> {
 
                     if (this@Jvm is Android) {
                         dependsOn(getByName("androidAndroidTestRelease"))
-//                        dependsOn(getByName("androidTestFixtures"))
-//                        dependsOn(getByName("androidTestFixturesDebug"))
-//                        dependsOn(getByName("androidTestFixturesRelease"))
+                        findByName("androidTestFixtures")?.let { dependsOn(it) }
+                        findByName("androidTestFixturesDebug")?.let { dependsOn(it) }
+                        findByName("androidTestFixturesRelease")?.let { dependsOn(it) }
                     } else {
                         sourceSetJvmJsTest?.let { ss ->
                             dependsOn(ss)
@@ -270,10 +270,10 @@ sealed class KmpTarget<T: KotlinTarget> {
             }
         }
 
-//        @Suppress("UnstableApiUsage")
         class Android(
             val compileSdk: Int,
             val minSdk: Int,
+            val namespace: String? = null,
             override val pluginIds: Set<String>? = null,
             val buildTools: String? = null,
             val targetSdk: Int? = null,
@@ -324,6 +324,7 @@ sealed class KmpTarget<T: KotlinTarget> {
                 project.extensions.configure(BaseExtension::class) config@ {
                     compileSdkVersion(this@Android.compileSdk)
                     this@Android.buildTools?.let { buildToolsVersion = it }
+                    this@config.namespace = this@Android.namespace
 
                     sourceSets.getByName("main") {
                         manifest.srcFile("${project.projectDir}/src/$sourceSetMainName/AndroidManifest.xml")
