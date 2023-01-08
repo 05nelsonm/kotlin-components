@@ -105,7 +105,7 @@ object versions {
 
     object square {
         const val okhttp                    = "4.10.0"
-        const val okio                      = "3.2.0"
+        const val okio                      = "3.3.0"
         const val leakCanary                = "2.10"
 
         // NOTE: Remove jettifier ignore declration from project's
