@@ -63,13 +63,13 @@ object versions {
     }
 
     object kodein {
-        const val di                        = "7.16.0"
+        const val di                        = "7.17.0"
     }
 
     object kotlin {
-        const val atomicfu                  = "0.18.5"
+        const val atomicfu                  = "0.19.0"
         const val coroutines                = "1.6.4"
-        const val kotlin                    = "1.7.21"
+        const val kotlin                    = "1.8.0"
         const val ktor                      = "2.2.2"
 
         object parcelize {
@@ -105,7 +105,7 @@ object versions {
 
     object square {
         const val okhttp                    = "4.10.0"
-        const val okio                      = "3.2.0"
+        const val okio                      = "3.3.0"
         const val leakCanary                = "2.10"
 
         // NOTE: Remove jettifier ignore declration from project's
