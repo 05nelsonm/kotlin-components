@@ -69,7 +69,7 @@ object versions {
     object kotlin {
         const val atomicfu                  = "0.18.5"
         const val coroutines                = "1.6.4"
-        const val kotlin                    = "1.7.20"
+        const val kotlin                    = "1.7.21"
         const val ktor                      = "2.2.2"
 
         object parcelize {
@@ -134,7 +134,7 @@ object versions {
 
         const val atomicfu                  = versions.kotlin.atomicfu
         const val binaryCompat              = "0.12.1"
-        const val dokka                     = versions.kotlin.kotlin
+        const val dokka                     = "1.7.20"
         const val gradleVersions            = "0.44.0"
         const val kotlin                    = versions.kotlin.kotlin
         const val hilt                      = versions.google.hilt
