@@ -10,17 +10,17 @@ buildscript {
     }
 
     dependencies {
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.android.gradle)
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.androidx.navigation.safeArgs)
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.google.hilt)
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.gradleVersions)
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.intellij)
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.kotlin.dokka)
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.kotlin.gradle)
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.kotlin.serialization)
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.mavenPublish)
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.npmPublish)
-        classpath(io.matthewnelson.kotlin.components.dependencies.plugins.square.sqlDelight)
+        classpath(pluginDeps.android.gradle)
+        classpath(pluginDeps.androidx.navigation.safeArgs)
+        classpath(pluginDeps.google.hilt)
+        classpath(pluginDeps.gradleVersions)
+        classpath(pluginDeps.intellij)
+        classpath(pluginDeps.kotlin.dokka)
+        classpath(pluginDeps.kotlin.gradle)
+        classpath(pluginDeps.kotlin.serialization)
+        classpath(pluginDeps.mavenPublish)
+        classpath(pluginDeps.npmPublish)
+        classpath(pluginDeps.square.sqlDelight)
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -41,9 +41,7 @@ task<Delete>("clean") {
 }
 
 plugins {
-    val vBinaryCompat = io.matthewnelson.kotlin.components.dependencies.versions.gradle.binaryCompat
-
-    id(pluginId.kotlin.binaryCompat) version(vBinaryCompat) apply(false)
+    id(pluginId.kotlin.binaryCompat) version(versions.gradle.binaryCompat) apply(false)
 }
 
 // Gradle Versions: https://github.com/ben-manes/gradle-versions-plugin
