@@ -95,12 +95,19 @@ fun KotlinMultiplatformExtension.sourceSetAndroidMain(action: KotlinSourceSet.()
 val KotlinMultiplatformExtension.sourceSetAndroidMain: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_MAIN)
 
-fun KotlinMultiplatformExtension.sourceSetAndroidTest(action: KotlinSourceSet.() -> Unit) {
-    sourceSetAndroidTest?.let { action.invoke(it) }
+fun KotlinMultiplatformExtension.sourceSetAndroidUnitTest(action: KotlinSourceSet.() -> Unit) {
+    sourceSetAndroidUnitTest?.let { action.invoke(it) }
 }
 
-val KotlinMultiplatformExtension.sourceSetAndroidTest: KotlinSourceSet?
-    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_TEST)
+val KotlinMultiplatformExtension.sourceSetAndroidUnitTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_TEST_UNIT)
+
+fun KotlinMultiplatformExtension.sourceSetAndroidInstrumentedTest(action: KotlinSourceSet.() -> Unit) {
+    sourceSetAndroidInstrumentedTest?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetAndroidInstrumentedTest: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.ANDROID_TEST_INSTRUMENTED)
 
 // Non-Jvm
 fun KotlinMultiplatformExtension.sourceSetNonJvmMain(action: KotlinSourceSet.() -> Unit) {
