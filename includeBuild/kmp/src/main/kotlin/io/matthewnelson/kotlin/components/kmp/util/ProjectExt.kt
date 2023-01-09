@@ -20,7 +20,6 @@ import dev.petuska.npm.publish.dsl.NpmAccess
 import dev.petuska.npm.publish.dsl.NpmPublication
 import dev.petuska.npm.publish.dsl.NpmPublishExtension
 import io.matthewnelson.kotlin.components.kmp.publish.kmpPublishRootProjectConfiguration
-import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.kotlin.dsl.*
