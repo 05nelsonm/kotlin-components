@@ -19,6 +19,16 @@ import org.gradle.api.Project
 import javax.inject.Inject
 
 open class KmpRootProjectConfigurationExtension @Inject constructor(private val project: Project) {
+
+    init {
+        check(project.rootProject == project) {
+            """
+                KmpRootProjectConfigurationExtension can only be configured
+                from the root project's build.gradle(.kts) file.
+            """.trimIndent()
+        }
+    }
+
     fun optInArgs(args: Set<String>) {
         optInArgs.addAll(args)
     }
