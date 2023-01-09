@@ -1,5 +1,3 @@
-import io.matthewnelson.kotlin.components.dependencies.plugins as Plugins
-
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
@@ -13,11 +11,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly(Plugins.android.gradle)
-    compileOnly(Plugins.kotlin.gradle)
-    compileOnly(Plugins.kotlin.dokka)
-    compileOnly(Plugins.mavenPublish)
-    compileOnly(Plugins.npmPublish)
+    compileOnly(pluginDeps.android.gradle)
+    compileOnly(pluginDeps.kotlin.gradle)
+    compileOnly(pluginDeps.kotlin.dokka)
+    compileOnly(pluginDeps.mavenPublish)
+    compileOnly(pluginDeps.npmPublish)
 }
 
 gradlePlugin {

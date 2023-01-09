@@ -1,5 +1,3 @@
-@file:Suppress("ClassName", "unused", "SpellCheckingInspection")
-
 /*
 * Copyright (c) 2022 Matthew Nelson
 *
@@ -15,6 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 **/
+@file:Suppress("ClassName", "unused", "SpellCheckingInspection")
+
+/**
+ * Plugin ID's
+ * */
 object pluginId {
 
     object android {
@@ -53,7 +56,6 @@ object pluginId {
     const val npmPublish                    = "dev.petuska.npm.publish"
 
     object square {
-        const val exhaustive                = "app.cash.exhaustive"
         const val sqlDelight                = "com.squareup.sqldelight"
     }
 }

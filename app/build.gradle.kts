@@ -1,9 +1,3 @@
-import io.matthewnelson.kotlin.components.dependencies.deps
-import io.matthewnelson.kotlin.components.dependencies.depsDebug
-import io.matthewnelson.kotlin.components.dependencies.depsKapt
-import io.matthewnelson.kotlin.components.dependencies.depsTest
-import io.matthewnelson.kotlin.components.dependencies.versions
-
 plugins {
     id(pluginId.android.application)
     id(pluginId.kotlin.android)
