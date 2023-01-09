@@ -164,7 +164,7 @@ import org.gradle.kotlin.dsl.create
  *   IOS_ARM32,IOS_ARM64,IOS_X64,IOS_SIMULATOR_ARM64,
  *   MACOS_ARM64,MACOS_X64,
  *   TVOS_ARM64,TVOS_X64,TVOS_SIMULATOR_ARM64,
- *   WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_X64,WATCHOS_X86,WATCHOS_SIMULATOR_ARM64,
+ *   WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_DEVICE_ARM64,WATCHOS_X64,WATCHOS_X86,WATCHOS_SIMULATOR_ARM64,
  *   MINGW_X64,MINGW_X86,
  *   WASM_32,
  *
@@ -201,6 +201,7 @@ import org.gradle.kotlin.dsl.create
  *               |     |     '-- watchos
  *               |     |           |-- watchosArm32
  *               |     |           |-- watchosArm64
+ *               |     |           |-- watchosDeviceArm64
  *               |     |           |-- watchosX64
  *               |     |           '-- watchosSimulatorArm64
  *               |     '-- linux

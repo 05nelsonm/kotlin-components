@@ -399,6 +399,20 @@ fun KotlinMultiplatformExtension.sourceSetWatchosArm64Test(action: KotlinSourceS
 val KotlinMultiplatformExtension.sourceSetWatchosArm64Test: KotlinSourceSet?
     get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_ARM64_TEST)
 
+fun KotlinMultiplatformExtension.sourceSetWatchosDeviceArm64Main(action: KotlinSourceSet.() -> Unit) {
+    sourceSetWatchosDeviceArm64Main?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetWatchosDeviceArm64Main: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_DEVICE_ARM64_MAIN)
+
+fun KotlinMultiplatformExtension.sourceSetWatchosDeviceArm64Test(action: KotlinSourceSet.() -> Unit) {
+    sourceSetWatchosDeviceArm64Test?.let { action.invoke(it) }
+}
+
+val KotlinMultiplatformExtension.sourceSetWatchosDeviceArm64Test: KotlinSourceSet?
+    get() = sourceSets.findByName(KmpTarget.SetNames.WATCHOS_DEVICE_ARM64_TEST)
+
 fun KotlinMultiplatformExtension.sourceSetWatchosX64Main(action: KotlinSourceSet.() -> Unit) {
     sourceSetWatchosX64Main?.let { action.invoke(it) }
 }

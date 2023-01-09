@@ -112,6 +112,8 @@ sealed class KmpTarget<T: KotlinTarget> {
         const val WATCHOS_ARM32_TEST = "watchosArm32$TEST"
         const val WATCHOS_ARM64_MAIN = "watchosArm64$MAIN"
         const val WATCHOS_ARM64_TEST = "watchosArm64$TEST"
+        const val WATCHOS_DEVICE_ARM64_MAIN = "watchosDeviceArm64$MAIN"
+        const val WATCHOS_DEVICE_ARM64_TEST = "watchosDeviceArm64$TEST"
         const val WATCHOS_X64_MAIN = "watchosX64$MAIN"
         const val WATCHOS_X64_TEST = "watchosX64$TEST"
         const val WATCHOS_X86_MAIN = "watchosX86$MAIN"
@@ -939,6 +941,7 @@ sealed class KmpTarget<T: KotlinTarget> {
                             val ALL_DEFAULT: Set<Watchos<*>> get() = setOf(
                                 Watchos.Arm32.DEFAULT,
                                 Watchos.Arm64.DEFAULT,
+                                // Watchos.DeviceArm64.DEFAULT,
                                 Watchos.X64.DEFAULT,
                                 Watchos.X86.DEFAULT,
                                 Watchos.SimulatorArm64.DEFAULT
@@ -995,6 +998,35 @@ sealed class KmpTarget<T: KotlinTarget> {
                                 applyPlugins(project)
                                 project.kotlin {
                                     watchosArm64 t@ {
+                                        target?.invoke(this@t)
+                                    }
+
+                                    setupDarwinSourceSets()
+                                }
+                            }
+                        }
+
+                        class DeviceArm64(
+                            override val pluginIds: Set<String>? = null,
+                            override val target: (KotlinNativeTarget.() -> Unit)? = null,
+                            override val mainSourceSet: (KotlinSourceSet.() -> Unit)? = null,
+                            override val testSourceSet: (KotlinSourceSet.() -> Unit)? = null
+                        ) : Watchos<KotlinNativeTarget>() {
+
+                            companion object {
+                                val DEFAULT = Watchos.DeviceArm64()
+
+                                const val ENV_PROPERTY_VALUE: String = "WATCHOS_DEVICE_ARM64"
+                            }
+
+                            override val sourceSetMainName: String get() = SetNames.WATCHOS_DEVICE_ARM64_MAIN
+                            override val sourceSetTestName: String get() = SetNames.WATCHOS_DEVICE_ARM64_TEST
+                            override val envPropertyValue: String get() = ENV_PROPERTY_VALUE
+
+                            override fun setupMultiplatform(project: Project) {
+                                applyPlugins(project)
+                                project.kotlin {
+                                    watchosDeviceArm64 t@ {
                                         target?.invoke(this@t)
                                     }
 

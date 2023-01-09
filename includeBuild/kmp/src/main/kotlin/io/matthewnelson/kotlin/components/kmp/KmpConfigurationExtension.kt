@@ -89,6 +89,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
 
             KmpTarget.NonJvm.Native.Unix.Darwin.Watchos.Arm32.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Watchos.Arm64.ENV_PROPERTY_VALUE,
+            KmpTarget.NonJvm.Native.Unix.Darwin.Watchos.DeviceArm64.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Watchos.X64.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Watchos.X86.ENV_PROPERTY_VALUE,
             KmpTarget.NonJvm.Native.Unix.Darwin.Watchos.SimulatorArm64.ENV_PROPERTY_VALUE,
