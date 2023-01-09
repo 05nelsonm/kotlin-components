@@ -17,20 +17,20 @@ package io.matthewnelson.kotlin.components.kmp
 
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.COMMON_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.COMMON_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.Jvm.Companion.JVM_ANDROID_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.Jvm.Companion.JVM_ANDROID_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Companion.NON_JVM_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Companion.NON_JVM_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Companion.NATIVE_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Companion.NATIVE_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Mingw.Companion.MINGW_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Mingw.Companion.MINGW_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Companion.UNIX_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Companion.UNIX_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Companion.DARWIN_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Darwin.Companion.DARWIN_TEST
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_MAIN
-import io.matthewnelson.kotlin.components.kmp.KmpTarget.NonJvm.Native.Unix.Linux.Companion.LINUX_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_ANDROID_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.JVM_ANDROID_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.NON_JVM_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.NON_JVM_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.NATIVE_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.NATIVE_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.MINGW_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.MINGW_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.UNIX_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.UNIX_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.DARWIN_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.DARWIN_TEST
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.LINUX_MAIN
+import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.LINUX_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.ANDROID_NATIVE_MAIN
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.ANDROID_NATIVE_TEST
 import io.matthewnelson.kotlin.components.kmp.KmpTarget.SetNames.IOS_MAIN
@@ -118,26 +118,19 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         commonTestSourceSet: (KotlinSourceSet.() -> Unit)? = null,
         kotlin: (KotlinMultiplatformExtension.() -> Unit)? = null
     ): Boolean {
-        
-        check(project.rootProject != project) {
-            """
-                KmpConfiguration.setupMultiplatform can not be run
-                from the root project's build.gradle(.kts) file.
-            """.trimIndent()
-        }
 
         if (targets.isEmpty()) {
             return false
         }
 
-        val enabledEnvironmentTargets: Set<String> = getEnabledEnvironmentTargets(project)
-        val enabledTargets: List<KmpTarget<*>> = targets.filter { enabledEnvironmentTargets.contains(it.envPropertyValue) }
+        val enabledEnvironmentTargets: Set<String> = getEnabledEnvironmentTargets()
+        val enabledTargets: List<KmpTarget<*>> = targets.filter {
+            enabledEnvironmentTargets.contains(it.envPropertyValue)
+        }
 
         if (enabledTargets.isEmpty()) {
             return false
         }
-
-        project.plugins.apply("org.jetbrains.kotlin.multiplatform")
 
         var android: KmpTarget.Jvm.Android? = null
         for (target in enabledTargets) {
@@ -146,6 +139,13 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
                 break
             }
         }
+
+        if (android != null) {
+            // Default to v2 source sets
+            project.propertyExt { set("kotlin.mpp.androidSourceSetLayoutVersion", "2") }
+        }
+
+        project.plugins.apply("org.jetbrains.kotlin.multiplatform")
 
         if (android != null) {
             project.plugins.apply("com.android.library")
@@ -157,7 +157,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
             }
         }
 
-        val (commonMain, commonTest) = setupMultiplatformCommon(project, enabledTargets)
+        val (commonMain, commonTest) = setupMultiplatformCommon(enabledTargets)
 
         android?.setupMultiplatform(project)
 
@@ -192,7 +192,6 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
     }
 
     private fun setupMultiplatformCommon(
-        project: Project,
         enabledTargets: List<KmpTarget<*>>,
     ): Pair<KotlinSourceSet, KotlinSourceSet> {
         var commonMain: KotlinSourceSet? = null
@@ -402,7 +401,7 @@ open class KmpConfigurationExtension @Inject constructor(private val project: Pr
         return Pair(commonMain!!, commonTest!!)
     }
 
-    private fun getEnabledEnvironmentTargets(project: Project): Set<String> {
+    private fun getEnabledEnvironmentTargets(): Set<String> {
         val propertyTargets: Any? = project.findProperty("KMP_TARGETS")
 
         if (EnvProperty.isEnableAllTargetsSet) {
