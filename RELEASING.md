@@ -6,8 +6,8 @@
 ```
 git checkout master
 git pull
-git submodule update --init
 git checkout -b release_<VersionName>
+git submodule update --init
 ```
 
 - Update `versionName` (remove `-SNAPSHOT`) and `versionCode` in root project's `build.gradle.kts` file
@@ -63,10 +63,9 @@ ykman openpgp keys set-touch sig off
 ./kotlin-components/scripts/publish.sh --host linux
 ```
 
-- Push to repo
+- Push to repo (to publish from macOS)
 ```
 git push origin <VersionName>
-git push -u origin release_<VersionName>
 ```
 
 ### Macos
@@ -84,8 +83,8 @@ gpg --sign --armor --detach hello.txt
 ```
 git checkout master
 git pull
-git submodule update --init
 git checkout release_<VersionName>
+git submodule update --init
 ```
 
 - Make sure you have valid credentials in `~/.gradle/gradle.properties`
@@ -154,6 +153,11 @@ git commit -S -m "Prepare for next development iteration"
 - Push Changes
 ```
 git push
+```
+
+- Push Tag
+```
+git push -u origin release_<VersionName>
 ```
 
 - Delete release branch on GitHub
