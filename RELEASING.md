@@ -65,7 +65,7 @@ ykman openpgp keys set-touch sig off
 
 - Push to repo (to publish from macOS)
 ```
-git push origin <VersionName>
+git push -u origin release_<VersionName>
 ```
 
 ### Macos
@@ -157,7 +157,7 @@ git push
 
 - Push Tag
 ```
-git push -u origin release_<VersionName>
+git push origin <VersionName>
 ```
 
 - Delete release branch on GitHub
