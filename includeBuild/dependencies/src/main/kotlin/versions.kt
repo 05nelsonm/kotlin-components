@@ -63,6 +63,26 @@ object versions {
         const val request                   = "3.0.6"
     }
 
+    object google {
+        const val hilt                      = "2.44.2"
+        const val guava                     = "31.1"
+        const val material                  = "1.7.0"
+        const val mlKitBarcodeScanning      = "17.0.3"
+        const val zxing                     = "3.5.1"
+    }
+
+    const val insetter                      = "0.6.0"
+
+    object instacart {
+        const val coil                      = "2.2.2"
+    }
+
+    object javax {
+        const val inject                    = "1"
+    }
+
+    const val jnrUnixSocket                 = "0.38.19"
+
     object kodein {
         const val di                        = "7.17.0"
     }
@@ -84,25 +104,7 @@ object versions {
         const val time                      = "0.4.0"
     }
 
-    object google {
-        const val hilt                      = "2.44.2"
-        const val guava                     = "31.1"
-        const val material                  = "1.7.0"
-        const val mlKitBarcodeScanning      = "17.0.3"
-        const val zxing                     = "3.5.1"
-    }
-
-    const val insetter                      = "0.6.0"
-
-    object instacart {
-        const val coil                      = "2.2.2"
-    }
-
-    object javax {
-        const val inject                    = "1"
-    }
-
-    const val jnrUnixSocket                 = "0.38.19"
+    const val kotlinResult                  = "1.1.17"
 
     object square {
         const val okhttp                    = "4.10.0"
