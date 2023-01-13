@@ -113,6 +113,8 @@ object deps {
                 const val navigationAndroid = "$group:request-extension-navigation-androidx:${versions.components.request}"
             }
         }
+
+        const val valueClazz                = "$group:value-clazz:${versions.components.valueClazz}"
     }
 
     const val insetter                      = "dev.chrisbanes.insetter:insetter:${versions.insetter}"

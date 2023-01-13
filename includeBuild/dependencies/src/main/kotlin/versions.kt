@@ -61,6 +61,7 @@ object versions {
 
         const val parcelize                 = "0.1.2"
         const val request                   = "3.0.6"
+        const val valueClazz                = "0.1.0"
     }
 
     object google {
