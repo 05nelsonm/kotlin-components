@@ -113,6 +113,8 @@ object deps {
                 const val navigationAndroid = "$group:request-extension-navigation-androidx:${versions.components.request}"
             }
         }
+
+        const val valueClazz                = "$group:value-clazz:${versions.components.valueClazz}"
     }
 
     const val insetter                      = "dev.chrisbanes.insetter:insetter:${versions.insetter}"
@@ -246,6 +248,8 @@ object deps {
 
         const val time                      = "org.jetbrains.kotlinx:kotlinx-datetime:${versions.kotlin.time}"
     }
+
+    const val kotlinResult                  = "com.michael-bull.kotlin-result:kotlin-result:${versions.kotlinResult}"
 
     object sql {
         const val cipher                    = "net.zetetic:android-database-sqlcipher:${versions.sql.cipher}"
