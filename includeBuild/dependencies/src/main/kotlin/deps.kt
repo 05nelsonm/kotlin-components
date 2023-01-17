@@ -114,6 +114,7 @@ object deps {
             }
         }
 
+        const val secureRandom              = "$group:secure-random:${versions.components.secureRandom}"
         const val valueClazz                = "$group:value-clazz:${versions.components.valueClazz}"
     }
 
