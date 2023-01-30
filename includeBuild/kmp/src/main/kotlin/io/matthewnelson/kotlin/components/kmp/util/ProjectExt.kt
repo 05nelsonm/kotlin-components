@@ -29,7 +29,7 @@ import org.gradle.kotlin.dsl.*
 @Throws(ExtraPropertiesExtension.UnknownPropertyException::class)
 fun Project.includeStagingRepoIfTrue(
     include: Boolean,
-    sonatypeHost: SonatypeHost = SonatypeHost.DEFAULT,
+    sonatypeHost: SonatypeHost = SonatypeHost.S01,
 ): Boolean {
     if (!include) return include
 
@@ -51,7 +51,7 @@ fun Project.includeStagingRepoIfTrue(
 @Suppress("unused")
 fun Project.includeSnapshotsRepoIfTrue(
     include: Boolean,
-    sonatypeHost: SonatypeHost = SonatypeHost.DEFAULT,
+    sonatypeHost: SonatypeHost = SonatypeHost.S01,
 ): Boolean {
     if (!include) return include
 
