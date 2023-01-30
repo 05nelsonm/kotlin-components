@@ -18,6 +18,7 @@
 package io.matthewnelson.kotlin.components.kmp.publish
 
 import com.vanniktech.maven.publish.MavenPublishPluginExtension
+import com.vanniktech.maven.publish.SonatypeHost
 import io.matthewnelson.kotlin.components.kmp.util.propertyExt
 import org.gradle.api.Project
 import org.gradle.plugins.signing.SigningExtension
@@ -145,6 +146,7 @@ open class KmpPublishExtension @Inject constructor(private val project: Project)
 
             project.extensions.configure<MavenPublishPluginExtension>("mavenPublish") {
                 if (config.mavenPublish?.invoke(this, project) == null) {
+                    sonatypeHost = SonatypeHost.S01
                     releaseSigningEnabled = true
                 }
             }
