@@ -113,7 +113,7 @@ object versions {
         const val okio                      = "3.3.0"
         const val leakCanary                = "2.10"
         const val moshi                     = "1.14.0"
-        const val sqlDelight                = "1.5.4"
+        const val sqlDelight                = "1.5.5"
         const val turbine                   = "0.12.1"
     }
 
