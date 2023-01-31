@@ -114,7 +114,7 @@ ykman openpgp keys set-touch sig on
 ```
 
 - Close publications (Don't release yet)
-    - Login to Sonatype OSS Nexus: [oss.sonatype.org](https://oss.sonatype.org/#stagingRepositories)
+    - Login to Sonatype OSS Nexus: [oss.sonatype.org](https://s01.oss.sonatype.org/#stagingRepositories)
     - Click on **Staging Repositories**
     - Select all Publications
     - Click **Close** then **Confirm**
@@ -188,7 +188,7 @@ git branch -D release_<VersionName>
 
 ### Linux
 
-- Wait for releases (should be 3 of them) to become available on [MavenCentral](https://repo1.maven.org/maven2/io/matthewnelson/kotlin-components/)
+- Wait for releases to become available on [MavenCentral](https://repo1.maven.org/maven2/io/matthewnelson/kotlin-components/)
 - Draft new release on GitHub
     - Enter the release name <VersionName> as tag and title
     - Have the description point to the changelog
