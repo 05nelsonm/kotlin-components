@@ -52,7 +52,7 @@ object versions {
     object components {
         const val buildConfig               = "3.0.5"
         const val coroutines                = "1.1.5"
-        const val encoding                  = "1.2.0"
+        const val encoding                  = "1.2.1"
 
         object kmptor {
             const val binary                = "4.7.12-2"
